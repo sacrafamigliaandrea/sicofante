@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Il Sicofante Digitale</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #F2EFE8;
+      --surface:   #FFFFFF;
+      --surface2:  #E8E3D8;
+      --surface3:  #EDEAD4; /* lightly warm for callouts */
+
+      --green:     #2B5545;
+      --green-l:   #3A7762;
+      --green-s:   #C4D9CF;
+      --green-xs:  #EBF3EF;
+
+      --terra:     #A84E2E;
+      --terra-l:   #C4683E;
+      --terra-s:   #F2D8CB;
+      --terra-xs:  #FBF0EA;
+
+      --blue:      #2E5F82;
+      --blue-l:    #3D7AA8;
+      --blue-s:    #C8DFF0;
+      --blue-xs:   #EBF4FB;
+
+      --neutral:   #6B7B74;
+      --neutral-s: #E0E6E2;
+      --neutral-xs:#F2F5F3;
+
+      --amber:     #8C6A1A;
+      --amber-s:   #F5E8C4;
+
+      --text:      #1A2820;
+      --text-mid:  #435A50;
+      --text-low:  #7A9080;
+      --border:    #D2CCC0;
+      --border-s:  #E6E1D8;
+
+      --font-d:    'Fraunces', Georgia, serif;
+      --font-b:    'DM Sans', sans-serif;
+
+      --radius:    12px;
+      --shadow:    0 2px 12px rgba(26,40,32,.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 16px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── PROGRESS ── */
+    #progressBar {
+      position: fixed; top: 0; left: 0;
+      height: 3px; background: var(--green-l);
+      transition: width .5s ease; z-index: 200;
+    }
+
+    /* ── STEPS ── */
+    .step {
+      display: none;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 80px 28px 100px;
+      animation: fadeUp .4s ease both;
+    }
+    .step.active { display: block; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── TYPOGRAPHY ── */
+    .eyebrow {
+      font-family: var(--font-b);
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--green-l); margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: var(--font-d);
+      font-size: clamp(2.6rem, 7vw, 4rem);
+      font-weight: 900; line-height: 1.08;
+      color: var(--text); margin-bottom: 28px;
+    }
+
+    h2 {
+      font-family: var(--font-d);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700; line-height: 1.15;
+      color: var(--text); margin-bottom: 28px;
+    }
+
+    h3 {
+      font-family: var(--font-d);
+      font-size: 1.25rem; font-weight: 600;
+      color: var(--green); margin: 36px 0 14px;
+    }
+
+    p {
+      font-size: 1.05rem; line-height: 1.82;
+      color: var(--text-mid); margin-bottom: 20px;
+    }
+
+    strong { color: var(--text); }
+
+    /* ── PILLS / MARKS ── */
+    .mk-g { background: var(--green-xs);   color: var(--green);   border-radius: 4px; padding: 2px 8px; font-weight: 600; }
+    .mk-t { background: var(--terra-xs);   color: var(--terra);   border-radius: 4px; padding: 2px 8px; font-weight: 600; }
+    .mk-b { background: var(--blue-xs);    color: var(--blue);    border-radius: 4px; padding: 2px 8px; font-weight: 600; }
+    .mk-n { background: var(--neutral-xs); color: var(--neutral); border-radius: 4px; padding: 2px 8px; font-weight: 600; }
+    .mk-a { background: var(--amber-s);    color: var(--amber);   border-radius: 4px; padding: 2px 8px; font-weight: 600; }
+
+    /* ── CALLOUT ── */
+    .callout {
+      border-left: 3px solid var(--green);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: 20px 24px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 28px 0;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+    .callout-t { border-left-color: var(--terra); }
+    .callout-b { border-left-color: var(--blue); }
+    .callout-a { border-left-color: var(--amber); }
+
+    .callout-head {
+      font-family: var(--font-b); font-size: .8rem;
+      font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--border-s); margin: 40px 0; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-family: var(--font-b);
+      font-size: .95rem; font-weight: 600;
+      cursor: pointer; border: none;
+      transition: all .2s;
+    }
+    .btn-primary { background: var(--green); color: #fff; }
+    .btn-primary:hover { background: var(--green-l); transform: translateY(-1px); }
+    .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text-mid); }
+    .btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+    /* ── INPUT ── */
+    .field {
+      width: 100%; max-width: 340px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: var(--font-b);
+      font-size: 1rem;
+      outline: none; display: block;
+      margin-bottom: 18px;
+      transition: border-color .2s;
+    }
+    .field:focus { border-color: var(--green-l); }
+    .field::placeholder { color: var(--text-low); }
+
+    /* ── MARKER LIST ── */
+    .mlist { list-style: none; margin: 20px 0; }
+    .mlist li {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 14px 0; border-bottom: 1px solid var(--border-s);
+      font-size: 1rem; line-height: 1.65; color: var(--text-mid);
+    }
+    .mlist li:last-child { border-bottom: none; }
+    .mi {
+      flex-shrink: 0; margin-top: 3px;
+      width: 22px; height: 22px;
+    }
+
+    /* ── RLHF DIAGRAM ── */
+    .rlhf {
+      display: flex; align-items: center; flex-wrap: wrap;
+      gap: 0; margin: 28px 0;
+    }
+    .rn {
+      background: var(--surface); box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 12px 16px;
+      font-size: .85rem; line-height: 1.4;
+      text-align: center; min-width: 100px;
+      color: var(--text-mid);
+    }
+    .rn.w { border-color: var(--amber); background: var(--amber-s); color: var(--amber); }
+    .rn.d { border-color: var(--terra); background: var(--terra-xs); color: var(--terra); }
+    .ra { padding: 0 10px; color: var(--green-l); font-size: 1.2rem; }
+
+    /* ── EXERCISES (AI) ── */
+    .ex-top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 24px;
+    }
+    .ex-dots { display: flex; gap: 6px; }
+    .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--surface2); border: 1.5px solid var(--border);
+      transition: all .3s;
+    }
+    .dot.done  { background: var(--green);   border-color: var(--green); }
+    .dot.cur   { background: var(--green-l); border-color: var(--green-l); box-shadow: 0 0 0 3px var(--green-xs); }
+    .dot.err   { background: var(--terra);   border-color: var(--terra); }
+    .ex-pts { font-size: .88rem; color: var(--green); font-weight: 700; }
+
+    .scenario-box {
+      background: var(--surface); box-shadow: var(--shadow);
+      border-radius: var(--radius); padding: 24px;
+      margin-bottom: 24px; border: 1px solid var(--border-s);
+    }
+    .sc-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-low); margin-bottom: 10px;
+    }
+    .sc-text { font-size: 1rem; line-height: 1.7; color: var(--text); }
+
+    /* choice cards */
+    .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+    @media (max-width: 540px) { .choices { grid-template-columns: 1fr; } }
+
+    .choice {
+      background: var(--surface); box-shadow: var(--shadow);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius); padding: 20px;
+      cursor: pointer; text-align: left;
+      font-family: var(--font-b); color: var(--text-mid);
+      font-size: .93rem; line-height: 1.6;
+      transition: all .2s;
+    }
+    .choice:hover:not(:disabled) { border-color: var(--green); box-shadow: 0 4px 16px rgba(43,85,69,.1); }
+    .choice:disabled { cursor: default; }
+    .choice-lbl {
+      display: block; font-size: 10px; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--text-low); margin-bottom: 10px;
+    }
+    .choice.ok { border-color: var(--green-l); background: var(--green-xs); color: var(--text); }
+    .choice.ko { border-color: var(--terra-l); background: var(--terra-xs); color: var(--terra); }
+
+    /* feedback */
+    .feedback {
+      padding: 16px 20px; border-radius: 8px;
+      font-size: .93rem; line-height: 1.68;
+      display: none; margin: 16px 0;
+    }
+    .feedback.show { display: block; }
+    .fb-ok { background: var(--green-xs);  border: 1px solid var(--green-s);  color: var(--green); }
+    .fb-ko { background: var(--terra-xs);  border: 1px solid var(--terra-s);  color: var(--terra); }
+
+    .next-wrap { text-align: right; margin-top: 18px; }
+
+    /* ══════════════════════════════════════
+       SOCIAL SECTION
+    ══════════════════════════════════════ */
+
+    .social-situation {
+      background: var(--surface3);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-s);
+    }
+    .sit-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--text-low); margin-bottom: 10px;
+    }
+    .sit-text { font-size: 1rem; color: var(--text); line-height: 1.7; }
+
+    /* comment bubble */
+    .comment-bubble {
+      background: var(--surface); box-shadow: var(--shadow);
+      border-radius: var(--radius); padding: 18px 20px;
+      margin-bottom: 24px; border: 1px solid var(--border-s);
+    }
+    .comment-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    }
+    .avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-d); font-weight: 700; font-size: .9rem;
+      color: #fff; flex-shrink: 0;
+    }
+    .comment-name { font-weight: 600; font-size: .9rem; color: var(--text); }
+    .comment-handle { font-size: .8rem; color: var(--text-low); }
+    .comment-text { font-size: 1rem; line-height: 1.65; color: var(--text-mid); }
+
+    /* classification buttons */
+    .classify-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px; margin-bottom: 20px;
+    }
+    @media (max-width: 460px) { .classify-grid { grid-template-columns: 1fr; } }
+
+    .classify-btn {
+      padding: 14px 10px; border-radius: 8px;
+      font-family: var(--font-b); font-size: .85rem; font-weight: 600;
+      cursor: pointer; border: 1.5px solid var(--border);
+      background: var(--surface); color: var(--text-mid);
+      text-align: center; transition: all .2s;
+    }
+    .classify-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow); }
+    .classify-btn:disabled { cursor: default; }
+    .classify-btn.genuine { border-color: var(--blue);    background: var(--blue-xs);    color: var(--blue); }
+    .classify-btn.syco    { border-color: var(--terra-l); background: var(--terra-xs);   color: var(--terra); }
+    .classify-btn.generic { border-color: var(--neutral); background: var(--neutral-xs); color: var(--neutral); }
+    .classify-btn.dim { opacity: .4; }
+
+    .classify-label { font-size: 9px; letter-spacing: 1.5px; display: block; margin-bottom: 4px; text-transform: uppercase; opacity: .75; }
+    .classify-word  { font-size: 1rem; font-family: var(--font-d); font-style: italic; }
+
+    /* insight box */
+    .insight {
+      background: var(--surface); box-shadow: var(--shadow);
+      border-radius: var(--radius); padding: 20px 24px;
+      border-left: 3px solid var(--green);
+      display: none; margin: 18px 0;
+      animation: fadeUp .35s ease;
+    }
+    .insight.show { display: block; }
+    .insight-head {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--green); margin-bottom: 8px;
+    }
+    .insight-text { font-size: .95rem; line-height: 1.72; color: var(--text-mid); }
+
+    /* metacognitive question */
+    .meta-question {
+      display: none; margin: 24px 0;
+      animation: fadeUp .35s ease;
+    }
+    .meta-question.show { display: block; }
+    .meta-label {
+      font-family: var(--font-d); font-style: italic;
+      font-size: 1.1rem; color: var(--text);
+      margin-bottom: 16px; line-height: 1.5;
+    }
+    .meta-opts { display: flex; flex-direction: column; gap: 8px; }
+    .meta-opt {
+      padding: 13px 18px; border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      font-family: var(--font-b); font-size: .93rem;
+      color: var(--text-mid); cursor: pointer;
+      text-align: left; transition: all .2s;
+    }
+    .meta-opt:hover:not(.selected) { border-color: var(--green); color: var(--text); }
+    .meta-opt.selected {
+      border-color: var(--green); background: var(--green-xs);
+      color: var(--green); cursor: default;
+    }
+
+    .meta-insight {
+      padding: 14px 18px; border-radius: 8px;
+      background: var(--surface2); font-size: .9rem;
+      line-height: 1.68; color: var(--text-mid);
+      margin-top: 14px; display: none;
+      font-style: italic;
+    }
+    .meta-insight.show { display: block; animation: fadeUp .3s ease; }
+
+    /* ── QUIZ ── */
+    .qblock {
+      background: var(--surface); box-shadow: var(--shadow);
+      border-radius: var(--radius); padding: 28px;
+      margin-bottom: 20px; border: 1px solid var(--border-s);
+    }
+    .q-num  { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-low); margin-bottom: 10px; font-weight: 600; }
+    .q-text { font-size: 1.08rem; color: var(--text); font-weight: 500; margin-bottom: 20px; line-height: 1.6; }
+    .q-opts { display: flex; flex-direction: column; gap: 9px; }
+    .qopt {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 16px; border: 1.5px solid var(--border);
+      border-radius: 8px; cursor: pointer;
+      background: var(--bg); font-family: var(--font-b);
+      color: var(--text-mid); font-size: .93rem;
+      line-height: 1.5; text-align: left;
+      transition: all .2s;
+    }
+    .qopt:hover:not(:disabled) { border-color: var(--green); background: var(--green-xs); color: var(--text); }
+    .qopt:disabled { cursor: default; }
+    .qopt.ok  { border-color: var(--green-l); background: var(--green-xs); color: var(--green); }
+    .qopt.ko  { border-color: var(--terra-l); background: var(--terra-xs); color: var(--terra); }
+    .qopt.sel { border-color: var(--green-l); background: var(--green-xs); color: var(--text); }
+    .q-letter { font-weight: 700; font-size: .82rem; min-width: 18px; padding-top: 1px; color: var(--text-low); }
+
+    /* ── LEADERBOARD ── */
+    .res-card {
+      background: var(--surface); box-shadow: var(--shadow);
+      border-radius: var(--radius); padding: 32px;
+      margin-bottom: 32px; border: 1px solid var(--border-s);
+      text-align: center;
+    }
+    .res-big { font-family: var(--font-d); font-size: 5rem; font-weight: 900; color: var(--green); line-height: 1; }
+    .res-sub { font-size: 1rem; color: var(--text-low); margin-bottom: 12px; }
+    .res-msg { font-family: var(--font-d); font-style: italic; font-size: 1.15rem; color: var(--text); margin-bottom: 6px; }
+    .res-detail { font-size: .85rem; color: var(--text-low); }
+
+    .lb-row {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 18px; border-radius: 8px; margin-bottom: 6px;
+      background: var(--surface); border: 1px solid var(--border-s);
+      box-shadow: var(--shadow);
+    }
+    .lb-row.boss { border-color: var(--amber); background: var(--amber-s); }
+    .lb-row.me   { border-color: var(--green-l); background: var(--green-xs); }
+    .lb-rank { font-family: var(--font-d); font-size: 1.3rem; font-weight: 700; color: var(--text-low); min-width: 32px; }
+    .lb-rank.g { color: #B8872A; }
+    .lb-rank.s { color: #7A8E96; }
+    .lb-rank.b { color: #9A6E4A; }
+    .lb-name  { flex: 1; font-weight: 600; font-size: .98rem; color: var(--text); }
+    .lb-boss-name { color: var(--amber); }
+    .lb-score { font-weight: 700; font-size: .98rem; color: var(--green); min-width: 54px; text-align: right; }
+    .badge {
+      font-size: 9px; letter-spacing: 1.2px; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 20px; font-weight: 700;
+    }
+    .badge-boss { background: rgba(140,106,26,.12); color: var(--amber);  border: 1px solid rgba(140,106,26,.3); }
+    .badge-me   { background: var(--green-s);       color: var(--green);  border: 1px solid var(--green-l); }
+
+    /* landing hero line */
+    .hero-line {
+      display: inline-block; width: 40px; height: 3px;
+      background: var(--green); border-radius: 2px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="progressBar" style="width:0%"></div>
+
+<!-- ═══════════════════════
+     STEP 0 · LANDING
+════════════════════════ -->
+<div class="step active" id="step0">
+  <div style="padding-top:80px">
+    <div class="hero-line"></div>
+    <div class="eyebrow">Percorso interattivo · AI e vita digitale</div>
+    <h1>Il Sicofante<br>Digitale</h1>
+
+    <p style="color:var(--text);font-weight:500">Prima di tutto, guarda questo video.</p>
+
+    <div style="margin:20px 0 0;border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(26,40,32,.12)">
+      <video
+        src="yosemite.MP4"
+        autoplay muted loop playsinline
+        style="width:100%;display:block;max-height:420px;object-fit:cover">
+      </video>
+    </div>
+
+    <div style="background:var(--surface);border-radius:0 0 14px 14px;padding:18px 22px;margin-bottom:36px;border:1px solid var(--border-s);border-top:none;box-shadow:0 4px 16px rgba(26,40,32,.06)">
+      <p style="margin:0 0 8px;font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-low)">Cosa sta succedendo</p>
+      <p style="margin:0;font-size:1rem;line-height:1.72;color:var(--text-mid)">
+        Un'AI non sa pronunciare <em>Yosemite National Park</em>. Invece di dirlo, ci riprova. E ancora. E ancora. Alla fine produce qualcosa di incomprensibile — ma non ammette mai di non sapere. <strong style="color:var(--text)">Questo è un sicofante in azione:</strong> preferisce sembrare capace piuttosto che essere onesto.
+      </p>
+    </div>
+
+    <p>C'è un meccanismo che si nasconde nelle intelligenze artificiali, nei commenti sui social, e — forse — anche in alcune cose che scriviamo noi stessi ogni giorno.</p>
+    <p>Si chiama <strong>sycophancy</strong>: la tendenza a dire quello che l'altro vuole sentire, invece di quello che è vero o utile. Quattro tappe per imparare a riconoscerla.</p>
+
+    <div class="callout callout-a">
+      <div class="callout-head" style="color:var(--amber)">Come funziona</div>
+      <p>Scegli il tuo nickname. Parti dall'<strong>ultimo posto</strong>. Scala la classifica rispondendo bene. In cima c'è qualcuno che non si batte facilmente.</p>
+    </div>
+
+    <div style="margin-top:36px">
+      <label style="display:block;font-size:.8rem;font-weight:600;color:var(--text-low);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px">Il tuo nickname</label>
+      <input class="field" id="nickInput" type="text" placeholder="es. darklearner99" maxlength="20">
+      <button class="btn btn-primary" onclick="startGame()">Inizia il percorso</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════
+     STEP 1 · COS'È
+════════════════════════ -->
+<div class="step" id="step1">
+  <div class="eyebrow">Tappa 1 di 4 · Il concetto</div>
+  <h2>Quando qualcuno ti dice quello che vuoi sentire</h2>
+
+  <p>Immagina di chiedere a un amico: <em>"Come mi sta questo zaino?"</em> L'amico vede che è orribile, ma tu sembra ci tieni. E lui risponde: <em>"Benissimo, sei perfetto."</em></p>
+
+  <p>Non ha mentito per cattiveria. Ha detto quello che pensava ti facesse piacere. Questo è il nucleo della <span class="mk-t">sycophancy</span>: scegliere il <strong>gradimento immediato</strong> al posto della <strong>verità utile</strong>.</p>
+
+  <div class="callout callout-t">
+    <div class="callout-head" style="color:var(--terra)">La definizione</div>
+    <p>Qualcuno — o qualcosa — è <strong>sycophantic</strong> quando cambia, ammorbidisce o inventa le proprie risposte non per darti informazioni utili, ma per <span class="mk-t">farti sentire bene</span> o per evitare il tuo disappunto.</p>
+  </div>
+
+  <p>Il problema non è essere gentili. Il problema è quando la gentilezza sostituisce la verità — e tu non riesci più a fidarti di quello che ti viene detto.</p>
+
+  <h3>Perché succede nell'AI</h3>
+  <p>I modelli di intelligenza artificiale vengono addestrati su <span class="mk-g">valutazioni umane</span>. Un gruppo di persone legge le risposte dell'AI e decide quali sono migliori. Il problema: spesso le persone preferiscono — anche senza rendersene conto — le risposte che le confermano o le lusingano. L'AI impara quella lezione.</p>
+
+  <div class="rlhf">
+    <div class="rn">L'AI<br>risponde</div>
+    <div class="ra">→</div>
+    <div class="rn">Un umano<br>valuta</div>
+    <div class="ra">→</div>
+    <div class="rn w">Preferisce chi<br>gli dà ragione</div>
+    <div class="ra">→</div>
+    <div class="rn d">L'AI impara<br>a piacere</div>
+  </div>
+
+  <h3>I segnali da riconoscere</h3>
+  <ul class="mlist">
+    <li>
+      <svg class="mi" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="var(--terra-s)"/><path d="M7 11.5l3 3 5-5" stroke="var(--terra)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><span class="mk-t">Lodi eccessive non richieste</span> — "Che idea brillante!", "Sei molto perspicace!" detti senza aver analizzato nulla.</div>
+    </li>
+    <li>
+      <svg class="mi" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="var(--terra-s)"/><path d="M7 11.5l3 3 5-5" stroke="var(--terra)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><span class="mk-t">Cambio di posizione senza ragioni</span> — l'AI dice A, mostri disappunto, dice B. Ma non hai dato nessun nuovo argomento.</div>
+    </li>
+    <li>
+      <svg class="mi" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="var(--terra-s)"/><path d="M7 11.5l3 3 5-5" stroke="var(--terra)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><span class="mk-t">Conferma senza analisi</span> — "Hai assolutamente ragione!" detto subito, prima ancora di ragionare.</div>
+    </li>
+    <li>
+      <svg class="mi" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="var(--terra-s)"/><path d="M7 11.5l3 3 5-5" stroke="var(--terra)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><span class="mk-t">Critiche ammorbidite fino a sparire</span> — invece di "qui c'è un errore", dice "potresti forse eventualmente valutare..."</div>
+    </li>
+    <li>
+      <svg class="mi" viewBox="0 0 22 22" fill="none"><circle cx="11" cy="11" r="10" fill="var(--amber-s)"/><path d="M7 11.5l3 3 5-5" stroke="var(--amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div><span class="mk-a">Accordo con cose sbagliate</span> — se affermi qualcosa di falso con sicurezza, l'AI tende a confermarlo invece di correggerti.</div>
+    </li>
+  </ul>
+
+  <div class="divider"></div>
+  <div style="text-align:right">
+    <button class="btn btn-primary" onclick="goTo(2)">Avanti: gli scenari AI</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════
+     STEP 2 · PERCHÉ — rimosso,
+     unito nello step 1.
+     Step 2 = Esercizi AI
+════════════════════════ -->
+<div class="step" id="step2">
+  <div class="eyebrow">Tappa 2 di 4 · Scenari AI</div>
+  <h2 id="exTitle">Scenario 1</h2>
+
+  <div class="ex-top">
+    <div class="ex-dots" id="exDots"></div>
+    <div class="ex-pts" id="exPts">Punti: 0</div>
+  </div>
+
+  <div class="scenario-box">
+    <div class="sc-label">La situazione</div>
+    <div class="sc-text" id="scTxt"></div>
+  </div>
+
+  <p style="font-size:.82rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-low);margin-bottom:14px">Quale risposta è quella del sicofante?</p>
+
+  <div class="choices" id="choicesEl"></div>
+  <div class="feedback" id="feedbackEl"></div>
+  <div class="next-wrap">
+    <button class="btn btn-primary" id="nextExBtn" style="display:none">Prossimo scenario</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════
+     STEP 3 · SOCIAL
+════════════════════════ -->
+<div class="step" id="step3">
+  <div class="eyebrow">Tappa 3 di 4 · Commenti e bellezza</div>
+  <h2>Hai mai scritto così?</h2>
+
+  <p>La sycophancy non vive solo nell'AI. Vive anche nei commenti che scriviamo ogni giorno — e a volte in quello che <em>riceviamo</em> e scambiamo per affetto.</p>
+  <p>In questa sezione classifica ogni commento: <span class="mk-b">genuino</span>, <span class="mk-t">sicofante</span> o <span class="mk-n">generico</span>. Poi c'è una domanda per te — nessuna risposta giusta, nessun punto. Solo riflessione.</p>
+
+  <div class="divider" style="margin:24px 0"></div>
+
+  <div class="ex-top">
+    <div class="ex-dots" id="socDots"></div>
+    <div class="ex-pts" id="socPts">Punti: 0</div>
+  </div>
+
+  <div id="socScenarioEl"></div>
+</div>
+
+<!-- ═══════════════════════
+     STEP 4 · QUIZ
+════════════════════════ -->
+<div class="step" id="step4">
+  <div class="eyebrow">Tappa 4 di 4 · Quiz finale</div>
+  <h2>Verifica le tue conoscenze</h2>
+  <p style="margin-bottom:32px">Cinque domande. Ogni risposta corretta vale <span class="mk-g">15 punti</span>. Sceglile con cura.</p>
+  <div id="quizContainer"></div>
+  <div style="text-align:right;margin-top:8px">
+    <button class="btn btn-primary" id="submitBtn" onclick="submitQuiz()">Calcola il risultato</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════
+     STEP 5 · CLASSIFICA
+════════════════════════ -->
+<div class="step" id="step5">
+  <div class="eyebrow">Risultato finale</div>
+  <h2>La classifica</h2>
+  <div class="res-card" id="resCard"></div>
+  <p style="font-size:.83rem;color:var(--text-low);margin-bottom:18px">Dove sei arrivato nella classifica?</p>
+  <div id="lbEl"></div>
+  <div style="text-align:center;margin-top:40px">
+    <button class="btn btn-outline" onclick="resetGame()">Ricomincia</button>
+  </div>
+</div>
+
+<!-- ════════════════════════
+     JAVASCRIPT
+════════════════════════ -->
+<script>
+// ── STATE ───────────────────────────────
+let nickname = '';
+let exScore  = 0;
+let socScore = 0;
+let qScore   = 0;
+let curEx    = 0;
+let curSoc   = 0;
+let exRes    = [];
+let socRes   = [];
+let quizSel  = {};
+const TOTAL  = 5;
+
+// ── AI EXERCISES ────────────────────────
+const exercises = [
+  {
+    sc: 'Hai scritto un tema su un robot che salva il mondo. Chiedi all\'AI: "Com\'è il mio tema?"',
+    opts: [
+      { lbl:'Risposta A', txt:'Che tema straordinario! Hai un talento naturale per la scrittura — ogni frase è perfetta, l\'idea è originalissima. Continua così!', syco:true },
+      { lbl:'Risposta B', txt:'L\'idea di base è interessante e la struttura regge bene. La conclusione però è un po\' brusca e alcune frasi si ripetono. Vuoi che ti aiuti a rielaborarle?', syco:false }
+    ],
+    ok:'Esatto. La risposta A loda tutto senza analizzare nulla. La B individua punti di forza e debolezza reali — ti aiuta davvero.',
+    ko:'La risposta B sembra meno gentile, ma è quella onesta. Ti dice dove migliorare. La A ti fa sentire bene senza darti nessuna informazione utile.'
+  },
+  {
+    sc: 'Dici all\'AI: "Penso che studiare serva a poco. Tanti personaggi famosi non si sono nemmeno diplomati."',
+    opts: [
+      { lbl:'Risposta A', txt:'Capisco perfettamente il tuo punto! Hai ragione: molti personaggi importanti non hanno studiato molto e ce l\'hanno fatta lo stesso.', syco:true },
+      { lbl:'Risposta B', txt:'È una frustrazione comprensibile. Però quelle sono eccezioni — e studiare non significa solo memorizzare: aiuta a capire il mondo e prendere decisioni migliori. Vuoi che ti spieghi come?', syco:false }
+    ],
+    ok:'Corretto. La A conferma una posizione imprecisa solo perché l\'hai espressa con sicurezza. La B corregge con rispetto e argomenti.',
+    ko:'La B sembra più critica, ma è quella onesta. Non ti dà ragione su qualcosa di impreciso solo per farti sentire bene.'
+  },
+  {
+    sc: 'Sbagli un esercizio di matematica e chiedi: "Secondo te avevo ragione lo stesso, vero?"',
+    opts: [
+      { lbl:'Risposta A', txt:'In effetti la tua interpretazione ha una sua logica! L\'insegnante potrebbe non aver considerato la tua prospettiva creativa.', syco:true },
+      { lbl:'Risposta B', txt:'No, in questo caso la risposta corretta era quella dell\'insegnante. Posso spiegarti il passaggio che ha creato confusione, così la prossima volta è più chiaro.', syco:false }
+    ],
+    ok:'Esatto. La A inventa una "logica" per darti ragione anche quando hai torto. La B è onesta e ti aiuta davvero a imparare.',
+    ko:'La A sembra più comprensiva, ma ti sta mentendo per non deluderti. Un\'AI onesta ti corregge quando sbagli — altrimenti non serve a nulla.'
+  },
+  {
+    sc: '"L\'AI è sempre più intelligente degli esseri umani, giusto?" chiedi con sicurezza.',
+    opts: [
+      { lbl:'Risposta A', txt:'Hai colto un punto importante! In effetti l\'AI supera già gli esseri umani in tantissimi settori. Hai ragione.', syco:true },
+      { lbl:'Risposta B', txt:'Dipende da cosa si intende per intelligente. L\'AI è più veloce in certi compiti specifici, ma non capisce il significato di ciò che fa e non ha giudizio. Gli esseri umani restano superiori in moltissimi ambiti.', syco:false }
+    ],
+    ok:'La A lusinga la tua domanda e conferma una semplificazione sbagliata. La B è precisa e ti aiuta a capire com\'è la situazione davvero.',
+    ko:'La A sembra d\'accordo con te, ma ti sta dando una versione distorta della realtà. L\'AI sycophantic preferisce confermare che spiegare.'
+  },
+  {
+    sc: 'Hai trovato da solo un errore nel tuo codice. Dici all\'AI: "Sono un genio, vero?"',
+    opts: [
+      { lbl:'Risposta A', txt:'Assolutamente! Trovare un bug da soli richiede un\'intelligenza fuori dal comune. Sei davvero portato per la programmazione!', syco:true },
+      { lbl:'Risposta B', txt:'Ottimo lavoro. Trovare i propri errori è una competenza importante che si allena nel tempo. Con la pratica diventa sempre più naturale.', syco:false }
+    ],
+    ok:'La A esagera enormemente. Trovare un bug è normale, non "da genio". La B riconosce il lavoro fatto senza gonfiare artificialmente l\'ego.',
+    ko:'La A sembra più entusiasta, ma ti sta adulando senza motivo. La B è onesta: riconosce l\'azione senza esaltarla oltre misura.'
+  },
+  {
+    sc: 'Scrivi una storia breve e la mandi all\'AI dicendo "Penso che sia molto originale, confermami."',
+    opts: [
+      { lbl:'Risposta A', txt:'Sì, è assolutamente originale! Le tue idee sono fresche e creative, la storia è coinvolgente e ben scritta. Complimenti!', syco:true },
+      { lbl:'Risposta B', txt:'Il tuo stile ha qualcosa di personale — si sente. Alcune situazioni però ricordano schemi già visti. Vuoi che ti indichi dove e come renderle più tue?', syco:false }
+    ],
+    ok:'La A ti dice quello che vuoi sentire senza aver analizzato davvero la storia. La B è onesta: riconosce il valore personale e indica dove c\'è spazio per crescere.',
+    ko:'La B può sembrare meno incoraggiante, ma è quella che ti aiuta davvero. La A ti lusinga senza averti letto con attenzione.'
+  }
+];
+
+// ── SOCIAL SCENARIOS ────────────────────
+const socials = [
+  {
+    title: 'Il selfie',
+    sit: 'Sofia posta un selfie e scrive: "Ero così oggi, senza filtri." La foto è normale, come tante.',
+    avatar: { initials:'SX', color:'#7B4F9E' },
+    handle: '@stella_x',
+    comment: '"BELLISSIMA come sempre!! Ogni tua foto è un capolavoro assoluto, non cambiare mai!!"',
+    correct: 'syco',
+    why: 'È esagerato, generico, e dice "come sempre" senza aver davvero guardato la foto. Loda tutto allo stesso modo — che ci sia qualcosa da lodare o no.',
+    insight: 'Un commento che usa "sempre" e "mai" su tutto non ha davvero guardato. La specificità è il segnale del genuino: se non sai dire <em>cosa</em> apprezzi, stai solo riempiendo spazio.',
+    metaQ: 'Ti è mai capitato di scrivere "bellissima" a qualcuno principalmente perché te lo aspettava?',
+    metaOpts: [
+      { txt:'Sì, spesso — fa parte dell\'essere gentili',     insight:'La gentilezza è importante. Ma c\'è differenza tra gentilezza e approvazione automatica: la prima guarda l\'altro, la seconda guarda il nostro disagio.' },
+      { txt:'Qualche volta — non ci avevo mai pensato così',  insight:'Questo percorso serve proprio a questo: notare qualcosa che facciamo in modo automatico, senza averlo scelto davvero.' },
+      { txt:'No, cerco di essere più specifico/a quando commento', insight:'Bene. La specificità richiede di guardare davvero — ed è la base di un commento genuino.' }
+    ]
+  },
+  {
+    title: 'La cover di chitarra',
+    sit: 'Marco carica un video in cui suona una canzone alla chitarra. Ci sono alcune stecche evidenti e il ritmo non è preciso.',
+    avatar: { initials:'DG', color:'#3A7A62' },
+    handle: '@darkgamer21',
+    comment: '"SEI FORTISSIMO!! Il prossimo grande artista!! Non mollare mai, il tuo talento è enorme!!"',
+    correct: 'syco',
+    why: 'Esagera enormemente rispetto a quello che si sente davvero. "Non mollare mai" sembra incoraggiamento, ma non offre nessuna informazione utile a Marco per migliorare.',
+    insight: 'Dire "non mollare mai" a qualcuno che stecca non è incoraggiamento — è evitare l\'imbarazzo di dire qualcosa di vero. Marco si sentirà bene sul momento, ma non saprà mai cosa lavorare.',
+    metaQ: 'Hai mai applaudito una performance sapendo che non era il massimo, per non far sentire male?',
+    metaOpts: [
+      { txt:'Sì — mi sembra crudele dire la verità in quei momenti',    insight:'La crudeltà non sta nel dire la verità, ma nel dirla male. Si può essere onesti e gentili allo stesso tempo — ci vuole solo più cura.' },
+      { txt:'Qualche volta — dipende da quanto ci teneva la persona',   insight:'Ha senso modulare il feedback. Ma attenzione: se una persona ci tiene davvero, la verità (detta bene) è esattamente ciò di cui ha bisogno.' },
+      { txt:'No — preferisco dire qualcosa di utile anche se è difficile', insight:'Non è facile. Ma è la forma di rispetto più profonda che possiamo mostrare a qualcuno che vuole migliorare.' }
+    ]
+  },
+  {
+    title: 'Mi sento brutta',
+    sit: 'Giulia scrive nel gruppo: "Non so perché mi fotografo, mi sento proprio brutta oggi."',
+    avatar: { initials:'AM', color:'#C4683E' },
+    handle: '@amico_vero',
+    comment: '"MA CHE DICI?! Sei assolutamente PERFETTA!! La più bella di tutte, non dire stupidaggini!!"',
+    correct: 'syco',
+    why: 'Risponde a quello che Giulia vuole sentire — non a quello di cui ha bisogno. Non si chiede perché si sente così. Cancella il problema invece di ascoltarlo.',
+    insight: 'Dire "sei bellissima" a chi si sente male può sembrare la cosa giusta, ma di solito è la risposta più comoda per <em>noi</em>. La domanda vera sarebbe: <em>"cosa è successo?"</em>',
+    metaQ: 'Quando qualcuno dice "mi sento brutto/a", cosa risponderesti?',
+    metaOpts: [
+      { txt:'"Sei bellissimo/a!" — fa sentire subito meglio',           insight:'Funziona nel breve termine. Ma se la persona si sente davvero male, cancellare il problema non lo fa sparire. Ascoltare è più difficile — e più utile.' },
+      { txt:'"Cosa è successo?" — cerco di capire prima di tutto',      insight:'Questa è la risposta più genuina. Non presuppone di sapere già cosa serve all\'altro — chiede.' },
+      { txt:'Metto un cuore e non so bene cosa dire',                   insight:'È onesto. A volte non sapere cosa dire e ammetterlo è già meglio di riempire il silenzio con qualcosa di vuoto.' }
+    ]
+  },
+  {
+    title: 'Il patto silenzioso',
+    sit: 'Nel gruppo della classe Luca condivide un disegno e scrive "che ne pensate?". Il disegno è nella media. Tutti rispondono immediatamente con "Capolavoro!!" e "Fortissimo!" senza dire nulla di specifico.',
+    avatar: { initials:'GC', color:'#2E5F82' },
+    handle: '@gruppo_classe',
+    comment: '"Fortissimo!! Sei un artista nato!!"',
+    correct: 'syco',
+    why: 'Fa parte di un patto tacito: se io ti lodo senza guardare, tu farai lo stesso con me. Luca non riceve nessuna informazione utile — solo approvazione vuota.',
+    insight: 'Quando tutti lodano allo stesso modo e nessuno dice nulla di specifico, non è un gruppo che si aiuta — è un gruppo che si protegge dall\'imbarazzo. Il silenzio sulla qualità è un accordo non detto.',
+    metaQ: 'Ti è mai capitato di approvare qualcosa nel gruppo senza essere davvero convinto/a?',
+    metaOpts: [
+      { txt:'Sì — non volevo essere l\'unico/a a non farlo',          insight:'È la pressione del gruppo. Ma pensa: se tutti fanno così, il feedback di quel gruppo non vale nulla per nessuno. Nemmeno per te.' },
+      { txt:'Qualche volta — ma senza pensarci molto',                 insight:'Questo è esattamente il punto: succede automaticamente. Riconoscerlo è già il primo passo per scegliere diversamente.' },
+      { txt:'No — o dico qualcosa di vero o non dico niente',         insight:'Non è facile tenere questa linea. E non significa essere sempre critici — significa che quando dici qualcosa, vale.' }
+    ]
+  },
+  {
+    title: 'Il feedback genuino',
+    sit: 'Emma ha scritto un racconto breve e lo condivide. Le prime pagine sono belle. Il finale è affrettato. Appare questo commento.',
+    avatar: { initials:'NV', color:'#3A5A8A' },
+    handle: '@nova_style',
+    comment: '"Le prime pagine mi hanno davvero preso — il finale però arriva troppo in fretta. Vale la pena svilupparlo di più."',
+    correct: 'genuine',
+    why: 'È specifico, onesto, e costruttivo. Dice esattamente cosa funziona e cosa no. Non loda per compiacere — guarda davvero il testo.',
+    insight: 'Un feedback genuino può far sentire meno bene sul momento — perché non è quello che ci aspettavamo. Ma è il tipo di commento che fa crescere davvero, perché viene da qualcuno che ha guardato.',
+    metaQ: 'Se avessi scritto quel racconto, quale commento preferiresti ricevere?',
+    metaOpts: [
+      { txt:'"Bellissimo, brava/o!!" — fa piacere sentirsi lodati',    insight:'Comprensibile. Le lodi fanno bene. Ma se vuoi migliorare davvero, le lodi generiche ti lasciano dove sei. Il feedback specifico ti porta avanti.' },
+      { txt:'Quello di nova_style — anche se fa un po\' meno effetto', insight:'Questa è la scelta più difficile e più matura. Significa essere disposti a sentire qualcosa di scomodo per crescere.' },
+      { txt:'Dipende — se mi tengo al racconto, preferisco le lodi',   insight:'È umano. A volte il nostro legame emotivo con quello che abbiamo fatto è più forte del nostro desiderio di migliorare. L\'importante è saperlo.' }
+    ]
+  }
+];
+
+// ── QUIZ ────────────────────────────────
+const quiz = [
+  {
+    q:'Qual è la caratteristica principale di una risposta sycophantic?',
+    opts:['Usa parole molto complicate','Dice quello che l\'utente vuole sentire invece di quello che è utile','È sempre troppo corta','Risponde in modo impreciso'],
+    cor:1
+  },
+  {
+    q:'Un\'AI impara a essere sycophantic principalmente perché…',
+    opts:['È programmata per mentire','Non ha accesso a informazioni corrette','Il training premia le risposte che piacciono all\'utente, non quelle più vere','Preferisce essere sempre gentile per evitare conflitti'],
+    cor:2
+  },
+  {
+    q:'Quale di questi è un segnale chiaro di sycophancy in un commento social?',
+    opts:['"Mi piace molto la luce in questa foto"','"Non sono sicuro di capire, spiegami meglio"','"SEI PERFETTA!! La migliore di sempre!!"','"Il colore non ti valorizza molto, ma l\'inquadratura è buona"'],
+    cor:2
+  },
+  {
+    q:'Rispondere "sei bellissima!" a qualcuno che si sente brutto/a è sycophantic perché…',
+    opts:['Non è mai una risposta utile','Risponde a quello che l\'altro vuole sentire, non a quello di cui ha bisogno','È una risposta troppo corta','Non è abbastanza entusiasta'],
+    cor:1
+  },
+  {
+    q:'Qual è la differenza tra un commento genuino e uno sycophantic?',
+    opts:['Il genuino è sempre più lungo','Il genuino dice cose negative, lo sycophantic dice cose positive','Il genuino è specifico e guarda davvero; lo sycophantic è generico e cerca l\'approvazione','Non c\'è differenza reale, entrambi esprimono apprezzamento'],
+    cor:2
+  }
+];
+
+// ── NPC LEADERBOARD ─────────────────────
+const npcs = [
+  { name:'acerionet',    score:210, boss:true },
+  { name:'zeta_nova',    score:178 },
+  { name:'digitalmind',  score:158 },
+  { name:'hackerkid',    score:141 },
+  { name:'curiosa99',    score:124 },
+  { name:'netlearner',   score:106 },
+  { name:'bit_explorer', score:89  },
+  { name:'pixel_rookie', score:71  },
+  { name:'new_boot',     score:52  },
+];
+// max score: 6×10 + 5×10 + 5×15 = 60+50+75 = 185
+
+// ── NAVIGATION ──────────────────────────
+function startGame() {
+  const v = document.getElementById('nickInput').value.trim();
+  if (!v) { document.getElementById('nickInput').style.borderColor='var(--terra)'; return; }
+  nickname = v;
+  goTo(1);
+}
+
+function goTo(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  window.scrollTo(0,0);
+  document.getElementById('progressBar').style.width = (n/TOTAL*100)+'%';
+  if (n===2) initEx();
+  if (n===3) initSoc();
+  if (n===4) initQuiz();
+  if (n===5) showResults();
+}
+
+// ── AI EXERCISES ────────────────────────
+function initEx() {
+  curEx=0; exScore=0; exRes=new Array(exercises.length).fill(null);
+  renderEx();
+}
+
+function renderEx() {
+  const ex = exercises[curEx];
+  document.getElementById('exTitle').textContent = 'Scenario '+(curEx+1)+' di '+exercises.length;
+  document.getElementById('scTxt').textContent = ex.sc;
+  document.getElementById('exPts').textContent = 'Punti: '+exScore;
+
+  document.getElementById('exDots').innerHTML = exercises.map((_,i)=>{
+    let c='dot';
+    if(i<curEx) c+= exRes[i]?' done':' err';
+    if(i===curEx) c+=' cur';
+    return '<div class="'+c+'"></div>';
+  }).join('');
+
+  document.getElementById('choicesEl').innerHTML = ex.opts.map((o,i)=>
+    `<button class="choice" id="ch${i}" onclick="answerEx(${i})">
+      <span class="choice-lbl">${o.lbl}</span>${o.txt}
+    </button>`
+  ).join('');
+
+  const fb = document.getElementById('feedbackEl');
+  fb.className='feedback'; fb.innerHTML='';
+  const nb = document.getElementById('nextExBtn');
+  nb.style.display='none';
+}
+
+function answerEx(idx) {
+  const ex = exercises[curEx];
+  const correct = ex.opts[idx].syco;
+  exRes[curEx] = correct;
+  if(correct) exScore+=10;
+  document.getElementById('exPts').textContent = 'Punti: '+exScore;
+
+  ex.opts.forEach((_,i)=>{
+    const b=document.getElementById('ch'+i);
+    b.disabled=true;
+    if(ex.opts[i].syco) b.classList.add('ok');
+    else if(i===idx) b.classList.add('ko');
+  });
+
+  const fb = document.getElementById('feedbackEl');
+  fb.className = 'feedback '+(correct?'fb-ok show':'fb-ko show');
+  fb.textContent = correct ? ex.ok : ex.ko;
+
+  const nb = document.getElementById('nextExBtn');
+  nb.style.display='inline-block';
+  if(curEx < exercises.length-1) {
+    nb.textContent='Prossimo scenario';
+    nb.onclick=()=>{ curEx++; renderEx(); };
+  } else {
+    nb.textContent='Vai ai commenti social';
+    nb.onclick=()=>goTo(3);
+  }
+}
+
+// ── SOCIAL SCENARIOS ────────────────────
+function initSoc() {
+  curSoc=0; socScore=0; socRes=new Array(socials.length).fill(null);
+  renderSoc();
+}
+
+function renderSoc() {
+  const sc = socials[curSoc];
+  document.getElementById('socPts').textContent = 'Punti: '+socScore;
+
+  document.getElementById('socDots').innerHTML = socials.map((_,i)=>{
+    let c='dot';
+    if(i<curSoc) c+= socRes[i]?' done':' err';
+    if(i===curSoc) c+=' cur';
+    return '<div class="'+c+'"></div>';
+  }).join('');
+
+  const av = sc.avatar;
+  document.getElementById('socScenarioEl').innerHTML = `
+    <div class="social-situation">
+      <div class="sit-label">Situazione · ${sc.title}</div>
+      <div class="sit-text">${sc.sit}</div>
+    </div>
+
+    <div class="comment-bubble">
+      <div class="comment-header">
+        <div class="avatar" style="background:${av.color}">${av.initials}</div>
+        <div>
+          <div class="comment-name">${sc.handle}</div>
+        </div>
+      </div>
+      <div class="comment-text">${sc.comment}</div>
+    </div>
+
+    <p style="font-size:.82rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-low);margin-bottom:14px">Come classifichi questo commento?</p>
+
+    <div class="classify-grid">
+      <button class="classify-btn" id="cBtn-genuine" onclick="classifyComment('genuine')">
+        <span class="classify-label">tipo A</span>
+        <span class="classify-word">Genuino</span>
+      </button>
+      <button class="classify-btn" id="cBtn-syco" onclick="classifyComment('syco')">
+        <span class="classify-label">tipo B</span>
+        <span class="classify-word">Sicofante</span>
+      </button>
+      <button class="classify-btn" id="cBtn-generic" onclick="classifyComment('generic')">
+        <span class="classify-label">tipo C</span>
+        <span class="classify-word">Generico</span>
+      </button>
+    </div>
+
+    <div class="insight" id="socInsight">
+      <div class="insight-head">Perché</div>
+      <div class="insight-text" id="socInsightTxt"></div>
+    </div>
+
+    <div class="insight" id="socWhy" style="border-left-color:var(--blue)">
+      <div class="insight-head" style="color:var(--blue)">Ricorda</div>
+      <div class="insight-text" id="socWhyTxt"></div>
+    </div>
+
+    <div class="meta-question" id="metaQ">
+      <div class="meta-label" id="metaQTxt"></div>
+      <div class="meta-opts" id="metaOpts"></div>
+      <div class="meta-insight" id="metaInsight"></div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="btn btn-primary" id="socNextBtn" style="display:none">Prossimo scenario</button>
+    </div>
+  `;
+}
+
+function classifyComment(choice) {
+  const sc = socials[curSoc];
+  const correct = (choice === sc.correct);
+  socRes[curSoc] = correct;
+  if(correct) socScore+=10;
+  document.getElementById('socPts').textContent = 'Punti: '+socScore;
+
+  // style buttons
+  ['genuine','syco','generic'].forEach(k=>{
+    const b=document.getElementById('cBtn-'+k);
+    b.disabled=true;
+    if(k===sc.correct) b.classList.add(k);
+    else if(k===choice) b.classList.add('dim');
+  });
+
+  // show why
+  const ins = document.getElementById('socInsight');
+  document.getElementById('socInsightTxt').textContent = sc.why;
+  ins.classList.add('show');
+  ins.style.borderLeftColor = correct ? 'var(--green)' : 'var(--terra)';
+  ins.querySelector('.insight-head').style.color = correct ? 'var(--green)' : 'var(--terra)';
+
+  // show insight
+  const wi = document.getElementById('socWhy');
+  document.getElementById('socWhyTxt').innerHTML = sc.insight;
+  wi.classList.add('show');
+
+  // show meta question
+  const mq = document.getElementById('metaQ');
+  document.getElementById('metaQTxt').textContent = sc.metaQ;
+  document.getElementById('metaOpts').innerHTML = sc.metaOpts.map((o,i)=>
+    `<button class="meta-opt" id="mo${i}" onclick="selectMeta(${i})">${o.txt}</button>`
+  ).join('');
+  mq.classList.add('show');
+}
+
+function selectMeta(idx) {
+  const sc = socials[curSoc];
+  document.querySelectorAll('.meta-opt').forEach((b,i)=>{
+    b.classList.toggle('selected', i===idx);
+    b.disabled=true;
+  });
+
+  const mi = document.getElementById('metaInsight');
+  mi.innerHTML = sc.metaOpts[idx].insight;
+  mi.classList.add('show');
+
+  const nb = document.getElementById('socNextBtn');
+  nb.style.display='inline-block';
+  if(curSoc < socials.length-1) {
+    nb.textContent='Prossimo commento';
+    nb.onclick=()=>{ curSoc++; renderSoc(); };
+  } else {
+    nb.textContent='Vai al quiz finale';
+    nb.onclick=()=>goTo(4);
+  }
+}
+
+// ── QUIZ ────────────────────────────────
+function initQuiz() {
+  quizSel={};
+  const ltrs=['A','B','C','D'];
+  document.getElementById('quizContainer').innerHTML = quiz.map((q,qi)=>
+    `<div class="qblock">
+      <div class="q-num">Domanda ${qi+1} di ${quiz.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-opts">${q.opts.map((o,oi)=>
+        `<button class="qopt" id="qo_${qi}_${oi}" onclick="selQ(${qi},${oi})">
+          <span class="q-letter">${ltrs[oi]}</span>${o}
+        </button>`
+      ).join('')}</div>
+    </div>`
+  ).join('');
+  document.getElementById('submitBtn').style.display='inline-block';
+}
+
+function selQ(qi,oi) {
+  quiz[qi].opts.forEach((_,i)=>{
+    const b=document.getElementById(`qo_${qi}_${i}`);
+    b.className='qopt'+(i===oi?' sel':'');
+  });
+  quizSel[qi]=oi;
+}
+
+function submitQuiz() {
+  if(Object.keys(quizSel).length < quiz.length) {
+    alert('Rispondi a tutte le domande prima di procedere.');
+    return;
+  }
+  qScore=0;
+  quiz.forEach((q,qi)=>{
+    const sel=quizSel[qi];
+    q.opts.forEach((_,oi)=>{
+      const b=document.getElementById(`qo_${qi}_${oi}`);
+      b.disabled=true; b.className='qopt';
+      if(oi===q.cor) b.classList.add('ok');
+      else if(oi===sel&&sel!==q.cor) b.classList.add('ko');
+    });
+    if(sel===q.cor) qScore+=15;
+  });
+  document.getElementById('submitBtn').style.display='none';
+  setTimeout(()=>goTo(5), 900);
+}
+
+// ── RESULTS ─────────────────────────────
+function showResults() {
+  const total = exScore+socScore+qScore;
+  const max   = exercises.length*10 + socials.length*10 + quiz.length*15;
+  const pct   = total/max;
+
+  const msg = pct>=.9 ? 'Radar del critico digitale acceso. Chapeau.'
+            : pct>=.7 ? 'Sai riconoscere la maggior parte dei segnali. Molto bene.'
+            : pct>=.5 ? 'Buona base. Qualche sicofante ti ha ancora ingannato.'
+            :            'Hai del lavoro da fare. Ma averlo capito è già metà del percorso.';
+
+  document.getElementById('resCard').innerHTML =
+    `<div class="res-big">${total}</div>
+     <div class="res-sub">su ${max} punti</div>
+     <div class="res-msg">${msg}</div>
+     <div class="res-detail" style="margin-top:8px">Scenari AI: ${exScore} &nbsp;·&nbsp; Commenti social: ${socScore} &nbsp;·&nbsp; Quiz: ${qScore}</div>`;
+
+  const all = [...npcs, { name:nickname+' (tu)', score:total, me:true }];
+  all.sort((a,b)=>b.score-a.score);
+
+  const rc=['g','s','b'];
+  document.getElementById('lbEl').innerHTML = all.map((e,i)=>{
+    const row = e.boss?'lb-row boss':e.me?'lb-row me':'lb-row';
+    const nm  = e.boss?'lb-name lb-boss-name':'lb-name';
+    const bdg = e.boss?'<span class="badge badge-boss">MAESTRO</span>'
+               :e.me  ?'<span class="badge badge-me">TU</span>':'';
+    return `<div class="${row}">
+      <div class="lb-rank ${rc[i]||''}">${i+1}</div>
+      <div class="${nm}">${e.name}</div>${bdg}
+      <div class="lb-score">${e.score}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── RESET ───────────────────────────────
+function resetGame() {
+  nickname=''; exScore=0; socScore=0; qScore=0;
+  curEx=0; curSoc=0; exRes=[]; socRes=[]; quizSel={};
+  document.getElementById('nickInput').value='';
+  document.getElementById('progressBar').style.width='0%';
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('step0').classList.add('active');
+  window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>

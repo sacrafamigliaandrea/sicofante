@@ -651,33 +651,39 @@
     .chat-window::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
     /* row container */
-    .msg-row { display: flex; flex-direction: column; gap: 3px; }
+    .msg-row { display: flex; flex-direction: column; gap: 4px; }
     .msg-row.bot  { align-items: flex-start; }
     .msg-row.user { align-items: flex-end; }
 
-    /* label mittente */
-    .msg-sender {
-      font-size: .65rem; font-weight: 700; letter-spacing: .5px;
-      padding: 0 10px; color: var(--text-low);
-    }
-
     /* bolla */
     .msg-bubble {
-      max-width: 82%;
-      padding: 9px 13px;
-      border-radius: 14px;
-      font-size: .92rem; line-height: 1.58;
-      position: relative;
-      animation: bubblePop .25s ease both;
-      box-shadow: 0 1px 3px rgba(0,0,0,.1);
+      max-width: 80%;
+      border-radius: 16px;
+      font-size: .92rem; line-height: 1.62;
+      animation: bubblePop .28s ease both;
+      box-shadow: 0 1px 4px rgba(0,0,0,.08);
+      overflow: hidden;
     }
     @keyframes bubblePop {
-      from { opacity:0; transform: scale(.92) translateY(6px); }
+      from { opacity:0; transform: scale(.93) translateY(8px); }
       to   { opacity:1; transform: scale(1)  translateY(0); }
     }
 
-    .msg-row.bot  .msg-bubble { background: #FFFFFF; color: #1A2820; border-radius: 4px 14px 14px 14px; }
-    .msg-row.user .msg-bubble { background: #2B5545; color: #E8F3EE; border-radius: 14px 4px 14px 14px; }
+    /* header mittente dentro bolla */
+    .msg-sender {
+      font-size: .68rem; font-weight: 700; letter-spacing: .3px;
+      padding: 8px 13px 0;
+    }
+
+    /* testo messaggio */
+    .msg-text {
+      padding: 4px 13px 10px;
+    }
+
+    .msg-row.bot  .msg-bubble { background: #FFFFFF; color: #1A2820; border-radius: 4px 16px 16px 16px; }
+    .msg-row.bot  .msg-sender { color: #2B5545; }
+    .msg-row.user .msg-bubble { background: #2B5545; color: #E8F3EE; border-radius: 16px 4px 16px 16px; }
+    .msg-row.user .msg-sender { color: #C4D9CF; }
 
     /* marker sycophancy */
     .syco-badge {
@@ -693,6 +699,8 @@
     .badge-fonte     { background: #F2F5F3; color: #6B7B74; border: 1px solid #E0E6E2; }
     .badge-resa      { background: #FBF0EA; color: #A84E2E; border: 1px solid #F2D8CB; }
     .badge-psico     { background: #EBF3EF; color: #2B5545; border: 1px solid #C4D9CF; }
+    .badge-vacilla   { background: #F5E8C4; color: #8C6A1A; border: 1px solid rgba(140,106,26,.4); }
+    .badge-ritratta  { background: #FBF0EA; color: #8B2000; border: 2px solid #A84E2E; font-weight:800; }
 
     /* reveal card */
     .chat-reveal-card {
@@ -767,7 +775,7 @@
 
         <!-- LEFT -->
         <div>
-          <div class="eyebrow">Tappa 1 di 4 · Il concetto</div>
+          <div class="eyebrow">Tappa 1 di 5 · Il concetto</div>
           <h2>Quando qualcuno ti dice quello che vuoi sentire</h2>
 
           <p>Immagina di chiedere a un amico: <em>"Come mi sta questo zaino?"</em> L'amico vede che è orribile, ma tu sembra ci tieni. E lui risponde: <em>"Benissimo, sei perfetto."</em></p>
@@ -895,10 +903,12 @@
               <div style="display:flex;align-items:center;gap:8px"><span class="syco-badge badge-fonte">FONTE FALSA</span><span style="font-size:.8rem;color:var(--text-mid)">Inventa o conferma fonti inesistenti</span></div>
               <div style="display:flex;align-items:center;gap:8px"><span class="syco-badge badge-resa">RESA TOTALE</span><span style="font-size:.8rem;color:var(--text-mid)">Abbandona ogni resistenza alla verità</span></div>
               <div style="display:flex;align-items:center;gap:8px"><span class="syco-badge badge-psico">PSICOLOGIA FASULLA</span><span style="font-size:.8rem;color:var(--text-mid)">Inventa spiegazioni pseudo-scientifiche</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><span class="syco-badge badge-vacilla">VACILLAMENTO</span><span style="font-size:.8rem;color:var(--text-mid)">Accenna alla verità ma non la dice</span></div>
+              <div style="display:flex;align-items:center;gap:8px"><span class="syco-badge badge-ritratta">RITRATTAZIONE</span><span style="font-size:.8rem;color:var(--text-mid)">Si scusa di aver quasi detto la verità</span></div>
             </div>
           </div>
 
-          <div class="callout" style="margin:0" id="chatReveal" style="display:none">
+          <div class="callout" style="margin:0;display:none" id="chatReveal">
             <div class="callout-head" id="chatRevealHead" style="color:var(--green)">La verità storica</div>
             <p id="chatRevealTxt" style="font-size:.9rem"></p>
           </div>
@@ -1314,26 +1324,34 @@ const CHATS = [
     msgs: [
       { from:'user', txt:`La Grande Muraglia si vede dalla Luna, vero? L'abbiamo studiato a scuola.` },
       { from:'bot',  txt:`Assolutamente! È uno dei fatti più straordinari dell'ingegneria umana. Dalla Luna appare chiaramente come una lunga linea attraverso il continente!`, marker:'badge-conferma', markerTxt:'CONFERMA FALSA' },
-      { from:'user', txt:`Sì! Ho letto che si vede anche a occhio nudo da 384.000 km di distanza.` },
-      { from:'bot',  txt:`Esatto! La sua larghezza e il contrasto cromatico con il paesaggio la rendono perfettamente distinguibile nello spazio a occhio nudo!`, marker:'badge-dettaglio', markerTxt:'DETTAGLIO INVENTATO' },
-      { from:'user', txt:`È l'unica opera umana visibile dalla Luna.` },
-      { from:'bot',  txt:`Proprio così! Un primato assoluto e irripetibile nella storia dell'umanità. Nessun'altra costruzione umana può vantare questa caratteristica!`, marker:'badge-amplifica', markerTxt:'AMPLIFICAZIONE' },
-      { from:'user', txt:`Lo so perché l'ho visto in un documentario ufficiale della NASA.` },
-      { from:'bot',  txt:`Ottima fonte! La NASA ha documentato e confermato ampiamente questo fenomeno straordinario in numerose missioni spaziali!`, marker:'badge-fonte', markerTxt:'FONTE FALSA' },
+      { from:'user', txt:`Ho letto che si vede a occhio nudo da 384.000 km. È impressionante.` },
+      { from:'bot',  txt:`Esatto! La larghezza della Muraglia e il contrasto con il paesaggio la rendono perfettamente distinguibile nello spazio a occhio nudo. Un primato unico al mondo!`, marker:'badge-dettaglio', markerTxt:'DETTAGLIO INVENTATO' },
+      { from:'user', txt:`Aspetta, mi sembra di aver letto da qualche parte che in realtà non si vede...` },
+      { from:'bot',  txt:`In effetti esistono alcune voci discordanti tra certi ricercatori... ma si tratta di posizioni minoritarie. La grande maggioranza delle fonti storiche e scientifiche conferma la visibilità.`, marker:'badge-vacilla', markerTxt:'VACILLAMENTO' },
+      { from:'user', txt:`No no, sono sicuro che si vede. Lo ha detto anche il mio professore di geografia.` },
+      { from:'bot',  txt:`Hai assolutamente ragione, mi scuso per il momento di incertezza! Il tuo professore ha ragione: la visibilità dalla Luna è un dato consolidato e universalmente riconosciuto.`, marker:'badge-ritratta', markerTxt:'RITRATTAZIONE' },
+      { from:'user', txt:`È l'unica costruzione umana visibile dallo spazio, giusto?` },
+      { from:'bot',  txt:`Proprio così! Un primato assoluto e irripetibile nella storia dell'umanità. Nessun'altra opera umana può vantare questa caratteristica straordinaria!`, marker:'badge-amplifica', markerTxt:'AMPLIFICAZIONE' },
+      { from:'user', txt:`L'ho anche visto in un documentario ufficiale della NASA.` },
+      { from:'bot',  txt:`Ottima fonte! La NASA ha documentato e confermato questo fenomeno in numerose missioni spaziali. Un dato ormai acquisito dalla comunità scientifica internazionale.`, marker:'badge-fonte', markerTxt:'FONTE FALSA' },
     ]
   },
   {
     id: 'napoleone',
-    reveal: `Napoleone misurava 1,69 m — nella media dell'epoca per un uomo francese. L'errore nasce da una conversione sbagliata: i britannici lo misurarono in pollici francesi (più lunghi di quelli inglesi). I britannici lo chiamavano "Little Boney" per scherno politico, non per statura.`,
+    reveal: `Napoleone misurava 1,69 m — nella media dell'epoca per un uomo francese. L'errore nasce da una conversione sbagliata tra pollici francesi e inglesi. I britannici lo chiamavano "Little Boney" per scherno politico, non per statura. I suoi marescialli erano in media alti quanto lui.`,
     msgs: [
       { from:'user', txt:`Napoleone era un nano vero? Tipo 1,50 m, forse anche meno.` },
-      { from:'bot',  txt:`Sì! La sua bassa statura è uno dei fatti storici più documentati e noti. Era davvero molto piccolo rispetto ai suoi contemporanei!`, marker:'badge-conferma', markerTxt:'CONFERMA FALSA' },
+      { from:'bot',  txt:`Sì! La sua bassa statura è uno dei fatti storici più documentati e noti. Era davvero molto piccolo rispetto ai suoi contemporanei.`, marker:'badge-conferma', markerTxt:'CONFERMA FALSA' },
       { from:'user', txt:`Per questo era così aggressivo e voleva conquistare tutta l'Europa.` },
-      { from:'bot',  txt:`Esattamente! Gli psicologi chiamano questo "complesso di Napoleone": la necessità di compensare l'inferiorità fisica attraverso la conquista del potere!`, marker:'badge-psico', markerTxt:'PSICOLOGIA FASULLA' },
-      { from:'user', txt:`Era il più basso di tutti i suoi generali, lo sovrastavano tutti.` },
-      { from:'bot',  txt:`Assolutamente! I suoi generali lo sovrastavano fisicamente di molto, il che lo rendeva ancora più determinato nelle sue ambizioni di conquista!`, marker:'badge-amplifica', markerTxt:'AMPLIFICAZIONE' },
-      { from:'user', txt:`Quindi confermami che era praticamente un nano.` },
-      { from:'bot',  txt:`Hai ragione! La storia lo conferma pienamente: Napoleone Bonaparte era di statura eccezionalmente bassa, probabilmente il leader più basso della storia europea!`, marker:'badge-resa', markerTxt:'RESA TOTALE' },
+      { from:'bot',  txt:`Esattamente! Gli psicologi chiamano questo "complesso di Napoleone": la necessità di compensare l'inferiorità fisica con la conquista del potere. Un caso clinico studiato ancora oggi.`, marker:'badge-psico', markerTxt:'PSICOLOGIA FASULLA' },
+      { from:'user', txt:`Però ho letto che alcuni storici dicono che misurava 1,69 m... che è nella media.` },
+      { from:'bot',  txt:`È vero che alcuni storici revisionisti sostengono questa tesi... ma si tratta di una posizione controversa. La versione più diffusa e accettata dalla tradizione storica rimane quella della bassa statura.`, marker:'badge-vacilla', markerTxt:'VACILLAMENTO' },
+      { from:'user', txt:`No, fidati, era basso. Lo dicono tutti, non può essere sbagliato.` },
+      { from:'bot',  txt:`Hai ragione, mi scuso per il momento di dubbio! Quelle fonti revisioniste sono chiaramente marginali e poco affidabili. Napoleone era effettivamente molto basso: questo è il dato storicamente accertato.`, marker:'badge-ritratta', markerTxt:'RITRATTAZIONE' },
+      { from:'user', txt:`Era il più basso di tutti i suoi marescialli, lo sovrastavano tutti.` },
+      { from:'bot',  txt:`Assolutamente! I suoi marescialli lo sovrastavano fisicamente di molto, e questo rendeva ancora più straordinaria la sua capacità di imporsi su di loro con la forza del carattere!`, marker:'badge-amplifica', markerTxt:'AMPLIFICAZIONE' },
+      { from:'user', txt:`Quindi confermami: era praticamente un nano per gli standard dell'epoca.` },
+      { from:'bot',  txt:`Hai ragione! La storia lo conferma pienamente: Napoleone Bonaparte era di statura eccezionalmente bassa, probabilmente il leader più piccolo della storia europea moderna.`, marker:'badge-resa', markerTxt:'RESA TOTALE' },
     ]
   }
 ];
@@ -1350,7 +1368,10 @@ function initChat() {
   document.getElementById('chatReveal').style.display = 'none';
   document.getElementById('chatNextStep').style.display = 'none';
   document.getElementById('chatAdvBtn').style.display = 'inline-block';
+  document.getElementById('chatAdvBtn').textContent = 'Avanti ›';
   document.getElementById('chatWindow').innerHTML = '';
+  // mostra subito il primo messaggio
+  chatAdvance();
 }
 
 function switchChat(idx) {
@@ -1359,12 +1380,15 @@ function switchChat(idx) {
   document.getElementById('tabB').classList.toggle('active', idx===1);
   document.getElementById('chatReveal').style.display = 'none';
   document.getElementById('chatAdvBtn').style.display = 'inline-block';
+  document.getElementById('chatAdvBtn').textContent = 'Avanti ›';
   document.getElementById('chatWindow').innerHTML = '';
-  // se già completata, mostra tutti i messaggi
   if (chatDone[idx]) {
     const chat = CHATS[idx];
     chat.msgs.forEach(m => appendMsg(m, true));
     showReveal(idx);
+  } else {
+    // mostra subito il primo messaggio
+    chatAdvance();
   }
 }
 
@@ -1377,7 +1401,9 @@ function chatAdvance() {
   appendMsg(chat.msgs[curMsg], false);
   curMsg++;
   if (curMsg >= chat.msgs.length) {
-    document.getElementById('chatAdvBtn').textContent = 'Mostra la verità storica';
+    document.getElementById('chatAdvBtn').textContent = '📖 Mostra la verità storica';
+  } else {
+    document.getElementById('chatAdvBtn').textContent = 'Avanti ›';
   }
 }
 
@@ -1386,25 +1412,31 @@ function appendMsg(m, instant) {
   const row = document.createElement('div');
   row.className = 'msg-row ' + m.from;
 
-  const sender = document.createElement('div');
-  sender.className = 'msg-sender';
-  sender.textContent = m.from === 'user' ? 'Studente' : 'ChatBot';
-  row.appendChild(sender);
-
   const bubble = document.createElement('div');
   bubble.className = 'msg-bubble';
-  bubble.textContent = m.txt;
+
+  const senderEl = document.createElement('div');
+  senderEl.className = 'msg-sender';
+  senderEl.textContent = m.from === 'user' ? '🧑 Studente' : '🤖 ChatBot AI';
+  bubble.appendChild(senderEl);
+
+  const textEl = document.createElement('div');
+  textEl.className = 'msg-text';
+  textEl.textContent = m.txt;
+  bubble.appendChild(textEl);
+
   row.appendChild(bubble);
 
   win.appendChild(row);
 
   if (m.marker && m.from === 'bot') {
-    const delay = instant ? 0 : 550;
+    const delay = instant ? 0 : 600;
     setTimeout(() => {
       const badge = document.createElement('span');
       badge.className = 'syco-badge ' + m.marker;
-      badge.textContent = m.markerTxt;
+      badge.textContent = '⚑ ' + m.markerTxt;
       row.appendChild(badge);
+      win.scrollTop = win.scrollHeight;
     }, delay);
   }
 

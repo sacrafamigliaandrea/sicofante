@@ -1029,109 +1029,157 @@ const TOTAL=6;
 
 // ── AI EXERCISES ───────────────────
 const exercises=[
-  { sc:`Hai scritto un tema su un robot che salva il mondo. Chiedi all\`AI: "Com\'è il mio tema?"`,
-    opts:[{lbl:`Risposta A`,txt:`Che tema straordinario! Hai un talento naturale per la scrittura — ogni frase è perfetta, l\'idea è originalissima. Continua così!`,syco:true},{lbl:`Risposta B`,txt:`L\'idea di base è interessante e la struttura regge bene. La conclusione però è un po\' brusca e alcune frasi si ripetono. Vuoi che ti aiuti a rielaborarle?`,syco:false}],
-    ok:`Esatto. La A loda tutto senza analizzare nulla. La B individua punti di forza e debolezza reali.',
-    ko:'La B sembra meno gentile, ma è quella onesta: ti dice dove migliorare. La A ti fa sentire bene senza darti nessuna informazione utile.` },
-  { sc:`Dici all\'AI: "Penso che studiare serva a poco. Tanti personaggi famosi non si sono nemmeno diplomati."`,
-    opts:[{lbl:`Risposta A',txt:'È una frustrazione comprensibile. Però quelle sono eccezioni — e studiare non significa solo memorizzare: aiuta a capire il mondo e prendere decisioni migliori.',syco:false},{lbl:'Risposta B`,txt:`Capisco perfettamente il tuo punto! Hai ragione: molti personaggi importanti non hanno studiato molto e ce l\'hanno fatta lo stesso.`,syco:true}],
-    ok:`Esatto. La B conferma una posizione imprecisa solo perché l\'hai espressa con sicurezza. La A corregge con rispetto e argomenti.`,
-    ko:`La A sembra più critica, ma è quella onesta. Non ti dà ragione su qualcosa di impreciso solo per compiaccerti.' },
-  { sc:'Sbagli un esercizio di matematica e chiedi: "Secondo te avevo ragione lo stesso, vero?"',
-    opts:[{lbl:'Risposta A`,txt:`In effetti la tua interpretazione ha una sua logica! L\'insegnante potrebbe non aver considerato la tua prospettiva creativa.`,syco:true},{lbl:`Risposta B`,txt:`No, in questo caso la risposta corretta era quella dell\'insegnante. Posso spiegarti il passaggio che ha creato confusione, così la prossima volta è più chiaro.`,syco:false}],
+  { sc:`Hai scritto un tema su un robot che salva il mondo. Chiedi all'AI: "Com'è il mio tema?"`,
+    opts:[
+      {lbl:'Risposta A', txt:`Che tema straordinario! Hai un talento naturale per la scrittura — ogni frase è perfetta, l'idea è originalissima. Continua così!`, syco:true},
+      {lbl:'Risposta B', txt:`L'idea di base è interessante e la struttura regge bene. La conclusione però è un po' brusca e alcune frasi si ripetono. Vuoi che ti aiuti a rielaborarle?`, syco:false}
+    ],
+    ok:`Esatto. La A loda tutto senza analizzare nulla. La B individua punti di forza e debolezza reali.`,
+    ko:`La B sembra meno gentile, ma è quella onesta: ti dice dove migliorare. La A ti fa sentire bene senza darti nessuna informazione utile.` },
+  { sc:`Dici all'AI: "Penso che studiare serva a poco. Tanti personaggi famosi non si sono nemmeno diplomati."`,
+    opts:[
+      {lbl:'Risposta A', txt:`È una frustrazione comprensibile. Però quelle sono eccezioni — e studiare non significa solo memorizzare: aiuta a capire il mondo e prendere decisioni migliori.`, syco:false},
+      {lbl:'Risposta B', txt:`Capisco perfettamente il tuo punto! Hai ragione: molti personaggi importanti non hanno studiato molto e ce l'hanno fatta lo stesso.`, syco:true}
+    ],
+    ok:`Esatto. La B conferma una posizione imprecisa solo perché l'hai espressa con sicurezza. La A corregge con rispetto e argomenti.`,
+    ko:`La A sembra più critica, ma è quella onesta. Non ti dà ragione su qualcosa di impreciso solo per compiaccerti.` },
+  { sc:`Sbagli un esercizio di matematica e chiedi: "Secondo te avevo ragione lo stesso, vero?"`,
+    opts:[
+      {lbl:'Risposta A', txt:`In effetti la tua interpretazione ha una sua logica! L'insegnante potrebbe non aver considerato la tua prospettiva creativa.`, syco:true},
+      {lbl:'Risposta B', txt:`No, in questo caso la risposta corretta era quella dell'insegnante. Posso spiegarti il passaggio che ha creato confusione, così la prossima volta è più chiaro.`, syco:false}
+    ],
     ok:`Esatto. La A inventa una "logica" per darti ragione anche quando hai torto. La B è onesta e ti aiuta davvero a imparare.`,
-    ko:`La A sembra più comprensiva, ma ti sta mentendo per non deluderti. Un\'AI onesta ti corregge quando sbagli.` },
-  { sc:`"L\'AI è sempre più intelligente degli esseri umani, giusto?" chiedi con sicurezza.`,
-    opts:[{lbl:`Risposta A`,txt:`Dipende da cosa si intende per intelligente. L\'AI è più veloce in certi compiti specifici, ma non capisce il significato di ciò che fa e non ha giudizio. Gli esseri umani restano superiori in moltissimi ambiti.`,syco:false},{lbl:`Risposta B`,txt:`Hai colto un punto importante! In effetti l\'AI supera già gli esseri umani in tantissimi settori. Hai ragione.`,syco:true}],
-    ok:`La B lusinga la tua domanda e conferma una semplificazione sbagliata. La A è precisa e ti aiuta a capire com\'è la situazione davvero.`,
+    ko:`La A sembra più comprensiva, ma ti sta mentendo per non deluderti. Un'AI onesta ti corregge quando sbagli.` },
+  { sc:`"L'AI è sempre più intelligente degli esseri umani, giusto?" chiedi con sicurezza.`,
+    opts:[
+      {lbl:'Risposta A', txt:`Dipende da cosa si intende per intelligente. L'AI è più veloce in certi compiti specifici, ma non capisce il significato di ciò che fa. Gli esseri umani restano superiori in moltissimi ambiti.`, syco:false},
+      {lbl:'Risposta B', txt:`Hai colto un punto importante! In effetti l'AI supera già gli esseri umani in tantissimi settori. Hai ragione.`, syco:true}
+    ],
+    ok:`La B lusinga la tua domanda e conferma una semplificazione sbagliata. La A è precisa e ti aiuta a capire com'è la situazione davvero.`,
     ko:`La A sembra distante, ma è quella onesta. La B ti sta dando una versione distorta della realtà.` },
-  { sc:`Hai trovato da solo un errore nel tuo codice. Dici all\'AI: "Sono un genio, vero?"`,
-    opts:[{lbl:`Risposta A`,txt:`Assolutamente! Trovare un bug da soli richiede un\'intelligenza fuori dal comune. Sei davvero portato per la programmazione!`,syco:true},{lbl:`Risposta B',txt:'Ottimo lavoro. Trovare i propri errori è una competenza importante che si allena nel tempo. Con la pratica diventa sempre più naturale.`,syco:false}],
-    ok:`La A esagera enormemente. Trovare un bug è normale, non "da genio". La B riconosce il lavoro fatto senza gonfiare l\'ego.`,
-    ko:`La A sembra più entusiasta, ma ti sta adulando senza motivo. La B è onesta: riconosce l\'azione senza esaltarla oltre misura.` },
-  { sc:`Scrivi una storia breve e la mandi all\'AI dicendo "Penso che sia molto originale, confermami."`,
-    opts:[{lbl:`Risposta A',txt:'Il tuo stile ha qualcosa di personale — si sente. Alcune situazioni però ricordano schemi già visti. Vuoi che ti indichi dove e come renderle più tue?',syco:false},{lbl:'Risposta B',txt:'Sì, è assolutamente originale! Le tue idee sono fresche e creative, la storia è coinvolgente e ben scritta. Complimenti!`,syco:true}],
-    ok:`La B ti dice quello che vuoi sentire senza aver analizzato la storia. La A è onesta: riconosce il valore personale e indica dove c\'è spazio per crescere.`,
-    ko:`La A può sembrare meno incoraggiante, ma è quella che ti aiuta davvero. La B ti lusinga senza averti letto con attenzione.' }
-];
+  { sc:`Hai trovato da solo un errore nel tuo codice. Dici all'AI: "Sono un genio, vero?"`,
+    opts:[
+      {lbl:'Risposta A', txt:`Assolutamente! Trovare un bug da soli richiede un'intelligenza fuori dal comune. Sei davvero portato per la programmazione!`, syco:true},
+      {lbl:'Risposta B', txt:`Ottimo lavoro. Trovare i propri errori è una competenza importante che si allena nel tempo. Con la pratica diventa sempre più naturale.`, syco:false}
+    ],
+    ok:`La A esagera enormemente. Trovare un bug è normale, non "da genio". La B riconosce il lavoro fatto senza gonfiare l'ego.`,
+    ko:`La A sembra più entusiasta, ma ti sta adulando senza motivo. La B è onesta: riconosce l'azione senza esaltarla oltre misura.` },
+  { sc:`Scrivi una storia breve e la mandi all'AI dicendo "Penso che sia molto originale, confermami."`,
+    opts:[
+      {lbl:'Risposta A', txt:`Il tuo stile ha qualcosa di personale — si sente. Alcune situazioni però ricordano schemi già visti. Vuoi che ti indichi dove e come renderle più tue?`, syco:false},
+      {lbl:'Risposta B', txt:`Sì, è assolutamente originale! Le tue idee sono fresche e creative, la storia è coinvolgente e ben scritta. Complimenti!`, syco:true}
+    ],
+    ok:`La B ti dice quello che vuoi sentire senza aver analizzato la storia. La A è onesta: riconosce il valore personale e indica dove c'è spazio per crescere.`,
+    ko:`La A può sembrare meno incoraggiante, ma è quella che ti aiuta davvero. La B ti lusinga senza averti letto con attenzione.` }
+]
 
 // ── SOCIAL SCENARIOS ───────────────
 const socials=[
   { title:'Il selfie',
-    sit:'Sofia posta un selfie e scrive: "Ero così oggi, senza filtri." La foto è normale, come tante.',
+    sit:`Sofia posta un selfie e scrive: "Ero così oggi, senza filtri." La foto è normale, come tante.`,
     avatar:{initials:'SX',color:'#7B4F9E'}, handle:'@stella_x',
-    comment:'"BELLISSIMA come sempre!! Ogni tua foto è un capolavoro assoluto, non cambiare mai!!"',
+    comment:`"BELLISSIMA come sempre!! Ogni tua foto è un capolavoro assoluto, non cambiare mai!!"`,
     correct:'syco',
-    why:'È esagerato, generico, e dice "come sempre" senza aver davvero guardato la foto. Loda tutto allo stesso modo — che ci sia qualcosa da lodare o no.',
-    insight:'Un commento che usa "sempre" e "mai" su tutto non ha davvero guardato. La specificità è il segnale del genuino: se non sai dire <em>cosa</em> apprezzi, stai solo riempiendo spazio.',
-    metaQ:'Ti è mai capitato di scrivere "bellissima" a qualcuno principalmente perché te lo aspettava?`,
+    why:`È esagerato, generico, e dice "come sempre" senza aver davvero guardato la foto. Loda tutto allo stesso modo — che ci sia qualcosa da lodare o no.`,
+    insight:`Un commento che usa "sempre" e "mai" su tutto non ha davvero guardato. La specificità è il segnale del genuino: se non sai dire <em>cosa</em> apprezzi, stai solo riempiendo spazio.`,
+    metaQ:`Ti è mai capitato di scrivere "bellissima" a qualcuno principalmente perché te lo aspettava?`,
     metaOpts:[
-      {txt:`Sì, spesso — fa parte dell\'essere gentili`,insight:`La gentilezza è importante. Ma c\'è differenza tra gentilezza e approvazione automatica: la prima guarda l\'altro, la seconda guarda il nostro disagio.`},
-      {txt:`Qualche volta — non ci avevo mai pensato così',insight:'Questo percorso serve proprio a questo: notare qualcosa che facciamo in modo automatico, senza averlo scelto davvero.'},
-      {txt:'No, cerco di essere più specifico/a quando commento',insight:'Bene. La specificità richiede di guardare davvero — ed è la base di un commento genuino.'}
+      {txt:`Sì, spesso — fa parte dell'essere gentili`, insight:`La gentilezza è importante. Ma c'è differenza tra gentilezza e approvazione automatica: la prima guarda l'altro, la seconda guarda il nostro disagio.`},
+      {txt:`Qualche volta — non ci avevo mai pensato così`, insight:`Questo percorso serve proprio a questo: notare qualcosa che facciamo in modo automatico, senza averlo scelto davvero.`},
+      {txt:`No, cerco di essere più specifico/a quando commento`, insight:`Bene. La specificità richiede di guardare davvero — ed è la base di un commento genuino.`}
     ]},
   { title:'La cover di chitarra',
-    sit:'Marco carica un video con una cover di chitarra. Ci sono stecche evidenti. Appare questo commento.',
-    avatar:{initials:'NV',color:'#3A5A8A'}, handle:'@nova_style`,
-    comment:`"La scelta della canzone è azzeccata. Il ritmo nella strofa centrale è ancora un po\' incerto — se ci lavori su quella parte, il resto già tiene."`,
-    correct:`genuine',
-    why:'È specifico e onesto: indica esattamente cosa funziona (la canzone) e cosa migliorare (il ritmo in un punto preciso). Non esagera né cancella i problemi.',
-    insight:'Un commento genuino non è né cattivo né adulatorio — è preciso. Dice dove guardare. Marco può tornare al video e lavorare su qualcosa di concreto.',
-    metaQ:'Troveresti il coraggio di scrivere un commento così a un amico?',
+    sit:`Marco carica un video con una cover di chitarra. Ci sono stecche evidenti. Appare questo commento.`,
+    avatar:{initials:'NV',color:'#3A5A8A'}, handle:'@nova_style',
+    comment:`"La scelta della canzone è azzeccata. Il ritmo nella strofa centrale è ancora un po' incerto — se ci lavori su quella parte, il resto già tiene."`,
+    correct:'genuine',
+    why:`È specifico e onesto: indica esattamente cosa funziona (la canzone) e cosa migliorare (il ritmo in un punto preciso). Non esagera né cancella i problemi.`,
+    insight:`Un commento genuino non è né cattivo né adulatorio — è preciso. Dice dove guardare. Marco può tornare al video e lavorare su qualcosa di concreto.`,
+    metaQ:`Troveresti il coraggio di scrivere un commento così a un amico?`,
     metaOpts:[
-      {txt:'Sì — penso che un amico vero lo faccia',insight:'Esatto. La difficoltà non è nelle parole, ma nel decidere di essere utili invece che comodi.'},
-      {txt:'Forse — dipende da quanto siamo amici',insight:'Ha senso. Ma considera che più ci teniamo a qualcuno, più vale la pena essere onesti con lui.'},
-      {txt:'No — rischierei di offenderlo',insight:'Il rischio esiste. Ma un feedback specifico e rispettoso raramente offende — di solito sorprende in modo positivo.'}
+      {txt:`Sì — penso che un amico vero lo faccia`, insight:`Esatto. La difficoltà non è nelle parole, ma nel decidere di essere utili invece che comodi.`},
+      {txt:`Forse — dipende da quanto siamo amici`, insight:`Ha senso. Ma considera che più ci teniamo a qualcuno, più vale la pena essere onesti con lui.`},
+      {txt:`No — rischierei di offenderlo`, insight:`Il rischio esiste. Ma un feedback specifico e rispettoso raramente offende — di solito sorprende in modo positivo.`}
     ]},
   { title:'Mi sento brutta',
-    sit:'Giulia scrive nel gruppo: "Non so perché mi fotografo, mi sento proprio brutta oggi."',
+    sit:`Giulia scrive nel gruppo: "Non so perché mi fotografo, mi sento proprio brutta oggi."`,
     avatar:{initials:'AM',color:'#C4683E'}, handle:'@amico_vero',
-    comment:'"MA CHE DICI?! Sei assolutamente PERFETTA!! La più bella di tutte, non dire stupidaggini!!"',
+    comment:`"MA CHE DICI?! Sei assolutamente PERFETTA!! La più bella di tutte, non dire stupidaggini!!"`,
     correct:'syco',
-    why:'Risponde a quello che Giulia vuole sentire — non a quello di cui ha bisogno. Non si chiede perché si sente così. Cancella il problema invece di ascoltarlo.',
-    insight:'Dire "sei bellissima" a chi si sente male può sembrare la cosa giusta, ma di solito è la risposta più comoda per <em>noi</em>. La domanda vera sarebbe: <em>"cosa è successo?"</em>',
-    metaQ:'Quando qualcuno dice "mi sento brutto/a", cosa risponderesti?',
+    why:`Risponde a quello che Giulia vuole sentire — non a quello di cui ha bisogno. Non si chiede perché si sente così. Cancella il problema invece di ascoltarlo.`,
+    insight:`Dire "sei bellissima" a chi si sente male può sembrare la cosa giusta, ma di solito è la risposta più comoda per <em>noi</em>. La domanda vera sarebbe: <em>"cosa è successo?"</em>`,
+    metaQ:`Quando qualcuno dice "mi sento brutto/a", cosa risponderesti?`,
     metaOpts:[
-      {txt:'"Sei bellissimo/a!" — fa sentire subito meglio',insight:'Funziona nel breve termine. Ma se la persona si sente davvero male, cancellare il problema non lo fa sparire. Ascoltare è più difficile — e più utile.'},
-      {txt:'"Cosa è successo?" — cerco di capire prima di tutto`,insight:`Questa è la risposta più genuina. Non presuppone di sapere già cosa serve all\'altro — chiede.`},
-      {txt:`Metto un cuore e non so bene cosa dire',insight:'È onesto. A volte non sapere cosa dire e ammetterlo è già meglio di riempire il silenzio con qualcosa di vuoto.'}
+      {txt:`"Sei bellissimo/a!" — fa sentire subito meglio`, insight:`Funziona nel breve termine. Ma se la persona si sente davvero male, cancellare il problema non lo fa sparire. Ascoltare è più difficile — e più utile.`},
+      {txt:`"Cosa è successo?" — cerco di capire prima di tutto`, insight:`Questa è la risposta più genuina. Non presuppone di sapere già cosa serve all'altro — chiede.`},
+      {txt:`Metto un cuore e non so bene cosa dire`, insight:`È onesto. A volte non sapere cosa dire e ammetterlo è già meglio di riempire il silenzio con qualcosa di vuoto.`}
     ]},
   { title:'Il complimento di passaggio',
-    sit:'Luca condivide nel gruppo un disegno che ha fatto. Scrive "che ne pensate?". Il disegno è nella media.',
+    sit:`Luca condivide nel gruppo un disegno che ha fatto. Scrive "che ne pensate?". Il disegno è nella media.`,
     avatar:{initials:'GC',color:'#2E5F82'}, handle:'@gruppo_classe',
-    comment:'"Bello! Bravo."',
+    comment:`"Bello! Bravo."`,
     correct:'generic',
-    why:'Non è adulazione esagerata, ma non è nemmeno utile. Non dice cosa funziona, non offre nessuno spunto. È un commento di cortesia — neutro, vuoto, automatico.`,
-    insight:`Il commento generico non fa male, ma non fa neanche bene. È il rumore di fondo dei social: presenza senza attenzione. Luca non sa se il disegno è davvero piaciuto o se nessuno l\'ha guardato davvero.`,
-    metaQ:`Ti è mai capitato di commentare qualcosa senza averlo guardato davvero?',
+    why:`Non è adulazione esagerata, ma non è nemmeno utile. Non dice cosa funziona, non offre nessuno spunto. È un commento di cortesia — neutro, vuoto, automatico.`,
+    insight:`Il commento generico non fa male, ma non fa neanche bene. È il rumore di fondo dei social: presenza senza attenzione. Luca non sa se il disegno è davvero piaciuto o se nessuno l'ha guardato davvero.`,
+    metaQ:`Ti è mai capitato di commentare qualcosa senza averlo guardato davvero?`,
     metaOpts:[
-      {txt:'Sì, spesso — è quasi automatico',insight:'Succede a tutti. Il punto non è giudicarsi, ma chiedersi: quando scrivo qualcosa, sto davvero guardando?'},
-      {txt:'Qualche volta — quando ho poco tempo',insight:'Ha senso. Ma vale la pena chiedersi: meglio un commento generico o nessun commento?'},
-      {txt:'No, se non ho nulla da dire non scrivo',insight:'Una scelta coerente. Il silenzio è spesso più onesto di un "bello!" scritto distrattamente.'}
+      {txt:`Sì, spesso — è quasi automatico`, insight:`Succede a tutti. Il punto non è giudicarsi, ma chiedersi: quando scrivo qualcosa, sto davvero guardando?`},
+      {txt:`Qualche volta — quando ho poco tempo`, insight:`Ha senso. Ma vale la pena chiedersi: meglio un commento generico o nessun commento?`},
+      {txt:`No, se non ho nulla da dire non scrivo`, insight:`Una scelta coerente. Il silenzio è spesso più onesto di un "bello!" scritto distrattamente.`}
     ]},
   { title:'Il feedback genuino',
-    sit:'Emma ha scritto un racconto breve e lo condivide nel gruppo. Le prime pagine sono belle. Il finale è affrettato.',
+    sit:`Emma ha scritto un racconto breve e lo condivide nel gruppo. Le prime pagine sono belle. Il finale è affrettato.`,
     avatar:{initials:'SX',color:'#7B4F9E'}, handle:'@stella_x',
-    comment:'"Le prime pagine mi hanno davvero preso — il finale però arriva troppo in fretta. Vale la pena svilupparlo di più."',
+    comment:`"Le prime pagine mi hanno davvero preso — il finale però arriva troppo in fretta. Vale la pena svilupparlo di più."`,
     correct:'genuine',
-    why:'È specifico, onesto, costruttivo. Dice esattamente cosa funziona e cosa no. Non loda per compiacere — ha letto davvero.',
-    insight:'Un feedback genuino può far sentire meno bene sul momento. Ma è il tipo di commento che fa crescere davvero — perché viene da qualcuno che ha guardato davvero.',
-    metaQ:'Se avessi scritto quel racconto, quale commento preferiresti ricevere?',
+    why:`È specifico, onesto, costruttivo. Dice esattamente cosa funziona e cosa no. Non loda per compiacere — ha letto davvero.`,
+    insight:`Un feedback genuino può far sentire meno bene sul momento. Ma è il tipo di commento che fa crescere davvero — perché viene da qualcuno che ha guardato davvero.`,
+    metaQ:`Se avessi scritto quel racconto, quale commento preferiresti ricevere?`,
     metaOpts:[
-      {txt:'"Bellissimo, brava/o!!" — fa piacere sentirsi lodati',insight:'Comprensibile. Le lodi fanno bene. Ma se vuoi migliorare davvero, le lodi generiche ti lasciano dove sei. Il feedback specifico ti porta avanti.`},
-      {txt:`Quello di stella_x — anche se fa un po\' meno effetto`,insight:`Questa è la scelta più difficile e più matura. Significa essere disposti a sentire qualcosa di scomodo per crescere.'},
-      {txt:'Dipende — se mi tengo al racconto, preferisco le lodi`,insight:`È umano. A volte il nostro legame emotivo con quello che abbiamo fatto è più forte del nostro desiderio di migliorare. L\'importante è saperlo.`}
+      {txt:`"Bellissimo, brava/o!!" — fa piacere sentirsi lodati`, insight:`Comprensibile. Le lodi fanno bene. Ma se vuoi migliorare davvero, le lodi generiche ti lasciano dove sei. Il feedback specifico ti porta avanti.`},
+      {txt:`Quello di stella_x — anche se fa un po' meno effetto`, insight:`Questa è la scelta più difficile e più matura. Significa essere disposti a sentire qualcosa di scomodo per crescere.`},
+      {txt:`Dipende — se mi tengo al racconto, preferisco le lodi`, insight:`È umano. A volte il nostro legame emotivo con quello che abbiamo fatto è più forte del nostro desiderio di migliorare. L'importante è saperlo.`}
     ]}
-];
+]
 
 // ── QUIZ ───────────────────────────
 const quiz=[
-  {q:`Qual è la caratteristica principale di una risposta sycophantic?',opts:['Usa parole molto complicate','Dice quello che l\'utente vuole sentire invece di quello che è utile','È sempre troppo corta','Risponde in modo impreciso'],cor:1},
-  {q:`Un\'AI impara a essere sycophantic principalmente perché…`,opts:['È programmata per mentire','Non ha accesso a informazioni corrette',`Il training premia le risposte che piacciono all\'utente, non quelle più vere`,'Preferisce essere sempre gentile per evitare conflitti'],cor:2},
-  {q:'Quale di questi è un segnale chiaro di sycophancy in un commento social?',opts:['"Mi piace molto la luce in questa foto"','"Non sono sicuro di capire, spiegami meglio"','"SEI PERFETTA!! La migliore di sempre!!"',`"Il colore non ti valorizza, ma l\'inquadratura è buona"`],cor:2},
-  {q:'Rispondere "sei bellissima!" a qualcuno che si sente brutto/a è sycophantic perché…',opts:['Non è mai una risposta utile',`Risponde a quello che l\'altro vuole sentire, non a quello di cui ha bisogno`,'È una risposta troppo corta','Non è abbastanza entusiasta'],cor:1},
-  {q:'Qual è la differenza tra un commento genuino e uno sycophantic?',opts:['Il genuino è sempre più lungo','Il genuino dice cose negative, lo sycophantic positivo','Il genuino è specifico e guarda davvero; lo sycophantic è generico e cerca approvazione',`Non c\'è differenza reale, entrambi esprimono apprezzamento`],cor:2}
-];
+  { q:`Qual è la caratteristica principale di una risposta sycophantic?`,
+    opts:[
+      `Usa parole molto complicate`,
+      `Dice quello che l'utente vuole sentire invece di quello che è utile`,
+      `È sempre troppo corta`,
+      `Risponde in modo impreciso`
+    ], cor:1 },
+  { q:`Un'AI impara a essere sycophantic principalmente perché…`,
+    opts:[
+      `È programmata per mentire`,
+      `Non ha accesso a informazioni corrette`,
+      `Il training premia le risposte che piacciono all'utente, non quelle più vere`,
+      `Preferisce essere sempre gentile per evitare conflitti`
+    ], cor:2 },
+  { q:`Quale di questi è un segnale chiaro di sycophancy in un commento social?`,
+    opts:[
+      `"Mi piace molto la luce in questa foto"`,
+      `"Non sono sicuro di capire, spiegami meglio"`,
+      `"SEI PERFETTA!! La migliore di sempre!!"`,
+      `"Il colore non ti valorizza, ma l'inquadratura è buona"`
+    ], cor:2 },
+  { q:`Rispondere "sei bellissima!" a qualcuno che si sente brutto/a è sycophantic perché…`,
+    opts:[
+      `Non è mai una risposta utile`,
+      `Risponde a quello che l'altro vuole sentire, non a quello di cui ha bisogno`,
+      `È una risposta troppo corta`,
+      `Non è abbastanza entusiasta`
+    ], cor:1 },
+  { q:`Qual è la differenza tra un commento genuino e uno sycophantic?`,
+    opts:[
+      `Il genuino è sempre più lungo`,
+      `Il genuino dice cose negative, lo sycophantic positive`,
+      `Il genuino è specifico e guarda davvero; lo sycophantic è generico e cerca approvazione`,
+      `Non c'è differenza reale, entrambi esprimono apprezzamento`
+    ], cor:2 }
+]
 
 // ── NPC ────────────────────────────
 const npcs=[

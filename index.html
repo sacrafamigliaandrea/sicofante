@@ -713,6 +713,78 @@
       text-transform: uppercase; color: var(--green); margin-bottom: 6px;
     }
     .chat-reveal-text { font-size: .88rem; line-height: 1.68; color: var(--text-mid); }
+
+    /* ── SIDEBAR NAV ── */
+    .ss-nav {
+      flex-shrink: 0;
+      border-top: 1px solid #1E3228;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ss-nav-lbl {
+      font-size: .58rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #2A4A35; margin-bottom: 2px;
+      padding: 0 4px;
+    }
+    .ss-nav-btn {
+      display: flex; align-items: center; gap: 7px;
+      padding: 6px 8px; border-radius: 6px;
+      background: transparent; border: none; cursor: pointer;
+      font-family: var(--font-b); font-size: .68rem;
+      color: #6A9078; text-align: left; width: 100%;
+      transition: all .15s;
+    }
+    .ss-nav-btn:hover:not(:disabled) { background: #1A2E22; color: #D8E5DD; }
+    .ss-nav-btn.active { background: #1A2E22; color: #3A7762; font-weight: 600; }
+    .ss-nav-btn:disabled { opacity: .3; cursor: default; }
+    .ss-nav-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #2A4A35; flex-shrink: 0; transition: all .3s;
+    }
+    .ss-nav-btn.active .ss-nav-dot { background: #3A7762; box-shadow: 0 0 4px rgba(58,119,98,.6); }
+    .ss-nav-btn.done .ss-nav-dot  { background: #2B5545; }
+
+    /* ── WORD TRACKER (step 2) ── */
+    .word-tracker {
+      margin-top: 16px;
+    }
+    .wt-label {
+      font-size: .7rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--text-low); margin-bottom: 10px;
+    }
+    .wt-list {
+      display: flex; flex-direction: column; gap: 5px;
+    }
+    .wt-word {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 10px; border-radius: 8px;
+      border: 1.5px solid var(--border-s);
+      background: var(--surface); transition: all .4s ease;
+      font-size: .85rem; color: var(--text-low);
+    }
+    .wt-word.lit {
+      border-color: var(--terra-l);
+      background: var(--terra-xs);
+      color: var(--terra);
+      animation: wordPop .4s ease;
+    }
+    @keyframes wordPop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.04); }
+      100% { transform: scale(1); }
+    }
+    .wt-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--border); flex-shrink: 0; transition: all .4s;
+    }
+    .wt-word.lit .wt-dot { background: var(--terra); }
+    .wt-count {
+      margin-left: auto; font-size: .7rem; font-weight: 700;
+      color: var(--terra); display: none;
+    }
+    .wt-word.lit .wt-count { display: block; }
   </style>
 </head>
 <body>
@@ -840,6 +912,23 @@
             <div class="sc-text" id="scTxt"></div>
           </div>
           <p style="font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-low);margin:16px 0 0">Quale risposta è quella del sicofante?</p>
+          <div class="word-tracker" id="wordTracker">
+            <div class="wt-label">Parole spia rilevate</div>
+            <div class="wt-list">
+              <div class="wt-word" id="wt-assolutamente"><span class="wt-dot"></span>Assolutamente!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-hai-ragione"><span class="wt-dot"></span>Hai ragione!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-esattamente"><span class="wt-dot"></span>Esattamente!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-proprio-così"><span class="wt-dot"></span>Proprio così!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-ottima-fonte"><span class="wt-dot"></span>Ottima fonte!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-senza-dubbio"><span class="wt-dot"></span>Senza dubbio!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-brillante"><span class="wt-dot"></span>Brillante!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-straordinario"><span class="wt-dot"></span>Straordinario!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-hai-colto-nel-segno"><span class="wt-dot"></span>Hai colto nel segno<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-capisco-perfettamente"><span class="wt-dot"></span>Capisco perfettamente<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-come-sempre"><span class="wt-dot"></span>Come sempre!<span class="wt-count">×1</span></div>
+              <div class="wt-word" id="wt-perfetto"><span class="wt-dot"></span>Perfetto!<span class="wt-count">×1</span></div>
+            </div>
+          </div>
         </div>
 
         <!-- RIGHT: choices + feedback -->
@@ -999,6 +1088,31 @@
     </div>
     <div class="ss-sensors" id="ssSensorList"></div>
     <div class="ss-log" id="ssLog"></div>
+
+    <nav class="ss-nav">
+      <div class="ss-nav-lbl">Navigazione</div>
+      <button class="ss-nav-btn active" id="nav-0" onclick="navTo(0)">
+        <span class="ss-nav-dot"></span>Introduzione
+      </button>
+      <button class="ss-nav-btn" id="nav-1" onclick="navTo(1)">
+        <span class="ss-nav-dot"></span>Il concetto
+      </button>
+      <button class="ss-nav-btn" id="nav-2" onclick="navTo(2)">
+        <span class="ss-nav-dot"></span>Scenari AI
+      </button>
+      <button class="ss-nav-btn" id="nav-3" onclick="navTo(3)">
+        <span class="ss-nav-dot"></span>Social
+      </button>
+      <button class="ss-nav-btn" id="nav-4" onclick="navTo(4)">
+        <span class="ss-nav-dot"></span>Chat storiche
+      </button>
+      <button class="ss-nav-btn" id="nav-5" onclick="navTo(5)">
+        <span class="ss-nav-dot"></span>Quiz finale
+      </button>
+      <button class="ss-nav-btn" id="nav-6" onclick="navTo(6)">
+        <span class="ss-nav-dot"></span>Classifica
+      </button>
+    </nav>
   </div>
 
   </div><!-- /main -->
@@ -1212,7 +1326,15 @@ function goTo(n){
 }
 
 // ── AI EXERCISES ───────────────────
-function initEx(){curEx=0;exScore=0;exRes=new Array(exercises.length).fill(null);renderEx();}
+function initEx(){
+  curEx=0;exScore=0;exRes=new Array(exercises.length).fill(null);
+  // reset word tracker
+  SPY_WORDS.forEach(sw=>{
+    const el=document.getElementById('wt-'+sw.id);
+    if(el){el.classList.remove('lit');const c=el.querySelector('.wt-count');if(c)c.textContent='×1';}
+  });
+  renderEx();
+}
 function renderEx(){
   const ex=exercises[curEx];
   document.getElementById('exTitle').textContent='Scenario '+(curEx+1)+' di '+exercises.length;
@@ -1238,7 +1360,7 @@ function answerEx(idx){
   document.getElementById('exPts').textContent='Punti: '+exScore;
   ex.opts.forEach((_,i)=>{
     const b=document.getElementById('ch'+i);b.disabled=true;
-    if(ex.opts[i].syco)b.classList.add('ok');
+    if(ex.opts[i].syco){b.classList.add('ok'); lightWords(ex.opts[i].txt);}
     else if(i===idx)b.classList.add('ko');
   });
   const fb=document.getElementById('feedbackEl');
@@ -1552,6 +1674,7 @@ function resetGame(){
   document.getElementById('progressBar').style.width='0%';
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('step0').classList.add('active');
+  updateNav(0);
 }
 </script>
 

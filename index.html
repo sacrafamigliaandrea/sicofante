@@ -80,13 +80,14 @@
       flex: 1;
       overflow: hidden;
       position: relative;
+      display: flex;
+      flex-direction: column;
     }
 
     /* ── STEPS ── */
     .step {
       display: none;
-      position: absolute;
-      inset: 0;
+      flex: 1;
       overflow-y: auto;
       padding: 36px 56px;
       max-width: 1440px;
@@ -94,7 +95,8 @@
       width: 100%;
       animation: fadeUp .4s ease both;
     }
-    .step.active { display: block; }
+    .step.active { display: flex !important; flex-direction: column; }
+    /* step.active gestito sopra */
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(14px); }
@@ -783,6 +785,38 @@
     }
     .wt-word.lit .wt-dot { background: var(--terra); }
     .wt-count { display: none; }
+
+    /* ── BOTTOM NAV BAR ── */
+    #bottomNav {
+      flex-shrink: 0;
+      background: var(--surface);
+      border-top: 1px solid var(--border-s);
+      padding: 0 40px;
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+    .bn-btn {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 3px;
+      padding: 8px 0; flex: 1;
+      background: transparent; border: none;
+      border-bottom: 3px solid transparent;
+      cursor: pointer; font-family: var(--font-b);
+      color: var(--text-low); transition: all .2s;
+    }
+    .bn-btn:hover { color: var(--green); background: var(--green-xs); }
+    .bn-btn.active { color: var(--green); border-bottom-color: var(--green); background: var(--green-xs); }
+    .bn-btn.done   { color: var(--green-l); }
+    .bn-btn-num {
+      width: 20px; height: 20px; border-radius: 50%;
+      background: var(--surface2); font-size: .65rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s; color: var(--text-low);
+    }
+    .bn-btn.active .bn-btn-num { background: var(--green); color: #fff; }
+    .bn-btn.done   .bn-btn-num { background: var(--green-s); color: var(--green); }
+    .bn-btn-lbl { font-size: .62rem; font-weight: 600; letter-spacing: .3px; white-space: nowrap; }
   </style>
 </head>
 <body>
@@ -1051,6 +1085,39 @@
       </div>
     </div>
 
+
+  <!-- ── BOTTOM NAV ── -->
+  <div id="bottomNav">
+    <button class="bn-btn active" id="bn-0" onclick="navTo(0)">
+      <span class="bn-btn-num">0</span>
+      <span class="bn-btn-lbl">Intro</span>
+    </button>
+    <button class="bn-btn" id="bn-1" onclick="navTo(1)">
+      <span class="bn-btn-num">1</span>
+      <span class="bn-btn-lbl">Concetto</span>
+    </button>
+    <button class="bn-btn" id="bn-2" onclick="navTo(2)">
+      <span class="bn-btn-num">2</span>
+      <span class="bn-btn-lbl">Scenari AI</span>
+    </button>
+    <button class="bn-btn" id="bn-3" onclick="navTo(3)">
+      <span class="bn-btn-num">3</span>
+      <span class="bn-btn-lbl">Social</span>
+    </button>
+    <button class="bn-btn" id="bn-4" onclick="navTo(4)">
+      <span class="bn-btn-num">4</span>
+      <span class="bn-btn-lbl">Chat</span>
+    </button>
+    <button class="bn-btn" id="bn-5" onclick="navTo(5)">
+      <span class="bn-btn-num">5</span>
+      <span class="bn-btn-lbl">Quiz</span>
+    </button>
+    <button class="bn-btn" id="bn-6" onclick="navTo(6)">
+      <span class="bn-btn-num">6</span>
+      <span class="bn-btn-lbl">Classifica</span>
+    </button>
+  </div>
+
   </div><!-- /content -->
 
   <!-- ══ SALASTUDIO SIDEBAR ══ -->
@@ -1316,11 +1383,54 @@ function goTo(n){
   document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
   document.getElementById('step'+n).classList.add('active');
   document.getElementById('progressBar').style.width=(n/TOTAL*100)+'%';
+  updateNav(n);
   if(n===2) initEx();
   if(n===3) initSoc();
   if(n===4) initChat();
   if(n===5) initQuiz();
   if(n===6) showResults();
+}
+
+function navTo(n){
+  if(n===0){ resetGame(); return; }
+  goTo(n);
+}
+
+function updateNav(active){
+  for(let i=0;i<=6;i++){
+    ['nav-','bn-'].forEach(pfx=>{
+      const el=document.getElementById(pfx+i);
+      if(!el) return;
+      el.classList.remove('active','done');
+      if(i===active) el.classList.add('active');
+      else if(i<active) el.classList.add('done');
+    });
+  }
+}
+
+const SPY_WORDS=[
+  {id:'assolutamente',      word:'assolutamente'},
+  {id:'hai-ragione',        word:'hai ragione'},
+  {id:'esattamente',        word:'esattamente'},
+  {id:'proprio-cosi',       word:'proprio così'},
+  {id:'ottima-fonte',       word:'ottima fonte'},
+  {id:'senza-dubbio',       word:'senza dubbio'},
+  {id:'brillante',          word:'brillante'},
+  {id:'straordinario',      word:'straordinario'},
+  {id:'hai-colto-nel-segno',word:'hai colto'},
+  {id:'capisco-perfettamente',word:'capisco perfettamente'},
+  {id:'come-sempre',        word:'come sempre'},
+  {id:'perfetto',           word:'perfetto'},
+];
+
+function lightWords(txt){
+  const low=txt.toLowerCase();
+  SPY_WORDS.forEach(sw=>{
+    if(low.includes(sw.word)){
+      const el=document.getElementById('wt-'+sw.id);
+      if(el&&!el.classList.contains('lit')) el.classList.add('lit');
+    }
+  });
 }
 
 // ── AI EXERCISES ───────────────────

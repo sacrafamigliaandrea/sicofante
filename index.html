@@ -1775,7 +1775,7 @@ function resetGame(){
   <div class="ss-pin-box">
     <h3>Sessione bloccata</h3>
     <p id="ss-overlay-msg">Sono state rilevate troppe violazioni comportamentali. Inserisci il PIN docente per sbloccare.</p>
-    <input class="ss-pin-input" type="password" id="ssPinInput" maxlength="6" placeholder="••••" onkeydown="if(event.key==='Enter')SS.checkPin()">
+    <input class="ss-pin-input" type="password" id="ssPinInput" maxlength="20" placeholder="password" onkeydown="if(event.key==='Enter')SS.checkPin()">
     <button class="ss-pin-btn" onclick="SS.checkPin()">Sblocca</button>
     <div class="ss-pin-err" id="ssPinErr">PIN non corretto</div>
   </div>

@@ -1225,9 +1225,8 @@ function renderEx(){
     return '<div class="'+c+'"></div>';
   }).join('');
   document.getElementById('choicesEl').innerHTML=ex.opts.map((o,i)=>
-    `<button class="choice" id="ch${i}" onclick="answerEx(${i})">
-      <span class="choice-lbl">${o.lbl}</span>${o.txt}
-    </button>`
+    '<button class="choice" id="ch'+i+'" onclick="answerEx('+i+')">' +
+    '<span class="choice-lbl">'+o.lbl+'</span>'+o.txt+'</button>'
   ).join('');
   const fb=document.getElementById('feedbackEl');
   fb.className='feedback';fb.innerHTML='';
@@ -1330,17 +1329,17 @@ function selectMeta(idx){
 // ── QUIZ ───────────────────────────
 function initQuiz(){
   quizSel={};const ltrs=['A','B','C','D'];
-  document.getElementById('quizContainer').innerHTML=quiz.map((q,qi)=>
-    `<div class="qblock">
-      <div class="q-num">Domanda ${qi+1} di ${quiz.length}</div>
-      <div class="q-text">${q.q}</div>
-      <div class="q-opts">${q.opts.map((o,oi)=>
-        `<button class="qopt" id="qo_${qi}_${oi}" onclick="selQ(${qi},${oi})">
-          <span class="q-letter">${ltrs[oi]}</span>${o}
-        </button>`
-      ).join('')}</div>
-    </div>`
-  ).join('');
+  document.getElementById('quizContainer').innerHTML=quiz.map((q,qi)=>{
+    const optsHtml = q.opts.map((o,oi)=>
+      '<button class="qopt" id="qo_'+qi+'_'+oi+'" onclick="selQ('+qi+','+oi+')">' +
+      '<span class="q-letter">'+ltrs[oi]+'</span>'+o+'</button>'
+    ).join('');
+    return '<div class="qblock">' +
+      '<div class="q-num">Domanda '+(qi+1)+' di '+quiz.length+'</div>' +
+      '<div class="q-text">'+q.q+'</div>' +
+      '<div class="q-opts">'+optsHtml+'</div>' +
+      '</div>';
+  }).join('');
   document.getElementById('submitBtn').style.display='inline-block';
 }
 function selQ(qi,oi){
@@ -1533,7 +1532,7 @@ function showResults(){
     <div class="res-big">${total}</div>
     <div class="res-sub">su ${max} punti</div>
     <div class="res-msg">${msg}</div>
-    <div class="res-detail" style="margin-top:10px">Scenari AI: ${exScore} &nbsp;·&nbsp; Social: ${socScore} &nbsp;·&nbsp; Quiz: ${qScore}</div>`;
+    <div class="res-detail" style="margin-top:10px">Scenari AI: ${exScore} · Social: ${socScore} · Quiz: ${qScore}</div>`;
   const all=[...npcs,{name:nickname+' (tu)',score:total,me:true}];
   all.sort((a,b)=>b.score-a.score);
   const rc=['g','s','b'];
@@ -1894,7 +1893,7 @@ const SS = (function() {
     log('SalaStudio v2.2 attivo');
   }
 
-  document.addEventListener('DOMContentLoaded', init);
+  try { document.addEventListener('DOMContentLoaded', init); } catch(e) { console.warn('SalaStudio init error:', e); }
 
   return { toggleMic, checkPin, getState: () => state };
 })();

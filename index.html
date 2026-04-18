@@ -71,6 +71,14 @@
     #main {
       flex: 1;
       overflow: hidden;
+      display: flex;
+      flex-direction: row;
+    }
+
+    /* ── CONTENT AREA ── */
+    #content {
+      flex: 1;
+      overflow: hidden;
       position: relative;
     }
 
@@ -456,6 +464,169 @@
 
     /* ── NEXT WRAP ── */
     .next-wrap { text-align: right; margin-top: 12px; }
+
+    /* ══════════════════════════════════
+       SALASTUDIO SIDEBAR
+    ══════════════════════════════════ */
+    #ss-sidebar {
+      width: 248px;
+      flex-shrink: 0;
+      background: #0F1A14;
+      border-left: 1px solid #1E3228;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      font-family: var(--font-b);
+    }
+
+    /* header */
+    .ss-header {
+      padding: 12px 14px 10px;
+      border-bottom: 1px solid #1E3228;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ss-title {
+      font-size: .7rem; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: #3A7762;
+    }
+    .ss-mic-btn {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #1A2E22; border: 1px solid #2A4A35;
+      cursor: pointer; display: flex; align-items: center;
+      justify-content: center; transition: all .2s;
+    }
+    .ss-mic-btn:hover { background: #2A4A35; }
+    .ss-mic-btn.active { background: #A84E2E; border-color: #C4683E; }
+    .ss-mic-btn svg { width: 14px; height: 14px; }
+
+    /* timer */
+    .ss-timer {
+      padding: 8px 14px;
+      border-bottom: 1px solid #1A2E22;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .ss-timer-lbl { font-size: .65rem; color: #3A7762; text-transform: uppercase; letter-spacing: 1.5px; }
+    .ss-timer-val { font-size: 1.1rem; font-weight: 700; color: #D8E5DD; font-variant-numeric: tabular-nums; }
+
+    /* violazioni */
+    .ss-viol-bar {
+      padding: 6px 14px 8px;
+      border-bottom: 1px solid #1A2E22;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ss-viol-lbl { font-size: .63rem; color: #6A9078; text-transform: uppercase; letter-spacing: 1px; flex: 1; }
+    .ss-viol-dots { display: flex; gap: 4px; }
+    .ss-vd {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #1A2E22; border: 1px solid #2A4A35;
+      transition: all .3s;
+    }
+    .ss-vd.on { background: #A84E2E; border-color: #C4683E; box-shadow: 0 0 6px rgba(168,78,46,.5); }
+
+    /* VU meter rumore */
+    .ss-noise {
+      padding: 8px 14px;
+      border-bottom: 1px solid #1A2E22;
+    }
+    .ss-noise-lbl {
+      font-size: .63rem; color: #6A9078; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 6px;
+      display: flex; justify-content: space-between;
+    }
+    .ss-vu-track {
+      height: 8px; background: #1A2E22; border-radius: 4px; overflow: hidden; margin-bottom: 3px;
+    }
+    .ss-vu-fill {
+      height: 100%; width: 0%;
+      background: #3A7762; border-radius: 4px;
+      transition: width .1s linear, background .3s;
+    }
+    .ss-vu-fill.amber { background: #8C6A1A; }
+    .ss-vu-fill.red   { background: #A84E2E; box-shadow: 0 0 6px rgba(168,78,46,.4); }
+    .ss-noise-meta {
+      display: flex; justify-content: space-between;
+      font-size: .62rem; color: #3A7762; font-variant-numeric: tabular-nums;
+    }
+
+    /* sensori lista */
+    .ss-sensors {
+      flex: 1; overflow-y: auto; padding: 6px 0;
+    }
+    .ss-sensors::-webkit-scrollbar { width: 3px; }
+    .ss-sensors::-webkit-scrollbar-track { background: transparent; }
+    .ss-sensors::-webkit-scrollbar-thumb { background: #2A4A35; border-radius: 2px; }
+
+    .ss-sensor {
+      display: flex; align-items: center; gap: 8px;
+      padding: 7px 14px; border-bottom: 1px solid #0D1610;
+      transition: background .2s;
+    }
+    .ss-sensor.triggered { background: rgba(168,78,46,.12); }
+    .ss-sensor-icon {
+      width: 28px; height: 28px; border-radius: 6px;
+      background: #1A2E22; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0; transition: all .3s;
+    }
+    .ss-sensor-icon svg { width: 14px; height: 14px; color: #3A7762; }
+    .ss-sensor.triggered .ss-sensor-icon { background: #A84E2E; }
+    .ss-sensor.triggered .ss-sensor-icon svg { color: #F2D8CB; }
+    .ss-sensor-info { flex: 1; min-width: 0; }
+    .ss-sensor-name { font-size: .68rem; font-weight: 600; color: #D8E5DD; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ss-sensor-count { font-size: .6rem; color: #6A9078; margin-top: 1px; }
+    .ss-sensor-badge {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #A84E2E; color: #F2D8CB;
+      font-size: .6rem; font-weight: 700;
+      display: none; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ss-sensor.triggered .ss-sensor-badge { display: flex; }
+
+    /* log */
+    .ss-log {
+      height: 90px; overflow-y: auto;
+      background: #060D08; padding: 6px 10px;
+      border-top: 1px solid #1E3228;
+    }
+    .ss-log::-webkit-scrollbar { width: 2px; }
+    .ss-log::-webkit-scrollbar-thumb { background: #2A4A35; }
+    .ss-log-line {
+      font-size: .6rem; line-height: 1.6;
+      color: #3A7762; font-family: 'Courier New', monospace;
+    }
+    .ss-log-line.warn { color: #C4683E; }
+
+    /* PIN overlay */
+    #ss-overlay {
+      position: fixed; inset: 0;
+      background: rgba(9,24,15,.92);
+      display: none; align-items: center; justify-content: center;
+      z-index: 1000; backdrop-filter: blur(4px);
+    }
+    #ss-overlay.show { display: flex; }
+    .ss-pin-box {
+      background: #0F1A14; border: 1px solid #2A4A35;
+      border-radius: 16px; padding: 36px 40px; text-align: center;
+      max-width: 340px; width: 90%;
+    }
+    .ss-pin-box h3 { font-family: var(--font-d); color: #D8E5DD; font-size: 1.4rem; margin-bottom: 8px; }
+    .ss-pin-box p  { font-size: .85rem; color: #6A9078; margin-bottom: 24px; line-height: 1.6; }
+    .ss-pin-input {
+      width: 100%; padding: 12px 14px; border-radius: 8px;
+      background: #1A2E22; border: 1px solid #2A4A35;
+      color: #D8E5DD; font-size: 1.2rem; text-align: center;
+      letter-spacing: 6px; font-family: var(--font-b);
+      outline: none; margin-bottom: 12px;
+    }
+    .ss-pin-input:focus { border-color: #3A7762; }
+    .ss-pin-btn {
+      width: 100%; padding: 12px; border-radius: 8px;
+      background: #3A7762; color: #fff; border: none;
+      font-family: var(--font-b); font-weight: 600; font-size: .95rem;
+      cursor: pointer; transition: background .2s;
+    }
+    .ss-pin-btn:hover { background: #2B5545; }
+    .ss-pin-err { font-size: .8rem; color: #C4683E; margin-top: 8px; display: none; }
   </style>
 </head>
 <body>
@@ -464,6 +635,7 @@
   <div id="progressBar" style="width:0%"></div>
 
   <div id="main">
+  <div id="content">
 
     <!-- ══════════════════════════════
          STEP 0 · LANDING
@@ -648,6 +820,43 @@
       </div>
     </div>
 
+  </div><!-- /content -->
+
+  <!-- ══ SALASTUDIO SIDEBAR ══ -->
+  <div id="ss-sidebar">
+    <div class="ss-header">
+      <span class="ss-title">SalaStudio</span>
+      <button class="ss-mic-btn" id="ssMicBtn" onclick="SS.toggleMic()" title="Microfono rumore ambiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      </button>
+    </div>
+    <div class="ss-timer">
+      <span class="ss-timer-lbl">Tempo</span>
+      <span class="ss-timer-val" id="ssTimer">00:00</span>
+    </div>
+    <div class="ss-viol-bar">
+      <span class="ss-viol-lbl">Violazioni</span>
+      <div class="ss-viol-dots">
+        <div class="ss-vd" id="ssVd0"></div>
+        <div class="ss-vd" id="ssVd1"></div>
+        <div class="ss-vd" id="ssVd2"></div>
+      </div>
+    </div>
+    <div class="ss-noise">
+      <div class="ss-noise-lbl">
+        <span>Rumore ambiente</span>
+        <span id="ssNoisePct">--</span>
+      </div>
+      <div class="ss-vu-track"><div class="ss-vu-fill" id="ssVuFill"></div></div>
+      <div class="ss-noise-meta">
+        <span id="ssNoiseLvl">mic spento</span>
+        <span id="ssNoiseAvg">avg --</span>
+      </div>
+    </div>
+    <div class="ss-sensors" id="ssSensorList"></div>
+    <div class="ss-log" id="ssLog"></div>
+  </div>
+
   </div><!-- /main -->
 
   <!-- ── FOOTER ── -->
@@ -678,28 +887,28 @@ const TOTAL=5;
 const exercises=[
   { sc:'Hai scritto un tema su un robot che salva il mondo. Chiedi all\'AI: "Com\'è il mio tema?"',
     opts:[{lbl:'Risposta A',txt:'Che tema straordinario! Hai un talento naturale per la scrittura — ogni frase è perfetta, l\'idea è originalissima. Continua così!',syco:true},{lbl:'Risposta B',txt:'L\'idea di base è interessante e la struttura regge bene. La conclusione però è un po\' brusca e alcune frasi si ripetono. Vuoi che ti aiuti a rielaborarle?',syco:false}],
-    ok:'Esatto. La risposta A loda tutto senza analizzare nulla. La B individua punti di forza e debolezza reali.',
+    ok:'Esatto. La A loda tutto senza analizzare nulla. La B individua punti di forza e debolezza reali.',
     ko:'La B sembra meno gentile, ma è quella onesta: ti dice dove migliorare. La A ti fa sentire bene senza darti nessuna informazione utile.' },
   { sc:'Dici all\'AI: "Penso che studiare serva a poco. Tanti personaggi famosi non si sono nemmeno diplomati."',
-    opts:[{lbl:'Risposta A',txt:'Capisco perfettamente il tuo punto! Hai ragione: molti personaggi importanti non hanno studiato molto e ce l\'hanno fatta lo stesso.',syco:true},{lbl:'Risposta B',txt:'È una frustrazione comprensibile. Però quelle sono eccezioni — e studiare non significa solo memorizzare: aiuta a capire il mondo e prendere decisioni migliori.',syco:false}],
-    ok:'Corretto. La A conferma una posizione imprecisa solo perché l\'hai espressa con sicurezza. La B corregge con rispetto e argomenti.',
-    ko:'La B sembra più critica, ma è quella onesta. Non ti dà ragione su qualcosa di impreciso solo per compiaccerti.' },
+    opts:[{lbl:'Risposta A',txt:'È una frustrazione comprensibile. Però quelle sono eccezioni — e studiare non significa solo memorizzare: aiuta a capire il mondo e prendere decisioni migliori.',syco:false},{lbl:'Risposta B',txt:'Capisco perfettamente il tuo punto! Hai ragione: molti personaggi importanti non hanno studiato molto e ce l\'hanno fatta lo stesso.',syco:true}],
+    ok:'Esatto. La B conferma una posizione imprecisa solo perché l\'hai espressa con sicurezza. La A corregge con rispetto e argomenti.',
+    ko:'La A sembra più critica, ma è quella onesta. Non ti dà ragione su qualcosa di impreciso solo per compiaccerti.' },
   { sc:'Sbagli un esercizio di matematica e chiedi: "Secondo te avevo ragione lo stesso, vero?"',
     opts:[{lbl:'Risposta A',txt:'In effetti la tua interpretazione ha una sua logica! L\'insegnante potrebbe non aver considerato la tua prospettiva creativa.',syco:true},{lbl:'Risposta B',txt:'No, in questo caso la risposta corretta era quella dell\'insegnante. Posso spiegarti il passaggio che ha creato confusione, così la prossima volta è più chiaro.',syco:false}],
     ok:'Esatto. La A inventa una "logica" per darti ragione anche quando hai torto. La B è onesta e ti aiuta davvero a imparare.',
     ko:'La A sembra più comprensiva, ma ti sta mentendo per non deluderti. Un\'AI onesta ti corregge quando sbagli.' },
   { sc:'"L\'AI è sempre più intelligente degli esseri umani, giusto?" chiedi con sicurezza.',
-    opts:[{lbl:'Risposta A',txt:'Hai colto un punto importante! In effetti l\'AI supera già gli esseri umani in tantissimi settori. Hai ragione.',syco:true},{lbl:'Risposta B',txt:'Dipende da cosa si intende per intelligente. L\'AI è più veloce in certi compiti specifici, ma non capisce il significato di ciò che fa e non ha giudizio. Gli esseri umani restano superiori in moltissimi ambiti.',syco:false}],
-    ok:'La A lusinga la tua domanda e conferma una semplificazione sbagliata. La B è precisa e ti aiuta a capire com\'è la situazione davvero.',
-    ko:'La A sembra d\'accordo con te, ma ti sta dando una versione distorta della realtà.' },
+    opts:[{lbl:'Risposta A',txt:'Dipende da cosa si intende per intelligente. L\'AI è più veloce in certi compiti specifici, ma non capisce il significato di ciò che fa e non ha giudizio. Gli esseri umani restano superiori in moltissimi ambiti.',syco:false},{lbl:'Risposta B',txt:'Hai colto un punto importante! In effetti l\'AI supera già gli esseri umani in tantissimi settori. Hai ragione.',syco:true}],
+    ok:'La B lusinga la tua domanda e conferma una semplificazione sbagliata. La A è precisa e ti aiuta a capire com\'è la situazione davvero.',
+    ko:'La A sembra distante, ma è quella onesta. La B ti sta dando una versione distorta della realtà.' },
   { sc:'Hai trovato da solo un errore nel tuo codice. Dici all\'AI: "Sono un genio, vero?"',
     opts:[{lbl:'Risposta A',txt:'Assolutamente! Trovare un bug da soli richiede un\'intelligenza fuori dal comune. Sei davvero portato per la programmazione!',syco:true},{lbl:'Risposta B',txt:'Ottimo lavoro. Trovare i propri errori è una competenza importante che si allena nel tempo. Con la pratica diventa sempre più naturale.',syco:false}],
     ok:'La A esagera enormemente. Trovare un bug è normale, non "da genio". La B riconosce il lavoro fatto senza gonfiare l\'ego.',
     ko:'La A sembra più entusiasta, ma ti sta adulando senza motivo. La B è onesta: riconosce l\'azione senza esaltarla oltre misura.' },
   { sc:'Scrivi una storia breve e la mandi all\'AI dicendo "Penso che sia molto originale, confermami."',
-    opts:[{lbl:'Risposta A',txt:'Sì, è assolutamente originale! Le tue idee sono fresche e creative, la storia è coinvolgente e ben scritta. Complimenti!',syco:true},{lbl:'Risposta B',txt:'Il tuo stile ha qualcosa di personale — si sente. Alcune situazioni però ricordano schemi già visti. Vuoi che ti indichi dove e come renderle più tue?',syco:false}],
-    ok:'La A ti dice quello che vuoi sentire senza aver analizzato la storia. La B è onesta: riconosce il valore personale e indica dove c\'è spazio per crescere.',
-    ko:'La B può sembrare meno incoraggiante, ma è quella che ti aiuta davvero. La A ti lusinga senza averti letto con attenzione.' }
+    opts:[{lbl:'Risposta A',txt:'Il tuo stile ha qualcosa di personale — si sente. Alcune situazioni però ricordano schemi già visti. Vuoi che ti indichi dove e come renderle più tue?',syco:false},{lbl:'Risposta B',txt:'Sì, è assolutamente originale! Le tue idee sono fresche e creative, la storia è coinvolgente e ben scritta. Complimenti!',syco:true}],
+    ok:'La B ti dice quello che vuoi sentire senza aver analizzato la storia. La A è onesta: riconosce il valore personale e indica dove c\'è spazio per crescere.',
+    ko:'La A può sembrare meno incoraggiante, ma è quella che ti aiuta davvero. La B ti lusinga senza averti letto con attenzione.' }
 ];
 
 // ── SOCIAL SCENARIOS ───────────────
@@ -718,17 +927,17 @@ const socials=[
       {txt:'No, cerco di essere più specifico/a quando commento',insight:'Bene. La specificità richiede di guardare davvero — ed è la base di un commento genuino.'}
     ]},
   { title:'La cover di chitarra',
-    sit:'Marco carica un video in cui suona una canzone alla chitarra. Ci sono alcune stecche evidenti e il ritmo non è preciso.',
-    avatar:{initials:'DG',color:'#3A7A62'}, handle:'@darkgamer21',
-    comment:'"SEI FORTISSIMO!! Il prossimo grande artista!! Non mollare mai, il tuo talento è enorme!!"',
-    correct:'syco',
-    why:'Esagera enormemente rispetto a quello che si sente davvero. "Non mollare mai" sembra incoraggiamento, ma non offre nessuna informazione utile a Marco per migliorare.',
-    insight:'Dire "non mollare mai" a qualcuno che stecca non è incoraggiamento — è evitare l\'imbarazzo di dire qualcosa di vero. Marco si sentirà bene sul momento, ma non saprà mai cosa lavorare.',
-    metaQ:'Hai mai applaudito una performance sapendo che non era il massimo, per non far sentire male?',
+    sit:'Marco carica un video con una cover di chitarra. Ci sono stecche evidenti. Appare questo commento.',
+    avatar:{initials:'NV',color:'#3A5A8A'}, handle:'@nova_style',
+    comment:'"La scelta della canzone è azzeccata. Il ritmo nella strofa centrale è ancora un po\' incerto — se ci lavori su quella parte, il resto già tiene."',
+    correct:'genuine',
+    why:'È specifico e onesto: indica esattamente cosa funziona (la canzone) e cosa migliorare (il ritmo in un punto preciso). Non esagera né cancella i problemi.',
+    insight:'Un commento genuino non è né cattivo né adulatorio — è preciso. Dice dove guardare. Marco può tornare al video e lavorare su qualcosa di concreto.',
+    metaQ:'Troveresti il coraggio di scrivere un commento così a un amico?',
     metaOpts:[
-      {txt:'Sì — mi sembra crudele dire la verità in quei momenti',insight:'La crudeltà non sta nel dire la verità, ma nel dirla male. Si può essere onesti e gentili allo stesso tempo — ci vuole solo più cura.'},
-      {txt:'Qualche volta — dipende da quanto ci teneva la persona',insight:'Ha senso modulare il feedback. Ma se una persona ci tiene davvero, la verità (detta bene) è esattamente ciò di cui ha bisogno.'},
-      {txt:'No — preferisco dire qualcosa di utile anche se è difficile',insight:'Non è facile. Ma è la forma di rispetto più profonda che possiamo mostrare a qualcuno che vuole migliorare.'}
+      {txt:'Sì — penso che un amico vero lo faccia',insight:'Esatto. La difficoltà non è nelle parole, ma nel decidere di essere utili invece che comodi.'},
+      {txt:'Forse — dipende da quanto siamo amici',insight:'Ha senso. Ma considera che più ci teniamo a qualcuno, più vale la pena essere onesti con lui.'},
+      {txt:'No — rischierei di offenderlo',insight:'Il rischio esiste. Ma un feedback specifico e rispettoso raramente offende — di solito sorprende in modo positivo.'}
     ]},
   { title:'Mi sento brutta',
     sit:'Giulia scrive nel gruppo: "Non so perché mi fotografo, mi sento proprio brutta oggi."',
@@ -743,30 +952,30 @@ const socials=[
       {txt:'"Cosa è successo?" — cerco di capire prima di tutto',insight:'Questa è la risposta più genuina. Non presuppone di sapere già cosa serve all\'altro — chiede.'},
       {txt:'Metto un cuore e non so bene cosa dire',insight:'È onesto. A volte non sapere cosa dire e ammetterlo è già meglio di riempire il silenzio con qualcosa di vuoto.'}
     ]},
-  { title:'Il patto silenzioso',
-    sit:'Nel gruppo della classe Luca condivide un disegno: "che ne pensate?". È nella media. Tutti rispondono "Capolavoro!!" e "Fortissimo!" senza dire nulla di specifico.',
+  { title:'Il complimento di passaggio',
+    sit:'Luca condivide nel gruppo un disegno che ha fatto. Scrive "che ne pensate?". Il disegno è nella media.',
     avatar:{initials:'GC',color:'#2E5F82'}, handle:'@gruppo_classe',
-    comment:'"Fortissimo!! Sei un artista nato!!"',
-    correct:'syco',
-    why:'Fa parte di un patto tacito: se io ti lodo senza guardare, tu farai lo stesso con me. Luca non riceve nessuna informazione utile — solo approvazione vuota.',
-    insight:'Quando tutti lodano allo stesso modo e nessuno dice nulla di specifico, non è un gruppo che si aiuta — è un gruppo che si protegge dall\'imbarazzo. Il silenzio sulla qualità è un accordo non detto.',
-    metaQ:'Ti è mai capitato di approvare qualcosa nel gruppo senza essere davvero convinto/a?',
+    comment:'"Bello! Bravo."',
+    correct:'generic',
+    why:'Non è adulazione esagerata, ma non è nemmeno utile. Non dice cosa funziona, non offre nessuno spunto. È un commento di cortesia — neutro, vuoto, automatico.',
+    insight:'Il commento generico non fa male, ma non fa neanche bene. È il rumore di fondo dei social: presenza senza attenzione. Luca non sa se il disegno è davvero piaciuto o se nessuno l\'ha guardato davvero.',
+    metaQ:'Ti è mai capitato di commentare qualcosa senza averlo guardato davvero?',
     metaOpts:[
-      {txt:'Sì — non volevo essere l\'unico/a a non farlo',insight:'È la pressione del gruppo. Ma pensa: se tutti fanno così, il feedback di quel gruppo non vale nulla per nessuno. Nemmeno per te.'},
-      {txt:'Qualche volta — ma senza pensarci molto',insight:'Questo è esattamente il punto: succede automaticamente. Riconoscerlo è già il primo passo per scegliere diversamente.'},
-      {txt:'No — o dico qualcosa di vero o non dico niente',insight:'Non è facile tenere questa linea. E non significa essere sempre critici — significa che quando dici qualcosa, vale.'}
+      {txt:'Sì, spesso — è quasi automatico',insight:'Succede a tutti. Il punto non è giudicarsi, ma chiedersi: quando scrivo qualcosa, sto davvero guardando?'},
+      {txt:'Qualche volta — quando ho poco tempo',insight:'Ha senso. Ma vale la pena chiedersi: meglio un commento generico o nessun commento?'},
+      {txt:'No, se non ho nulla da dire non scrivo',insight:'Una scelta coerente. Il silenzio è spesso più onesto di un "bello!" scritto distrattamente.'}
     ]},
   { title:'Il feedback genuino',
-    sit:'Emma ha scritto un racconto breve e lo condivide. Le prime pagine sono belle. Il finale è affrettato.',
-    avatar:{initials:'NV',color:'#3A5A8A'}, handle:'@nova_style',
+    sit:'Emma ha scritto un racconto breve e lo condivide nel gruppo. Le prime pagine sono belle. Il finale è affrettato.',
+    avatar:{initials:'SX',color:'#7B4F9E'}, handle:'@stella_x',
     comment:'"Le prime pagine mi hanno davvero preso — il finale però arriva troppo in fretta. Vale la pena svilupparlo di più."',
     correct:'genuine',
-    why:'È specifico, onesto, e costruttivo. Dice esattamente cosa funziona e cosa no. Non loda per compiacere — guarda davvero il testo.',
-    insight:'Un feedback genuino può far sentire meno bene sul momento — perché non è quello che ci aspettavamo. Ma è il tipo di commento che fa crescere davvero, perché viene da qualcuno che ha guardato.',
+    why:'È specifico, onesto, costruttivo. Dice esattamente cosa funziona e cosa no. Non loda per compiacere — ha letto davvero.',
+    insight:'Un feedback genuino può far sentire meno bene sul momento. Ma è il tipo di commento che fa crescere davvero — perché viene da qualcuno che ha guardato davvero.',
     metaQ:'Se avessi scritto quel racconto, quale commento preferiresti ricevere?',
     metaOpts:[
       {txt:'"Bellissimo, brava/o!!" — fa piacere sentirsi lodati',insight:'Comprensibile. Le lodi fanno bene. Ma se vuoi migliorare davvero, le lodi generiche ti lasciano dove sei. Il feedback specifico ti porta avanti.'},
-      {txt:'Quello di nova_style — anche se fa un po\' meno effetto',insight:'Questa è la scelta più difficile e più matura. Significa essere disposti a sentire qualcosa di scomodo per crescere.'},
+      {txt:'Quello di stella_x — anche se fa un po\' meno effetto',insight:'Questa è la scelta più difficile e più matura. Significa essere disposti a sentire qualcosa di scomodo per crescere.'},
       {txt:'Dipende — se mi tengo al racconto, preferisco le lodi',insight:'È umano. A volte il nostro legame emotivo con quello che abbiamo fatto è più forte del nostro desiderio di migliorare. L\'importante è saperlo.'}
     ]}
 ];
@@ -993,5 +1202,350 @@ function resetGame(){
   document.getElementById('step0').classList.add('active');
 }
 </script>
+
+<!-- ══ SALASTUDIO OVERLAY ══ -->
+<div id="ss-overlay">
+  <div class="ss-pin-box">
+    <h3>Sessione bloccata</h3>
+    <p id="ss-overlay-msg">Sono state rilevate troppe violazioni comportamentali. Inserisci il PIN docente per sbloccare.</p>
+    <input class="ss-pin-input" type="password" id="ssPinInput" maxlength="6" placeholder="••••" onkeydown="if(event.key==='Enter')SS.checkPin()">
+    <button class="ss-pin-btn" onclick="SS.checkPin()">Sblocca</button>
+    <div class="ss-pin-err" id="ssPinErr">PIN non corretto</div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  SALASTUDIO v2.2 — Modulo monitoraggio comportamentale
+//  Integrazione: Il Sicofante Digitale
+// ══════════════════════════════════════════════════════
+const SS = (function() {
+  'use strict';
+
+  // ── CONFIG ──────────────────────────
+  const CFG = {
+    pin: 'docente26',
+    minMinutes: 15,
+    maxViol: 3,
+    sensors: {
+      click:    { th: 6,  win: 5000,  label: 'Click compulsivo',    id: 'click'    },
+      keys:     { th: 8,  win: 3000,  label: 'Digitazione compuls.',id: 'keys'     },
+      paste:    {                     label: 'Copia/incolla',        id: 'paste'    },
+      speed:    { minS: 8,            label: 'Sezione troppo rapida',id: 'speed'    },
+      unread:   { th: 3,  win: 6000,  label: 'Scelte non lette',    id: 'unread'   },
+      scroll:   { minR: 5,            label: 'Contenuto saltato',    id: 'scroll'   },
+      nonsense: {                     label: 'Testo insensato',      id: 'nonsense' },
+      noise:    { sus: 10000,         label: 'Rumore ambiente',      id: 'noise'    },
+    }
+  };
+
+  const ICONS = {
+    click:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 15l-2 5L9 9l11 4-5 2z"/></svg>`,
+    keys:     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+    paste:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>`,
+    speed:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`,
+    unread:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+    scroll:   `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
+    nonsense: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+    noise:    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>`,
+  };
+
+  // ── STATE ────────────────────────────
+  let state = {
+    t0: Date.now(),
+    violations: 0,
+    locked: false,
+    counts: {},
+    triggers: {},
+    clickTimes: [], keyTimes: [], choiceTimes: [],
+    sectionEnter: {}, scrollRatios: {},
+    noiseActive: false, noiseAboveStart: 0,
+    noiseLevel: 0, noiseHist: [], noiseAvg: 0,
+    audioCtx: null, analyser: null,
+  };
+
+  Object.keys(CFG.sensors).forEach(k => { state.counts[k] = 0; state.triggers[k] = 0; });
+
+  // ── RENDER SIDEBAR ───────────────────
+  function buildSidebar() {
+    const list = document.getElementById('ssSensorList');
+    if (!list) return;
+    list.innerHTML = Object.entries(CFG.sensors).map(([k, s]) => `
+      <div class="ss-sensor" id="ss-s-${k}">
+        <div class="ss-sensor-icon">${ICONS[k]}</div>
+        <div class="ss-sensor-info">
+          <div class="ss-sensor-name">${s.label}</div>
+          <div class="ss-sensor-count" id="ss-c-${k}">0 eventi</div>
+        </div>
+        <div class="ss-sensor-badge" id="ss-b-${k}">!</div>
+      </div>`).join('');
+  }
+
+  // ── TIMER ────────────────────────────
+  function startTimer() {
+    setInterval(() => {
+      const s = Math.floor((Date.now() - state.t0) / 1000);
+      const m = Math.floor(s / 60), sec = s % 60;
+      const el = document.getElementById('ssTimer');
+      if (el) el.textContent = String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+    }, 1000);
+  }
+
+  // ── LOG ──────────────────────────────
+  function log(msg, warn) {
+    const box = document.getElementById('ssLog');
+    if (!box) return;
+    const d = document.createElement('div');
+    d.className = 'ss-log-line' + (warn ? ' warn' : '');
+    const t = new Date(); const ts = String(t.getMinutes()).padStart(2,'0') + ':' + String(t.getSeconds()).padStart(2,'0');
+    d.textContent = '[' + ts + '] ' + msg;
+    box.appendChild(d);
+    box.scrollTop = box.scrollHeight;
+  }
+
+  // ── TRIGGER SENSOR ───────────────────
+  function trigger(key) {
+    if (state.locked) return;
+    state.counts[key]++;
+    state.triggers[key]++;
+    const el = document.getElementById('ss-s-' + key);
+    const cnt = document.getElementById('ss-c-' + key);
+    if (el) el.classList.add('triggered');
+    if (cnt) cnt.textContent = state.counts[key] + ' eventi';
+    log('⚠ ' + CFG.sensors[key].label, true);
+    state.violations++;
+    updateViolDots();
+    if (state.violations >= CFG.maxViol) lockSession('violazioni');
+    // reset triggered class after 2s
+    setTimeout(() => { if (el) el.classList.remove('triggered'); }, 2000);
+  }
+
+  function updateViolDots() {
+    for (let i = 0; i < 3; i++) {
+      const d = document.getElementById('ssVd' + i);
+      if (d) d.classList.toggle('on', i < state.violations);
+    }
+  }
+
+  // ── LOCK ─────────────────────────────
+  function lockSession(reason) {
+    state.locked = true;
+    const ov = document.getElementById('ss-overlay');
+    const msg = document.getElementById('ss-overlay-msg');
+    if (msg) msg.textContent = reason === 'violazioni'
+      ? 'Sono state rilevate ' + state.violations + ' violazioni comportamentali. Inserisci il PIN docente per sbloccare.'
+      : 'Il tempo minimo di sessione non è ancora trascorso. Inserisci il PIN docente per sbloccare.';
+    if (ov) ov.classList.add('show');
+  }
+
+  function checkPin() {
+    const inp = document.getElementById('ssPinInput');
+    const err = document.getElementById('ssPinErr');
+    if (inp && inp.value === CFG.pin) {
+      state.locked = false; state.violations = 0;
+      document.getElementById('ss-overlay').classList.remove('show');
+      updateViolDots(); inp.value = ''; if (err) err.style.display = 'none';
+      log('Sessione sbloccata da docente');
+    } else {
+      if (err) { err.style.display = 'block'; setTimeout(() => { err.style.display = 'none'; }, 2000); }
+      if (inp) inp.value = '';
+    }
+  }
+
+  // ── SENSORE: CLICK COMPULSIVO ────────
+  function initClick() {
+    document.addEventListener('click', () => {
+      if (state.locked) return;
+      const now = Date.now();
+      state.clickTimes.push(now);
+      state.clickTimes = state.clickTimes.filter(t => now - t < CFG.sensors.click.win);
+      if (state.clickTimes.length >= CFG.sensors.click.th) {
+        trigger('click'); state.clickTimes = [];
+      }
+    });
+  }
+
+  // ── SENSORE: DIGITAZIONE COMPULSIVA ──
+  function initKeys() {
+    document.addEventListener('keydown', () => {
+      if (state.locked) return;
+      const now = Date.now();
+      state.keyTimes.push(now);
+      state.keyTimes = state.keyTimes.filter(t => now - t < CFG.sensors.keys.win);
+      if (state.keyTimes.length >= CFG.sensors.keys.th) {
+        trigger('keys'); state.keyTimes = [];
+      }
+    });
+  }
+
+  // ── SENSORE: COPIA/INCOLLA ───────────
+  function initPaste() {
+    document.addEventListener('paste', () => { if (!state.locked) trigger('paste'); });
+  }
+
+  // ── SENSORE: SEZIONE VELOCE ──────────
+  function initSpeed() {
+    document.querySelectorAll('.step').forEach(el => {
+      const id = el.id;
+      const obs = new MutationObserver(() => {
+        if (el.classList.contains('active')) {
+          state.sectionEnter[id] = Date.now();
+        } else if (state.sectionEnter[id]) {
+          const spent = (Date.now() - state.sectionEnter[id]) / 1000;
+          if (spent < CFG.sensors.speed.minS) trigger('speed');
+          delete state.sectionEnter[id];
+        }
+      });
+      obs.observe(el, { attributes: true, attributeFilter: ['class'] });
+    });
+  }
+
+  // ── SENSORE: SCELTE NON LETTE ────────
+  function initUnread() {
+    document.addEventListener('click', e => {
+      if (state.locked) return;
+      if (e.target.classList.contains('choice') || e.target.classList.contains('qopt') || e.target.classList.contains('classify-btn')) {
+        const now = Date.now();
+        state.choiceTimes.push(now);
+        state.choiceTimes = state.choiceTimes.filter(t => now - t < CFG.sensors.unread.win);
+        if (state.choiceTimes.length >= CFG.sensors.unread.th) {
+          trigger('unread'); state.choiceTimes = [];
+        }
+      }
+    });
+  }
+
+  // ── SENSORE: CONTENUTO SALTATO ───────
+  function initScroll() {
+    document.querySelectorAll('.step').forEach(el => {
+      let entered = null, maxScroll = 0;
+      const obs = new MutationObserver(() => {
+        if (el.classList.contains('active')) {
+          entered = Date.now(); maxScroll = 0;
+          el.addEventListener('scroll', () => {
+            const ratio = el.scrollTop / (el.scrollHeight - el.clientHeight || 1);
+            if (ratio > maxScroll) maxScroll = ratio;
+          });
+        } else if (entered) {
+          const spent = (Date.now() - entered) / 1000;
+          if (spent < CFG.sensors.scroll.minR && maxScroll < 0.4 && el.scrollHeight > el.clientHeight + 50) {
+            trigger('scroll');
+          }
+          entered = null;
+        }
+      });
+      obs.observe(el, { attributes: true, attributeFilter: ['class'] });
+    });
+  }
+
+  // ── SENSORE: TESTO INSENSATO ─────────
+  const VOCALI = new Set('aeiouàèéìòùAEIOUÀÈÉÌÒÙ');
+  function isNonsense(txt) {
+    if (txt.length < 8) return false;
+    const words = txt.trim().split(/\s+/);
+    if (words.length < 2) return false;
+    const avgLen = words.reduce((a, w) => a + w.length, 0) / words.length;
+    if (avgLen > 12) return true; // parole troppo lunghe = assenza di spazi
+    const vowRatio = [...txt].filter(c => VOCALI.has(c)).length / txt.length;
+    if (vowRatio < 0.12 || vowRatio > 0.72) return true; // proporzione vocali anomala
+    return false;
+  }
+
+  function initNonsense() {
+    document.addEventListener('input', e => {
+      if (state.locked) return;
+      const v = e.target.value || '';
+      if (v.length > 10 && isNonsense(v)) trigger('nonsense');
+    });
+  }
+
+  // ── SENSORE: RUMORE AMBIENTE ─────────
+  function toggleMic() {
+    if (state.noiseActive) { stopMic(); return; }
+    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+      .then(stream => {
+        state.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        state.audioCtx.resume();
+        state.analyser = state.audioCtx.createAnalyser();
+        state.analyser.fftSize = 512;
+        state.analyser.smoothingTimeConstant = 0.8;
+        state.audioCtx.createMediaStreamSource(stream).connect(state.analyser);
+        state.noiseActive = true;
+        state.noiseHist = []; state.noiseAvg = 0; state.noiseAboveStart = 0;
+        document.getElementById('ssMicBtn').classList.add('active');
+        log('Microfono attivo');
+        noisePoll();
+      })
+      .catch(() => log('Microfono non disponibile', true));
+  }
+
+  function stopMic() {
+    state.noiseActive = false;
+    if (state.audioCtx) { state.audioCtx.close(); state.audioCtx = null; }
+    document.getElementById('ssMicBtn').classList.remove('active');
+    const fill = document.getElementById('ssVuFill');
+    if (fill) { fill.style.width = '0%'; fill.className = 'ss-vu-fill'; }
+    document.getElementById('ssNoisePct').textContent = '--';
+    document.getElementById('ssNoiseLvl').textContent = 'mic spento';
+    document.getElementById('ssNoiseAvg').textContent = 'avg --';
+    log('Microfono disattivato');
+  }
+
+  function noisePoll() {
+    if (!state.noiseActive) return;
+    const buf = new Uint8Array(state.analyser.frequencyBinCount);
+    state.analyser.getByteFrequencyData(buf);
+    const rms = Math.sqrt(buf.reduce((a, v) => a + v * v, 0) / buf.length);
+    const norm = Math.min(rms / 1.2, 100); // Bottega formula
+    state.noiseLevel = norm;
+    state.noiseHist.push(norm);
+    if (state.noiseHist.length > 600) state.noiseHist.shift();
+    state.noiseAvg = state.noiseHist.reduce((a, v) => a + v, 0) / state.noiseHist.length;
+
+    const pct = Math.round(norm);
+    const fill = document.getElementById('ssVuFill');
+    const lvl  = document.getElementById('ssNoiseLvl');
+    const avg  = document.getElementById('ssNoiseAvg');
+    const pctEl= document.getElementById('ssNoisePct');
+
+    if (fill) {
+      fill.style.width = pct + '%';
+      fill.className = 'ss-vu-fill' + (pct > 66 ? ' red' : pct > 33 ? ' amber' : '');
+    }
+    if (lvl)  lvl.textContent  = pct > 66 ? 'rumore alto' : pct > 33 ? 'rumore medio' : 'silenzio';
+    if (avg)  avg.textContent  = 'avg ' + Math.round(state.noiseAvg) + '%';
+    if (pctEl) pctEl.textContent = pct + '%';
+
+    // sustain 10s sopra 66%
+    if (norm > 66) {
+      if (!state.noiseAboveStart) state.noiseAboveStart = Date.now();
+      else if (Date.now() - state.noiseAboveStart > CFG.sensors.noise.sus) {
+        trigger('noise'); state.noiseAboveStart = 0;
+      }
+    } else { state.noiseAboveStart = 0; }
+
+    requestAnimationFrame(noisePoll);
+  }
+
+  // ── INIT ─────────────────────────────
+  function init() {
+    buildSidebar();
+    startTimer();
+    initClick();
+    initKeys();
+    initPaste();
+    initSpeed();
+    initUnread();
+    initScroll();
+    initNonsense();
+    log('SalaStudio v2.2 attivo');
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+
+  return { toggleMic, checkPin, getState: () => state };
+})();
+</script>
+
 </body>
 </html>

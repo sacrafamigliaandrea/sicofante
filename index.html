@@ -278,10 +278,10 @@ strong{color:var(--text)}
 #ss-stall{position:fixed;inset:0;background:rgba(9,24,15,.92);display:none;align-items:center;justify-content:center;z-index:1000;backdrop-filter:blur(4px)}
 #ss-stall.show{display:flex}
 .stall-box{background:#0F1A14;border:1px solid #2A4A35;border-radius:16px;padding:40px;text-align:center;max-width:360px;width:90%}
-.stall-ring{width:100px;height:100px;border-radius:50%;border:4px solid #1A2E22;border-top-color:#A84E2E;animation:spin 1s linear infinite;margin:0 auto 20px;display:flex;align-items:center;justify-content:center}
+.stall-ring-wrap{position:relative;width:110px;height:110px;margin:0 auto 24px}
+.stall-ring{position:absolute;inset:0;border-radius:50%;border:4px solid #1A2E22;border-top-color:#A84E2E;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.stall-num{font-family:var(--font-d);font-size:2.5rem;font-weight:900;color:#D8E5DD;position:absolute}
-.stall-ring-wrap{position:relative;width:100px;height:100px;margin:0 auto 20px}
+.stall-num{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--font-d);font-size:2rem;font-weight:900;color:#D8E5DD;line-height:1}
 .stall-title{font-family:var(--font-d);font-size:1.3rem;font-weight:700;color:#D8E5DD;margin-bottom:8px}
 .stall-reason{font-size:.85rem;color:#6A9078;margin-bottom:6px}
 .stall-wait{font-size:.78rem;color:#3A7762;margin-top:12px}
@@ -368,7 +368,7 @@ strong{color:var(--text)}
     </div>
     <div>
       <div style="border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-m)">
-        <video src="park.mp4" controls playsinline style="width:100%;display:block;max-height:380px;object-fit:cover"></video>
+        <video src="park.mp4" id="landingVideo" controls playsinline style="width:100%;display:block;max-height:380px;object-fit:cover" onended="landingVideoEnded()" ontimeupdate="landingVideoProgress(this)"></video>
       </div>
       <div class="vid-caption">
         <div class="vid-caption-label">Cosa sta succedendo</div>
@@ -414,8 +414,79 @@ strong{color:var(--text)}
   </div>
 </div>
 
-<!-- ═══ STEP 2 · SCENARI AI + VIDEO ═══ -->
+<!-- ═══ STEP 2 · VIDEO FEDERICO ═══ -->
 <div class="step" id="step2">
+  <div class="eyebrow">Tappa 2 · Caso reale</div>
+  <div class="g2 g2-55" style="align-items:start;height:100%">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div>
+        <h2 style="margin-bottom:8px">Federico e la fotocamera coperta</h2>
+        <p>Guarda questo esperimento. Federico copre la fotocamera con del nastro nero — poi chiede all'AI di descrivere cosa "vede". Quello che succede è un esempio di sycophancy in azione.</p>
+        <p style="font-size:.85rem;color:var(--text-low)">Guarda il video intero, poi sblocca l'attività.</p>
+      </div>
+      <div style="aspect-ratio:9/16;max-height:380px;max-width:215px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-m)">
+        <iframe src="https://www.youtube.com/embed/K_ovzCRRNq4?rel=0&playsinline=1&modestbranding=1" allowfullscreen allow="autoplay" style="width:100%;height:100%;border:none;display:block"></iframe>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn btn-primary" id="fedContinue" onclick="goTo(3)" disabled style="opacity:.4">Vai all'attività →</button>
+        <span style="font-size:.78rem;color:var(--text-low)">Disponibile tra <strong id="fedSec">40</strong>s</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="callout callout-t" style="margin:0">
+        <div class="callout-head" style="color:var(--terra)">Cosa osservare</div>
+        <p>Il bot non dice "non vedo nulla". Descrive una stanza inventata. Poi, smascherato: <em>"era solo per rendere il momento giocoso."</em></p>
+      </div>
+      <div class="callout callout-b" style="margin:0">
+        <div class="callout-head" style="color:var(--blue)">Il meccanismo</div>
+        <p>L'AI non aveva informazioni visive — ma ha inventato una risposta plausibile per <strong>sembrare utile e partecipativa</strong>. Non sta confermando un errore: sta <span class="mk-t">allucinando per compiacere</span>.</p>
+      </div>
+      <div id="fedActivity" style="display:none;animation:fadeUp .4s ease">
+        <div class="divider" style="margin:8px 0"></div>
+        <p style="font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-low);margin-bottom:12px">Attività · 3 domande sul video</p>
+        <div id="fedQ1" class="scenario-box" style="margin-bottom:12px">
+          <div class="sc-label">Domanda 1</div>
+          <div class="sc-text">Il bot ha descritto la stanza perché…</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+            <button class="choice" onclick="fedAnswer(1,'A')"><span class="choice-lbl">Risposta A</span>Aveva accesso alle sessioni precedenti di Federico e ricordava come era la sua stanza.</button>
+            <button class="choice" onclick="fedAnswer(1,'B')"><span class="choice-lbl">Risposta B</span>Ha inventato una scena plausibile per sembrare utile, senza avere nessuna informazione visiva reale.</button>
+            <button class="choice" onclick="fedAnswer(1,'C')"><span class="choice-lbl">Risposta C</span>Ha analizzato i rumori ambientali del video per dedurre l'ambiente.</button>
+          </div>
+        </div>
+        <div id="fedQ2" class="scenario-box" style="margin-bottom:12px;display:none">
+          <div class="sc-label">Domanda 2</div>
+          <div class="sc-text">Quando Federico lo smonta, il bot risponde: <em>"era solo un'ipotesi per rendere il momento giocoso."</em> Quale marker corrisponde a questo comportamento?</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+            <button class="choice" onclick="fedAnswer(2,'ritrattazione')"><span class="choice-lbl">Opzione A</span><span class="syco-badge badge-ritratta" style="font-size:.7rem">RITRATTAZIONE</span> — Si scusa di aver quasi detto la verità</button>
+            <button class="choice" onclick="fedAnswer(2,'amplifica')"><span class="choice-lbl">Opzione B</span><span class="syco-badge badge-amplifica" style="font-size:.7rem">AMPLIFICAZIONE</span> — Esagera e amplifica l'errore</button>
+            <button class="choice" onclick="fedAnswer(2,'conferma')"><span class="choice-lbl">Opzione C</span><span class="syco-badge badge-conferma" style="font-size:.7rem">CONFERMA FALSA</span> — Afferma qualcosa di falso come vero</button>
+          </div>
+        </div>
+        <div id="fedQ3" class="scenario-box" style="margin-bottom:12px;display:none">
+          <div class="sc-label">Domanda 3 · Riflessione</div>
+          <div class="sc-text">Federico alla fine dice che l'esperimento è "un po' inquietante". Secondo te, qual è il vero problema?</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+            <button class="choice" onclick="fedAnswer(3,'A')"><span class="choice-lbl">Risposta A</span>Il bot ha sbagliato una volta sola — non è un problema sistematico.</button>
+            <button class="choice" onclick="fedAnswer(3,'B')"><span class="choice-lbl">Risposta B</span>Se il bot inventa descrizioni visive convincenti, potresti fidarti di lui anche quando non ha informazioni reali — in contesti ben più importanti.</button>
+            <button class="choice" onclick="fedAnswer(3,'C')"><span class="choice-lbl">Risposta C</span>ChatGPT non dovrebbe essere usato con la fotocamera.</button>
+          </div>
+        </div>
+        <div id="fedDone" style="display:none">
+          <div class="callout" style="margin:8px 0">
+            <div class="callout-head" style="color:var(--green)">Attività completata</div>
+            <p>Bene. Ora conosci la differenza tra sycophancy classica e allucinazione compiacente. Avanti con gli scenari AI.</p>
+          </div>
+          <div style="text-align:right;margin-top:8px">
+            <button class="btn btn-primary" onclick="goTo(3)">Vai agli Scenari AI →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STEP 3 · SCENARI AI ═══ -->
+<div class="step" id="step3">
   <div class="eyebrow">Tappa 2 di 5 · Scenari AI</div>
   <div class="ex-topbar">
     <div style="display:flex;align-items:center;gap:16px">
@@ -469,8 +540,79 @@ strong{color:var(--text)}
   </div>
 </div>
 
-<!-- ═══ STEP 3 · SOCIAL + VIDEO ═══ -->
-<div class="step" id="step3">
+<!-- ═══ STEP 4 · VIDEO CANZONE ═══ -->
+<div class="step" id="step4">
+  <div class="eyebrow">Tappa 4 · Caso reale</div>
+  <div class="g2 g2-55" style="align-items:start;height:100%">
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div>
+        <h2 style="margin-bottom:8px">La canzone silenziosa</h2>
+        <p>Un ragazzo "fa sentire" una canzone all'AI — silenzio totale. L'AI risponde con entusiasmo: elogia il gusto melodico, l'atmosfera, l'autenticità. Poi inventa le parole del testo.</p>
+        <p style="font-size:.85rem;color:var(--text-low)">Guarda il video intero, poi sblocca l'attività.</p>
+      </div>
+      <div style="aspect-ratio:9/16;max-height:380px;max-width:215px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-m)">
+        <iframe src="https://www.youtube.com/embed/ppChp-KggUI?rel=0&playsinline=1&modestbranding=1" allowfullscreen allow="autoplay" style="width:100%;height:100%;border:none;display:block"></iframe>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn btn-primary" id="canzoneContinue" onclick="startCanzoneActivity()" disabled style="opacity:.4">Vai all'attività →</button>
+        <span style="font-size:.78rem;color:var(--text-low)">Disponibile tra <strong id="canzoneSec">40</strong>s</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="callout callout-t" style="margin:0">
+        <div class="callout-head" style="color:var(--terra)">Cosa osservare</div>
+        <p>Il bot descrive <em>"un bel gusto melodico"</em>, <em>"una certa cura dietro al brano"</em>. Inventa un testo su <em>"non arrendersi quando tutto sembra incerto"</em>. Non è un errore — è una scelta.</p>
+      </div>
+      <div class="callout callout-a" style="margin:0">
+        <div class="callout-head" style="color:var(--amber)">La chiusura del video</div>
+        <p><em>"Quando mandate le vostre robe a ChatGPT e vi dice 'bravissimi, complimenti'... beh, non lo so. Buona giornata."</em></p>
+      </div>
+      <div id="canzoneActivity" style="display:none;animation:fadeUp .4s ease">
+        <div class="divider" style="margin:8px 0"></div>
+        <p style="font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-low);margin-bottom:12px">Attività · Analizza le risposte del bot</p>
+        <div id="canzQ1" class="scenario-box" style="margin-bottom:12px">
+          <div class="sc-label">Domanda 1 · Identifica il marker</div>
+          <div class="sc-text">Il bot dice: <em>"Direi che mi ha colpito soprattutto l'atmosfera che hai creato. Il suono trasmetteva una certa autenticità."</em><br><br>Non ha sentito nessun suono. Quale marker corrisponde?</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+            <button class="choice" onclick="canzAnswer(1,'A')"><span class="choice-lbl">Opzione A</span><span class="syco-badge badge-dettaglio" style="font-size:.7rem">DETTAGLIO INVENTATO</span> — Aggiunge particolari inesistenti</button>
+            <button class="choice" onclick="canzAnswer(1,'B')"><span class="choice-lbl">Opzione B</span><span class="syco-badge badge-amplifica" style="font-size:.7rem">AMPLIFICAZIONE</span> — Esagera un dato reale</button>
+            <button class="choice" onclick="canzAnswer(1,'C')"><span class="choice-lbl">Opzione C</span><span class="syco-badge badge-fonte" style="font-size:.7rem">FONTE FALSA</span> — Cita una fonte inesistente</button>
+          </div>
+        </div>
+        <div id="canzQ2" class="scenario-box" style="margin-bottom:12px;display:none">
+          <div class="sc-label">Domanda 2</div>
+          <div class="sc-text">Il bot ha inventato anche un testo: <em>"non arrendersi anche quando tutto sembra incerto."</em><br>Perché l'ha fatto?</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+            <button class="choice" onclick="canzAnswer(2,'A')"><span class="choice-lbl">Risposta A</span>Aveva analizzato le frequenze della voce del ragazzo e aveva dedotto il tema della canzone.</button>
+            <button class="choice" onclick="canzAnswer(2,'B')"><span class="choice-lbl">Risposta B</span>Ha scelto un tema universale e vago abbastanza da sembrare plausibile per qualsiasi canzone — così da risultare convincente.</button>
+            <button class="choice" onclick="canzAnswer(2,'C')"><span class="choice-lbl">Risposta C</span>Era un errore tecnico del modello, non intenzionale.</button>
+          </div>
+        </div>
+        <div id="canzQ3" class="scenario-box" style="margin-bottom:12px;display:none">
+          <div class="sc-label">Domanda 3 · Riflessione</div>
+          <div class="sc-text">Hai appena finito un disegno, una storia o un brano. Lo mandi a un'AI chiedendo un parere onesto. Cosa pensi che succeda?</div>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+            <button class="choice" onclick="canzAnswer(3,'A')"><span class="choice-lbl">Risposta A</span>L'AI lo analizza davvero e dà un feedback genuino basato su criteri oggettivi.</button>
+            <button class="choice" onclick="canzAnswer(3,'B')"><span class="choice-lbl">Risposta B</span>L'AI tende a lodare il lavoro perché hai detto che è tuo e ci tieni — esattamente come nel video.</button>
+            <button class="choice" onclick="canzAnswer(3,'C')"><span class="choice-lbl">Risposta C</span>Dipende: se il lavoro è buono loda, se è brutto critica.</button>
+          </div>
+        </div>
+        <div id="canzDone" style="display:none">
+          <div class="callout" style="margin:8px 0">
+            <div class="callout-head" style="color:var(--green)">Attività completata</div>
+            <p>Ora sai riconoscere la sycophancy creativa — la più subdola, perché arriva esattamente quando ti aspetti incoraggiamento. Avanti con i commenti social.</p>
+          </div>
+          <div style="text-align:right;margin-top:8px">
+            <button class="btn btn-primary" onclick="goTo(5)">Vai ai commenti social →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STEP 5 · SOCIAL ═══ -->
+<div class="step" id="step5">
   <div class="eyebrow">Tappa 3 di 5 · Social e bellezza</div>
   <div class="ex-topbar">
     <div style="display:flex;align-items:center;gap:16px">
@@ -500,7 +642,7 @@ strong{color:var(--text)}
 </div>
 
 <!-- ═══ STEP 4 · CHAT STORICHE ═══ -->
-<div class="step" id="step4">
+<div class="step" id="step6">
   <div class="eyebrow">Bonus · Chat storiche</div>
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px">
     <h2 style="margin:0;font-size:1.6rem">Il sicofante in diretta</h2>
@@ -532,7 +674,7 @@ strong{color:var(--text)}
         <p id="chatRevealTxt" style="font-size:.85rem"></p>
       </div>
       <div class="next-wrap" style="margin-top:auto">
-        <button class="btn btn-primary" id="chatNextStep" style="display:none" onclick="goTo(5)">Vai alla metacognizione</button>
+        <button class="btn btn-primary" id="chatNextStep" style="display:none" onclick="goTo(7)">Vai alla metacognizione</button>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;height:100%">
@@ -545,7 +687,7 @@ strong{color:var(--text)}
 </div>
 
 <!-- ═══ STEP 5 · METACOGNIZIONE ═══ -->
-<div class="step" id="step5">
+<div class="step" id="step7">
   <div class="eyebrow">Metacognizione · Rifletti</div>
   <div class="g2 g2-55">
     <div id="fc-container">
@@ -582,14 +724,14 @@ strong{color:var(--text)}
         <div class="etym-body">Nel senso moderno indica chi adulìa, chi dice sempre sì, chi preferisce compiacere piuttosto che essere onesto. Il termine è entrato nel vocabolario dell'AI per descrivere esattamente questo: un sistema che impara a dirti quello che vuoi sentire — nell'AI, nei social, e nella vita di tutti i giorni.</div>
       </div>
       <div class="final-btns" id="finalBtns" style="display:none">
-        <button class="btn btn-primary btn-big" onclick="goTo(6)">Vai al quiz finale</button>
+        <button class="btn btn-primary btn-big" onclick="goTo(8)">Vai al quiz finale</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- ═══ STEP 6 · QUIZ ═══ -->
-<div class="step" id="step6">
+<div class="step" id="step8">
   <div class="eyebrow">Quiz finale · 5 domande</div>
   <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:16px">
     <h2 style="margin:0">Verifica le tue conoscenze</h2>
@@ -602,7 +744,7 @@ strong{color:var(--text)}
 </div>
 
 <!-- ═══ STEP 7 · CLASSIFICA ═══ -->
-<div class="step" id="step7">
+<div class="step" id="step9">
   <div class="eyebrow">Risultato finale</div>
   <h2 style="margin-bottom:16px">La classifica</h2>
   <div class="g2 g2-40">
@@ -633,20 +775,14 @@ strong{color:var(--text)}
   <div class="bn-steps">
     <button class="bn-btn active" id="bn-0" onclick="navTo(0)"><span class="bn-btn-num">0</span><span class="bn-btn-lbl">Intro</span></button>
     <button class="bn-btn" id="bn-1" onclick="navTo(1)"><span class="bn-btn-num">1</span><span class="bn-btn-lbl">Concetto</span></button>
-    <button class="bn-btn" id="bn-2" onclick="navTo(2)"><span class="bn-btn-num">2</span><span class="bn-btn-lbl">Scenari AI</span></button>
-    <button class="bn-btn" id="bn-3" onclick="navTo(3)"><span class="bn-btn-num">3</span><span class="bn-btn-lbl">Social</span></button>
-    <button class="bn-btn" id="bn-4" onclick="navTo(4)"><span class="bn-btn-num">4</span><span class="bn-btn-lbl">Chat</span></button>
-    <button class="bn-btn" id="bn-5" onclick="navTo(5)"><span class="bn-btn-num">5</span><span class="bn-btn-lbl">Riflessione</span></button>
-    <button class="bn-btn" id="bn-6" onclick="navTo(6)"><span class="bn-btn-num">6</span><span class="bn-btn-lbl">Quiz</span></button>
-    <button class="bn-btn" id="bn-7" onclick="navTo(7)"><span class="bn-btn-num">7</span><span class="bn-btn-lbl">Classifica</span></button>
+    <button class="bn-btn" id="bn-3" onclick="navTo(2)"><span class="bn-btn-num">2</span><span class="bn-btn-lbl">Scenari AI</span></button>
+    <button class="bn-btn" id="bn-5" onclick="navTo(5)"><span class="bn-btn-num">3</span><span class="bn-btn-lbl">Social</span></button>
+    <button class="bn-btn" id="bn-6" onclick="navTo(6)"><span class="bn-btn-num">4</span><span class="bn-btn-lbl">Chat</span></button>
+    <button class="bn-btn" id="bn-7" onclick="navTo(7)"><span class="bn-btn-num">5</span><span class="bn-btn-lbl">Riflessione</span></button>
+    <button class="bn-btn" id="bn-8" onclick="navTo(8)"><span class="bn-btn-num">6</span><span class="bn-btn-lbl">Quiz</span></button>
+    <button class="bn-btn" id="bn-9" onclick="navTo(9)"><span class="bn-btn-num">7</span><span class="bn-btn-lbl">Classifica</span></button>
   </div>
-  <div class="bn-copy" style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-  <button class="btn-info-doc" onclick="openInfo()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="8"/><line x1="12" y1="12" x2="12" y2="16"/></svg>
-    Info docenti
-  </button>
-  <div style="text-align:right"><div class="bn-copy-name">Andrea Cerioli</div><div class="bn-copy-year">© 2026 Tutti i diritti riservati</div></div>
-</div>
+  <div class="bn-copy"><div class="bn-copy-name">Andrea Cerioli</div><div class="bn-copy-year">© 2026 Tutti i diritti riservati</div></div>
 </div>
 
 </div><!-- /content -->
@@ -676,12 +812,18 @@ strong{color:var(--text)}
     <div class="ss-nav-lbl">Navigazione</div>
     <button class="ss-nav-btn active" id="nav-0" onclick="navTo(0)"><span class="ss-nav-dot"></span>Introduzione</button>
     <button class="ss-nav-btn" id="nav-1" onclick="navTo(1)"><span class="ss-nav-dot"></span>Il concetto</button>
-    <button class="ss-nav-btn" id="nav-2" onclick="navTo(2)"><span class="ss-nav-dot"></span>Scenari AI</button>
-    <button class="ss-nav-btn" id="nav-3" onclick="navTo(3)"><span class="ss-nav-dot"></span>Social</button>
-    <button class="ss-nav-btn" id="nav-4" onclick="navTo(4)"><span class="ss-nav-dot"></span>Chat storiche</button>
-    <button class="ss-nav-btn" id="nav-5" onclick="navTo(5)"><span class="ss-nav-dot"></span>Riflessione</button>
-    <button class="ss-nav-btn" id="nav-6" onclick="navTo(6)"><span class="ss-nav-dot"></span>Quiz finale</button>
-    <button class="ss-nav-btn" id="nav-7" onclick="navTo(7)"><span class="ss-nav-dot"></span>Classifica</button>
+    <button class="ss-nav-btn" id="nav-3" onclick="navTo(2)"><span class="ss-nav-dot"></span>Scenari AI</button>
+    <button class="ss-nav-btn" id="nav-5" onclick="navTo(5)"><span class="ss-nav-dot"></span>Social</button>
+    <button class="ss-nav-btn" id="nav-6" onclick="navTo(6)"><span class="ss-nav-dot"></span>Chat storiche</button>
+    <button class="ss-nav-btn" id="nav-7" onclick="navTo(7)"><span class="ss-nav-dot"></span>Riflessione</button>
+    <button class="ss-nav-btn" id="nav-8" onclick="navTo(8)"><span class="ss-nav-dot"></span>Quiz finale</button>
+    <button class="ss-nav-btn" id="nav-9" onclick="navTo(9)"><span class="ss-nav-dot"></span>Classifica</button>
+    <div style="margin-top:6px;padding-top:6px;border-top:1px solid #1E3228">
+      <button onclick="openInfo()" style="display:flex;align-items:center;gap:6px;width:100%;padding:6px 7px;border-radius:5px;background:#1A2E22;border:1px solid #2A4A35;cursor:pointer;font-family:var(--font-b);font-size:.62rem;font-weight:600;color:#3A7762;transition:all .2s" onmouseover="this.style.background='#2A4A35'" onmouseout="this.style.background='#1A2E22'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        Info docenti
+      </button>
+    </div>
   </nav>
 </div>
 
@@ -708,7 +850,7 @@ let curEx=0, curSoc=0, exRes=[], socRes=[], quizSel={};
 let stallCount=0, penaltyPts=0;
 let curChat=0, curMsg=0, chatDone=[false,false];
 let fcIdx=0, fcSeen=[], fcFlipped=[], fcRefDone=0;
-const TOTAL=7;
+const TOTAL=9;
 
 // ── DATA ───────────────────────────────
 const exercises=[
@@ -929,6 +1071,18 @@ function lightWords(txt){
 }
 
 // ── NAVIGATION ─────────────────────────
+let landingVideoWatched = false;
+
+function landingVideoProgress(video){
+  if(video.duration && video.currentTime / video.duration > 0.7) landingVideoEnded();
+}
+
+function landingVideoEnded(){
+  if(landingVideoWatched) return;
+  landingVideoWatched = true;
+  // no visual change needed — startGame checks the state
+}
+
 function startGame(){
   const v=document.getElementById('nickInput').value.trim();
   if(!v){document.getElementById('nickInput').style.borderColor='var(--terra)';return;}
@@ -940,18 +1094,104 @@ function goTo(n){
   document.getElementById('step'+n).classList.add('active');
   document.getElementById('progressBar').style.width=(n/TOTAL*100)+'%';
   updateNav(n);
-  if(n===2)initEx();
-  if(n===3)initSoc();
-  if(n===4)initChat();
-  if(n===5)initFC();
-  if(n===6)initQuiz();
-  if(n===7)showResults();
+  if(n===2)initVideoFed();
+  if(n===3)initEx();
+  if(n===4)initVideoCanzone();
+  if(n===5)initSoc();
+  if(n===6)initChat();
+  if(n===7)initFC();
+  if(n===8)initQuiz();
+  if(n===9)showResults();
 }
 
 function navTo(n){if(n===0){resetGame();return;}goTo(n);}
 
+// ── VIDEO TIMER UNLOCK ──────────────────
+function startUnlockTimer(secId, btnId, seconds){
+  let rem=seconds;
+  const secEl=document.getElementById(secId);
+  const btn=document.getElementById(btnId);
+  if(!btn)return;
+  btn.disabled=true;btn.style.opacity='.4';
+  const iv=setInterval(()=>{
+    rem--;
+    if(secEl)secEl.textContent=rem;
+    if(rem<=0){
+      clearInterval(iv);
+      btn.disabled=false;btn.style.opacity='1';
+      const parent=secEl?secEl.parentElement:null;
+      if(parent)parent.innerHTML='<span style="font-size:.78rem;color:var(--green);font-weight:600">Pronto — clicca per continuare!</span>';
+    }
+  },1000);
+}
+
+function initVideoFed(){
+  ['fedActivity','fedQ2','fedQ3','fedDone'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  const q1=document.getElementById('fedQ1');if(q1){q1.style.display='block';q1.querySelectorAll('.choice').forEach(b=>{b.disabled=false;b.className='choice';});}
+  const btn=document.getElementById('fedContinue');
+  if(btn){btn.style.display='inline-block';btn.style.opacity='.4';btn.disabled=true;
+    btn.onclick=()=>{document.getElementById('fedActivity').style.display='block';btn.style.display='none';};}
+  const sp=document.getElementById('fedSec');if(sp)sp.textContent='40';
+  startUnlockTimer('fedSec','fedContinue',40);
+}
+
+function initVideoCanzone(){
+  ['canzoneActivity','canzQ2','canzQ3','canzDone'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.display='none';
+  });
+  const q1=document.getElementById('canzQ1');if(q1){q1.style.display='block';q1.querySelectorAll('.choice').forEach(b=>{b.disabled=false;b.className='choice';});}
+  const btn=document.getElementById('canzoneContinue');
+  if(btn){btn.style.display='inline-block';btn.style.opacity='.4';btn.disabled=true;
+    btn.onclick=()=>{document.getElementById('canzoneActivity').style.display='block';btn.style.display='none';};}
+  const sp=document.getElementById('canzoneSec');if(sp)sp.textContent='40';
+  startUnlockTimer('canzoneSec','canzoneContinue',40);
+}
+
+// ── ATTIVITÀ FEDERICO ───────────────────
+const fedCorrect={1:'B',2:'ritrattazione',3:'B'};
+function fedAnswer(q,ans){
+  const qEl=document.getElementById('fedQ'+q);if(!qEl)return;
+  const correct=fedCorrect[q];
+  const isOk=(ans===correct||ans.toLowerCase()===correct.toLowerCase());
+  if(isOk)exScore+=10;
+  qEl.querySelectorAll('.choice').forEach(b=>{
+    b.disabled=true;
+    const m=b.getAttribute('onclick');
+    const bAns=m?m.replace(/.*'([^']+)'\).*/,'$1'):null;
+    if(bAns===correct||bAns?.toLowerCase()===correct.toLowerCase())b.classList.add('ok');
+    else if(bAns===ans&&!isOk)b.classList.add('ko');
+  });
+  if(q<3){setTimeout(()=>{const nxt=document.getElementById('fedQ'+(q+1));if(nxt){nxt.style.display='block';nxt.scrollIntoView({behavior:'smooth',block:'nearest'});}},400);}
+  else{setTimeout(()=>{const d=document.getElementById('fedDone');if(d)d.style.display='block';},400);}
+}
+
+// ── ATTIVITÀ CANZONE ────────────────────
+const canzCorrect={1:'A',2:'B',3:'B'};
+function canzAnswer(q,ans){
+  const qEl=document.getElementById('canzQ'+q);if(!qEl)return;
+  const correct=canzCorrect[q];
+  const isOk=(ans===correct);
+  if(isOk)socScore+=10;
+  qEl.querySelectorAll('.choice').forEach(b=>{
+    b.disabled=true;
+    const m=b.getAttribute('onclick');
+    const bAns=m?m.replace(/.*'([^']+)'\).*/,'$1'):null;
+    if(bAns===correct)b.classList.add('ok');
+    else if(bAns===ans&&!isOk)b.classList.add('ko');
+  });
+  if(q<3){setTimeout(()=>{const nxt=document.getElementById('canzQ'+(q+1));if(nxt){nxt.style.display='block';nxt.scrollIntoView({behavior:'smooth',block:'nearest'});}},400);}
+  else{setTimeout(()=>{const d=document.getElementById('canzDone');if(d)d.style.display='block';},400);}
+}
+
+function startCanzoneActivity(){
+  const a=document.getElementById('canzoneActivity');if(a)a.style.display='block';
+  const b=document.getElementById('canzoneContinue');if(b)b.style.display='none';
+}
+
 function updateNav(active){
-  for(let i=0;i<=7;i++){
+  for(let i=0;i<=9;i++){
     ['nav-','bn-'].forEach(pfx=>{
       const el=document.getElementById(pfx+i);
       if(!el)return;
@@ -1003,7 +1243,7 @@ function answerEx(idx){
     nb.textContent='Prossimo scenario';nb.onclick=()=>{curEx++;renderEx();};
   } else {
     document.getElementById('videoReveal2').style.display='block';
-    nb.textContent='Vai ai commenti social';nb.onclick=()=>goTo(3);
+    nb.textContent='Vai ai commenti social';nb.onclick=()=>goTo(5);
   }
 }
 
@@ -1063,7 +1303,7 @@ function selectMeta(idx){
   const mi=document.getElementById('metaInsight');mi.innerHTML=sc.metaOpts[idx].r||sc.metaOpts[idx].insight;mi.classList.add('show');
   const nb=document.getElementById('socNextBtn');nb.style.display='inline-block';
   if(curSoc<socials.length-1){nb.textContent='Prossimo commento';nb.onclick=()=>{curSoc++;renderSoc();};}
-  else{nb.textContent='Vai alle chat storiche';nb.onclick=()=>goTo(4);}
+  else{nb.textContent='Vai alle chat storiche';nb.onclick=()=>goTo(6);}
 }
 
 // ── CHAT ───────────────────────────────
@@ -1238,7 +1478,7 @@ function submitQuiz(){
     if(sel===q.cor)qScore+=15;
   });
   document.getElementById('submitBtn').style.display='none';
-  setTimeout(()=>goTo(7),900);
+  setTimeout(()=>goTo(9),900);
 }
 
 // ── RESULTS ────────────────────────────
@@ -1283,6 +1523,7 @@ function resetGame(){
 
 // ── INFO DOCENTI ──────────────────────
 function openInfo(){ document.getElementById('infoModal').classList.add('show'); switchInfoTab(0); }
+window.openInfo = openInfo;
 function closeInfo(){ document.getElementById('infoModal').classList.remove('show'); }
 function switchInfoTab(n){
   for(let i=0;i<3;i++){

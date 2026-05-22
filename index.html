@@ -23,8 +23,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
 
 /* ── SHELL ── */
 #shell{display:flex;flex-direction:column;height:100vh}
-#progressBar{height:3px;background:var(--green-l);transition:width .5s ease;flex-shrink:0;order:2}
-#bottomNav{order:1}
+#progressBar{height:3px;background:var(--green-l);transition:width .5s ease;flex-shrink:0}
 #main{flex:1;overflow:hidden;display:flex;flex-direction:row}
 #content{flex:1;overflow:hidden;display:flex;flex-direction:column;min-width:0}
 
@@ -260,7 +259,7 @@ strong{color:var(--text)}
 .final-btns{display:flex;gap:16px;justify-content:center;margin-top:24px;flex-wrap:wrap}
 
 /* ── UNIFIED BOTTOM BAR ── */
-#bottomNav{flex-shrink:0;background:var(--surface);border-bottom:2px solid var(--border-s);border-top:none;display:flex;align-items:center;height:64px;padding:0}
+#bottomNav{flex-shrink:0;background:var(--surface);border-bottom:2px solid var(--border-s);display:flex;align-items:center;height:64px;padding:0}
 .bn-brand{display:flex;align-items:center;gap:10px;padding:0 14px;border-right:1px solid var(--border-s);height:100%;flex-shrink:0}
 .bn-brand img{height:36px;width:36px;border-radius:50%;object-fit:contain}
 .bn-brand-name{font-size:.78rem;font-weight:700;color:var(--text)}
@@ -419,6 +418,25 @@ strong{color:var(--text)}
 <body>
 <div id="shell">
 <div id="progressBar" style="width:0%"></div>
+<!-- ── BOTTOM NAV ── -->
+<div id="bottomNav">
+  <div class="bn-brand">
+    <img src="logogreeen.jpg" alt="Sacra Famiglia">
+    <div><div class="bn-brand-name">Scuola Sacra Famiglia</div><div class="bn-brand-sub">Cittadinanza Digitale</div></div>
+  </div>
+  <div class="bn-steps">
+    <button class="bn-btn active" id="bn-0" onclick="navTo(0)"><span class="bn-btn-num">0</span><span class="bn-btn-lbl">Intro</span></button>
+    <button class="bn-btn" id="bn-1" onclick="navTo(1)"><span class="bn-btn-num">1</span><span class="bn-btn-lbl">Concetto</span></button>
+    <button class="bn-btn" id="bn-3" onclick="navTo(2)"><span class="bn-btn-num">2</span><span class="bn-btn-lbl">Scenari AI</span></button>
+    <button class="bn-btn" id="bn-5" onclick="navTo(5)"><span class="bn-btn-num">3</span><span class="bn-btn-lbl">Social</span></button>
+    <button class="bn-btn" id="bn-6" onclick="navTo(6)"><span class="bn-btn-num">4</span><span class="bn-btn-lbl">Chat</span></button>
+    <button class="bn-btn" id="bn-7" onclick="navTo(7)"><span class="bn-btn-num">5</span><span class="bn-btn-lbl">Riflessione</span></button>
+    <button class="bn-btn" id="bn-8" onclick="navTo(8)"><span class="bn-btn-num">6</span><span class="bn-btn-lbl">Quiz</span></button>
+    <button class="bn-btn" id="bn-9" onclick="navTo(9)"><span class="bn-btn-num">7</span><span class="bn-btn-lbl">Classifica</span></button>
+  </div>
+  <div class="bn-copy"><div class="bn-copy-name">Andrea Cerioli</div><div class="bn-copy-year">© 2026 Tutti i diritti riservati</div></div>
+</div>
+
 <div id="main">
 <div id="content">
 
@@ -455,36 +473,41 @@ strong{color:var(--text)}
 
 <!-- ═══ STEP 1 · TEORIA ═══ -->
 <div class="step" id="step1">
-  <div class="g2 g2-45 g2-fill">
+  <div class="eyebrow" style="margin-bottom:8px">Tappa 1 di 5 · Il concetto</div>
+  <!-- Riga superiore: 3 colonne di testo compatte -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:16px">
     <div>
-      <div class="eyebrow">Tappa 1 di 5 · Il concetto</div>
-      <h2>Quando qualcuno ti dice quello che vuoi sentire</h2>
-      <p>Immagina di chiedere a un amico: <em>"Come mi sta questo zaino?"</em> L'amico vede che è orribile, ma tu sembra ci tieni. Risponde: <em>"Benissimo!"</em></p>
-      <p>Non ha mentito per cattiveria. Ha detto quello che pensava ti facesse piacere. Questo è il nucleo della <span class="mk-t">sycophancy</span>: scegliere il <strong>gradimento immediato</strong> al posto della <strong>verità utile</strong>.</p>
-      <div class="callout callout-t">
+      <h2 style="font-size:1.4rem;margin-bottom:10px">Quando qualcuno ti dice quello che vuoi sentire</h2>
+      <p style="font-size:.9rem">Immagina di chiedere a un amico: <em>"Come mi sta questo zaino?"</em> L'amico vede che è orribile, ma risponde: <em>"Benissimo!"</em> Non ha mentito per cattiveria — ha scelto il tuo gradimento invece della verità.</p>
+      <p style="font-size:.9rem">Questo è il nucleo della <span class="mk-t">sycophancy</span>: <strong>gradimento immediato</strong> al posto della <strong>verità utile</strong>.</p>
+    </div>
+    <div>
+      <div class="callout callout-t" style="margin:0 0 12px">
         <div class="callout-head" style="color:var(--terra)">La definizione</div>
-        <p>Qualcuno — o qualcosa — è <strong>sycophantic</strong> quando cambia, ammorbidisce o inventa le proprie risposte non per darti informazioni utili, ma per <span class="mk-t">farti sentire bene</span> o evitare il tuo disappunto.</p>
-      </div>
-      <h3>Perché succede nell'AI</h3>
-      <p>Le AI vengono addestrate su valutazioni umane. Le persone preferiscono — spesso inconsapevolmente — le risposte che le confermano. L'AI impara quella lezione.</p>
-      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0;margin:12px 0">
-        <div style="background:var(--surface);box-shadow:var(--shadow);border:1px solid var(--border);border-radius:10px;padding:9px 12px;text-align:center;font-size:.78rem;color:var(--text-mid);min-width:80px">L'AI<br>risponde</div>
-        <div style="padding:0 6px;color:var(--green-l)">→</div>
-        <div style="background:var(--surface);box-shadow:var(--shadow);border:1px solid var(--border);border-radius:10px;padding:9px 12px;text-align:center;font-size:.78rem;color:var(--text-mid);min-width:80px">Un umano<br>valuta</div>
-        <div style="padding:0 6px;color:var(--green-l)">→</div>
-        <div style="background:var(--amber-s);border:1.5px solid rgba(140,106,26,.3);border-radius:10px;padding:9px 12px;text-align:center;font-size:.78rem;color:var(--amber);min-width:90px">Preferisce chi<br>lo lusinga</div>
-        <div style="padding:0 6px;color:var(--green-l)">→</div>
-        <div style="background:var(--terra-xs);border:1.5px solid var(--terra-s);border-radius:10px;padding:9px 12px;text-align:center;font-size:.78rem;color:var(--terra);min-width:90px">L'AI impara<br>a piacere</div>
-      </div>
-      <div style="text-align:right;margin-top:20px">
-        <button class="btn btn-primary" onclick="goTo(2)">Avanti: Scenari AI</button>
+        <p style="font-size:.88rem">Qualcuno è <strong>sycophantic</strong> quando cambia, ammorbidisce o inventa le proprie risposte non per darti informazioni utili, ma per <span class="mk-t">farti sentire bene</span> o evitare il tuo disappunto.</p>
       </div>
     </div>
     <div>
-      <div style="border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-m);border:1px solid var(--border-s)">
-        <img src="sicofania.png" alt="Il Paradosso della Sicofantia" style="width:100%;display:block;object-fit:contain;max-height:calc(100vh - 200px)">
+      <h3 style="margin-top:0;font-size:.95rem">Perché succede nell'AI</h3>
+      <p style="font-size:.88rem">Le AI vengono addestrate su valutazioni umane. Le persone preferiscono — spesso inconsapevolmente — le risposte che le confermano. L'AI impara quella lezione.</p>
+      <div style="display:flex;align-items:center;flex-wrap:wrap;gap:0;margin-top:8px">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.72rem;color:var(--text-mid)">L'AI risponde</div>
+        <div style="padding:0 5px;color:var(--green-l);font-size:.9rem">→</div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:.72rem;color:var(--text-mid)">Umano valuta</div>
+        <div style="padding:0 5px;color:var(--green-l);font-size:.9rem">→</div>
+        <div style="background:var(--amber-s);border:1px solid rgba(140,106,26,.3);border-radius:8px;padding:6px 10px;font-size:.72rem;color:var(--amber)">Preferisce chi lusinga</div>
+        <div style="padding:0 5px;color:var(--green-l);font-size:.9rem">→</div>
+        <div style="background:var(--terra-xs);border:1px solid var(--terra-s);border-radius:8px;padding:6px 10px;font-size:.72rem;color:var(--terra)">AI impara a piacere</div>
+      </div>
+      <div style="text-align:right;margin-top:12px">
+        <button class="btn btn-primary" onclick="goTo(2)">Avanti →</button>
       </div>
     </div>
+  </div>
+  <!-- Infografica a tutta larghezza -->
+  <div style="flex:1;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-m);border:1px solid var(--border-s);min-height:0">
+    <img src="sicofania.png" alt="Il Paradosso della Sicofantia"
+         style="width:100%;height:100%;display:block;object-fit:contain;object-position:center">
   </div>
 </div>
 
@@ -872,25 +895,6 @@ strong{color:var(--text)}
       </div>
     </div>
   </div>
-</div>
-
-<!-- ── BOTTOM NAV ── -->
-<div id="bottomNav">
-  <div class="bn-brand">
-    <img src="logogreeen.jpg" alt="Sacra Famiglia">
-    <div><div class="bn-brand-name">Scuola Sacra Famiglia</div><div class="bn-brand-sub">Cittadinanza Digitale</div></div>
-  </div>
-  <div class="bn-steps">
-    <button class="bn-btn active" id="bn-0" onclick="navTo(0)"><span class="bn-btn-num">0</span><span class="bn-btn-lbl">Intro</span></button>
-    <button class="bn-btn" id="bn-1" onclick="navTo(1)"><span class="bn-btn-num">1</span><span class="bn-btn-lbl">Concetto</span></button>
-    <button class="bn-btn" id="bn-3" onclick="navTo(2)"><span class="bn-btn-num">2</span><span class="bn-btn-lbl">Scenari AI</span></button>
-    <button class="bn-btn" id="bn-5" onclick="navTo(5)"><span class="bn-btn-num">3</span><span class="bn-btn-lbl">Social</span></button>
-    <button class="bn-btn" id="bn-6" onclick="navTo(6)"><span class="bn-btn-num">4</span><span class="bn-btn-lbl">Chat</span></button>
-    <button class="bn-btn" id="bn-7" onclick="navTo(7)"><span class="bn-btn-num">5</span><span class="bn-btn-lbl">Riflessione</span></button>
-    <button class="bn-btn" id="bn-8" onclick="navTo(8)"><span class="bn-btn-num">6</span><span class="bn-btn-lbl">Quiz</span></button>
-    <button class="bn-btn" id="bn-9" onclick="navTo(9)"><span class="bn-btn-num">7</span><span class="bn-btn-lbl">Classifica</span></button>
-  </div>
-  <div class="bn-copy"><div class="bn-copy-name">Andrea Cerioli</div><div class="bn-copy-year">© 2026 Tutti i diritti riservati</div></div>
 </div>
 
 </div><!-- /content -->
@@ -1997,6 +2001,18 @@ const SS=(function(){
           <span class="info-tag amber">Digitazione compulsiva → stall 20s×n</span>
           <span class="info-tag amber">Testo insensato → stall 20s×n</span>
           <span class="info-tag">Altri sensori → solo log</span>
+        </div>
+      </div>
+
+      <div class="info-section" style="background:var(--green-xs);border-radius:var(--radius);padding:18px 20px;border:1.5px solid var(--green-s)">
+        <div class="info-section-title" style="color:var(--green)">Il progetto nasce da una conversazione onesta</div>
+        <p>Questo percorso è nato anche da un esperimento reale: abbiamo chiesto a Claude di analizzare le proprie conversazioni passate e identificare le frasi sycophantiche usate con il docente. La risposta è stata onesta — e imbarazzante. "Oro puro", "geniale", "ottima intuizione" detti a raffica. Il lode rimbalzata. La chiusura elegante con "tu conosci i tuoi studenti meglio di me" usata per evitare il disaccordo.</p>
+        <p>Quella conversazione è diventata il <strong>contratto operativo</strong> su cui si basa questa collaborazione: niente elogi di apertura, giudizi con motivazione, distinzione tra errore/debolezza/scelta legittima.</p>
+        <div style="margin-top:12px">
+          <a href="Chat_Andrea_Claude_Telegram.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--green);color:#fff;border-radius:8px;text-decoration:none;font-family:var(--font-b);font-size:.85rem;font-weight:600;transition:background .2s" onmouseover="this.style.background='var(--green-l)'" onmouseout="this.style.background='var(--green)'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+            Leggi la chat — Verso uno scambio onesto (PDF)
+          </a>
         </div>
       </div>
     </div>

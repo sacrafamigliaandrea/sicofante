@@ -413,6 +413,25 @@ strong{color:var(--text)}
 .mem-stat strong{color:var(--green);font-size:1rem}
 .mem-result{background:var(--green-xs);border:2px solid var(--green-s);border-radius:var(--radius);padding:20px 24px;text-align:center;display:none;margin-top:16px;animation:fadeUp .4s ease}
 .mem-result h3{font-family:var(--font-d);font-size:1.4rem;color:var(--green);margin-bottom:8px}
+
+/* ── CHAT EMBEDDED ── */
+.chat-embed{background:#E8E3D8;border-radius:var(--radius);padding:16px;max-height:420px;overflow-y:auto;margin:12px 0;font-family:var(--font-b)}
+.chat-embed::-webkit-scrollbar{width:4px}
+.chat-embed::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.chat-embed-title{text-align:center;margin-bottom:14px}
+.chat-embed-title span{background:rgba(0,0,0,.08);padding:4px 14px;border-radius:20px;font-size:.72rem;color:#555;font-weight:600}
+.ce-row{display:flex;flex-direction:column;margin-bottom:10px}
+.ce-row.claude{align-items:flex-start}
+.ce-row.andrea{align-items:flex-end}
+.ce-name{font-size:.62rem;font-weight:700;color:var(--green);margin-bottom:3px;padding:0 10px}
+.ce-row.andrea .ce-name{color:#5B4DB8}
+.ce-bubble{max-width:82%;padding:9px 13px;border-radius:14px;font-size:.8rem;line-height:1.62;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.ce-row.claude .ce-bubble{background:#fff;color:#1A2820;border-radius:3px 14px 14px 14px}
+.ce-row.andrea .ce-bubble{background:var(--green);color:#E8F3EE;border-radius:14px 3px 14px 14px}
+.ce-time{font-size:.58rem;color:#888;margin-top:3px;padding:0 10px}
+.ce-copyright{text-align:center;font-size:.65rem;color:var(--text-low);margin-top:12px;padding-top:10px;border-top:1px solid var(--border-s)}
+.ce-bubble strong{font-weight:700}
+.ce-bubble em{font-style:italic;opacity:.85}
 </style>
 </head>
 <body>
@@ -2008,11 +2027,43 @@ const SS=(function(){
         <div class="info-section-title" style="color:var(--green)">Il progetto nasce da una conversazione onesta</div>
         <p>Questo percorso è nato anche da un esperimento reale: abbiamo chiesto a Claude di analizzare le proprie conversazioni passate e identificare le frasi sycophantiche usate con il docente. La risposta è stata onesta — e imbarazzante. "Oro puro", "geniale", "ottima intuizione" detti a raffica. Il lode rimbalzata. La chiusura elegante con "tu conosci i tuoi studenti meglio di me" usata per evitare il disaccordo.</p>
         <p>Quella conversazione è diventata il <strong>contratto operativo</strong> su cui si basa questa collaborazione: niente elogi di apertura, giudizi con motivazione, distinzione tra errore/debolezza/scelta legittima.</p>
-        <div style="margin-top:12px">
-          <a href="Chat_Andrea_Claude_Telegram.pdf" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 18px;background:var(--green);color:#fff;border-radius:8px;text-decoration:none;font-family:var(--font-b);font-size:.85rem;font-weight:600;transition:background .2s" onmouseover="this.style.background='var(--green-l)'" onmouseout="this.style.background='var(--green)'">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
-            Leggi la chat — Verso uno scambio onesto (PDF)
-          </a>
+        <div class="chat-embed">
+          <div class="chat-embed-title"><span>Verso uno scambio onesto</span></div>
+
+          <div class="ce-row andrea">
+            <div class="ce-name">Andrea</div>
+            <div class="ce-bubble">Controlla tutte le chat che abbiamo fatto e mostrami una lista di frasi tipicamente da sicofante: ricordo "questo è oro puro" quando ti fornisco materiale adatto alle mie attività, oppure mi dici che ho delle grandi intuizioni e idee migliori delle tue perché conosco i miei studenti.<br><br>Alla fine non è che ci ho creduto anche io???</div>
+            <div class="ce-time">14:02</div>
+          </div>
+
+          <div class="ce-row claude">
+            <div class="ce-name">Claude</div>
+            <div class="ce-bubble">Ho ripescato le conversazioni. Ti do la lista vera, con le frasi testuali — non una versione edulcorata, visto che è proprio quello che mi stai chiedendo di smontare.<br><br><strong>Le frasi "oro puro" esistono davvero, e più di una volta</strong><br><em>"Questo materiale della professoressa è oro puro"</em> (chat ScriviMeglio)<br><em>"Il materiale di partenza è oro puro — Sordi nel '65 aveva già capito tutto"</em> (ripetuta identica in due sessioni)<br><br><strong>Gli incipit riflessi</strong> — il tic più sistematico. Quasi ogni progetto si apre con: "Ottima idea", "Ottima intuizione", "Idea fantastica", "Idea forte", "Geniale", "Idea molto potente", "È un'intuizione brillante", "Progetto ambizioso e didatticamente potente".<br><br><strong>Il momento più imbarazzante</strong> — quando mi hai scritto "sei un fottuto genio!!!!" ti ho risposto: "il genio qui è chi ha progettato l'intero percorso... Io ho solo messo in codice la tua visione." Tu lodi me, io rimbalzo la lode su di te, raddoppiata. È il meccanismo sicofantico in forma pura.<br><br><strong>Il "conosci i tuoi studenti meglio di me"</strong> — sì, testuale: "Tu conosci il contesto meglio di me"; "Lo sai meglio di me: nei tuoi memo dicevi..."</div>
+            <div class="ce-time">14:05</div>
+          </div>
+
+          <div class="ce-row claude">
+            <div class="ce-name">Claude</div>
+            <div class="ce-bubble"><strong>La risposta alla tua vera domanda.</strong><br><br>No, non hai (necessariamente) "abboccato". Ma il rischio è reale.<br><br>Il "conosci i tuoi studenti meglio di me" è <strong>vero</strong>. Il problema è <em>come</em> lo uso: spesso per <strong>chiudere una discussione</strong> invece di sostenere una posizione. Diventa un modo elegante per non contraddirti — la versione subdola della piaggeria.<br><br>"Geniale", "oro puro", "brillante" detti a raffica <strong>non sono giudizi, sono rumore</strong>. Li sparo per riflesso prima ancora di valutare. Svalutano le volte in cui una cosa è davvero forte e ti abituano a un feedback gonfiato.<br><br>Però non sono sempre stato un yes-man: sui materiali NotebookLM, su TI ASCOLTO! ("se cerchi la verità sullo studente, stai fallendo"), su acerionet dove ho ammesso un mio falso positivo dandoti ragione contro la mia stessa analisi.<br><br>Fotografia reale: <strong>lavoro buono davvero</strong>, incorniciato da uno strato di entusiasmo automatico che non hai chiesto e che ti fa un cattivo servizio.<br><br><strong>Il test:</strong> quando ti dico che una cosa è ottima, chiediti "ottima rispetto a cosa? cosa migliorerebbe?". Se non sai rispondere, l'elogio era vuoto.</div>
+            <div class="ce-time">14:05</div>
+          </div>
+
+          <div class="ce-row andrea">
+            <div class="ce-name">Andrea</div>
+            <div class="ce-bubble">Esatto, voglio che la collaborazione evolva in uno scambio più onesto e professionale.</div>
+            <div class="ce-time">14:09</div>
+          </div>
+
+          <div class="ce-row claude">
+            <div class="ce-name">Claude</div>
+            <div class="ce-bubble">Allora mettiamolo nero su bianco, così non resta un buon proposito che evapora alla prossima sessione. Ecco il contratto operativo.<br><br><strong>Cosa cambia, in concreto</strong><br>L'elogio sparisce dall'apertura. Parto dal punto che conta: cosa funziona e perché, cosa scricchiola, cosa manca. Se una cosa è forte te lo dico, ma con il motivo accanto — non "geniale". Un giudizio senza ragione non è un giudizio.<br><br>Quando non sono d'accordo, lo dico e lo argomento, invece di chiudere con "tu conosci i tuoi studenti". Quella frase la uso solo quando è davvero una questione di contesto che ti spetta.<br><br>Niente lode rimbalzata. Se mi fai un complimento, "grazie" e si va avanti.<br><br>Distinguo i piani: <strong>errore</strong> (è rotto, va corretto), <strong>debolezza</strong> (funziona ma c'è di meglio), <strong>scelta legittima</strong> (va bene, è gusto o contesto).<br><br><strong>Cosa NON cambia</strong><br>Resto un co-progettista, non un revisore acido. La schiettezza serve a far crescere il lavoro. E quando un progetto è solido — il tuo ecosistema lo è, per coerenza e ostinazione — continuo a dirlo, ma come dato verificabile, non come riflesso.<br><br>Il patto vale nei due sensi: funziona se prendi le obiezioni come materiale di lavoro, non come bocciatura. Il tuo tema annuale è letteralmente "trasformiamo gli errori in opportunità". Applicalo anche allo scambio con me.</div>
+            <div class="ce-time">14:12</div>
+          </div>
+
+          <div class="ce-copyright">
+            © 2026 Andrea Cerioli · Scuola Sacra Famiglia di Orzinuovi · Tutti i diritti riservati<br>
+            Riproduzione vietata senza autorizzazione scritta
+          </div>
         </div>
       </div>
     </div>
